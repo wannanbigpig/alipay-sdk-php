@@ -1,0 +1,40 @@
+{
+    "name": "wannanbigpig/alipay",
+    "description": "支付宝接口扩展包",
+    "license": "MIT",
+    "keywords": [
+        "alipay",
+        "pay"
+    ],
+    "type": "library",
+    "support": {
+        "issues": "https://github.com/wannanbigpig/alipay/issues",
+        "source": "https://github.com/wannanbigpig/alipay"
+    },
+    "authors": [
+        {
+            "name": "liuml",
+            "email": "liumenglei0211@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.0",
+        "ext-json": "*",
+        "ext-openssl": "*",
+        "ext-simplexml":"*",
+        "wannanbigpig/supports": "dev-master"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^7.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "WannanBigPig\\Alipay\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "WannanBigPig\\Alipay\\Tests\\": "tests"
+        }
+    }
+}
