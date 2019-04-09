@@ -2,4 +2,4 @@
 composer.lock
 .DS_Store
 .idea
-/test/certificate
+/tests/certificate
