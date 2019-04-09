@@ -10,9 +10,10 @@
 
 namespace WannanBigPig\Alipay\Kernel\Support;
 
+use WannanBigPig\Supports\AccessData;
 use WannanBigPig\Supports\Config;
 use WannanBigPig\Supports\Curl\HttpRequest;
-use WannanBigPig\Supports\Exceptions\InvalidArgumentException;
+use WannanBigPig\Supports\Exceptions;
 use WannanBigPig\Supports\Str;
 
 class Support
@@ -20,19 +21,42 @@ class Support
     use HttpRequest;
 
     /**
-     * Alipay gateway.
+     * Instance.
      *
-     * @var string
+     * @var Support
      */
-    protected $baseUri;
+    private static $instance;
 
-    protected $url = 'https://openapi.alipay.com/gateway.do';
     /**
      * Config.
      *
      * @var Config
      */
     public static $config;
+
+    /**
+     * Charset
+     *
+     * @var array
+     */
+    public static $fileCharset = ['gb2312', 'GBK', 'uft-8'];
+
+    /**
+     * @static   getInstance
+     *
+     * @return Support
+     *
+     * @author   liuml  <liumenglei0211@163.com>
+     * @DateTime 2019-04-09  10:13
+     */
+    public static function getInstance()
+    {
+        if (php_sapi_name() === 'cli' || !(self::$instance instanceof self)) {
+            self::$instance = new self();
+        }
+
+        return self::$instance;
+    }
 
     /**
      * @static   createConfig
@@ -47,6 +71,7 @@ class Support
     public static function createConfig($config)
     {
         self::$config = new Config($config);
+
         return self::$config;
     }
 
@@ -81,29 +106,37 @@ class Support
      *
      * @return string
      *
-     * @throws InvalidArgumentException
+     * @throws Exceptions\InvalidArgumentException
      *
      * @author   liuml  <liumenglei0211@163.com>
-     * @DateTime 2019-04-08  21:04
+     * @DateTime 2019-04-09  17:24
      */
     public static function generateSign(array $params): string
     {
-        $privateKey = Support::getConfig('private_key');
-
-        if (is_null($privateKey)) {
-            throw new InvalidArgumentException('Missing Alipay Config -- [private_key]');
-        }
-
-        if (Str::endsWith($privateKey, '.pem')) {
-            $privateKey = openssl_pkey_get_private('file://'.$privateKey);
+        $privateKey  = self::getConfig('private_key');
+        $keyFromFile = Str::endsWith($privateKey, '.pem');
+        if ($keyFromFile) {
+            $res = openssl_pkey_get_private('file://' . $privateKey);
         } else {
-            $privateKey = "-----BEGIN RSA PRIVATE KEY-----\n" . wordwrap($privateKey, 64, "\n", true) . "\n-----END RSA PRIVATE KEY-----";
+            $res = "-----BEGIN RSA PRIVATE KEY-----\n" . wordwrap($privateKey, 64, "\n", true) . "\n-----END RSA PRIVATE KEY-----";
         }
 
-        openssl_sign(self::getSignContent($params), $sign, $privateKey, OPENSSL_ALGO_SHA256);
+        if (!$res) {
+            throw new Exceptions\InvalidArgumentException('支付宝RSA私钥错误。请检查 [ private_key ] 配置项的私钥文件格式或路径是否正确');
+        }
+
+        $data = self::getSignContent($params);
+        if ("RSA2" == self::getConfig('', 'RSA2')) {
+            openssl_sign($data, $sign, $res, OPENSSL_ALGO_SHA256);
+        } else {
+            openssl_sign($data, $sign, $res);
+        }
 
         $sign = base64_encode($sign);
-
+        if ($keyFromFile) {
+            // 释放资源
+            openssl_free_key($res);
+        }
         return $sign;
     }
 
@@ -125,7 +158,7 @@ class Support
 
         foreach ($params as $k => $v) {
             if ($v !== '' && !is_null($v) && $k != 'sign' && '@' != substr($v, 0, 1)) {
-                $v                = self::characet($v, $params['charset']);
+                $v                = self::characet($v, $params['charset'] ?? 'utf-8');
                 $stringToBeSigned .= $k . '=' . $v . '&';
             }
         }
@@ -133,6 +166,52 @@ class Support
         unset ($k, $v);
 
         return rtrim($stringToBeSigned, '&');
+    }
+
+    /**
+     * @static   verifySign
+     *
+     * @param array $params
+     * @param       $sign
+     *
+     * @return bool
+     *
+     * @throws Exceptions\InvalidArgumentException
+     *
+     * @author   liuml  <liumenglei0211@163.com>
+     * @DateTime 2019-04-09  17:06
+     */
+    public static function verifySign(array $params, $sign): bool
+    {
+        $publicKey   = self::getConfig('ali_public_key');
+
+        $keyFromFile = Str::endsWith($publicKey, '.pem');
+        if ($keyFromFile) {
+            $res = openssl_pkey_get_public("file://" . $publicKey);
+        } else {
+            $res = "-----BEGIN PUBLIC KEY-----\n" .
+                wordwrap($publicKey, 64, "\n", true) .
+                "\n-----END PUBLIC KEY-----";
+        }
+
+        if (!$res) {
+            throw new Exceptions\InvalidArgumentException('支付宝RSA公钥错误。请检查 [ ali_public_key ] 配置项的公钥文件格式或路径是否正确');
+        }
+
+        // 调用openssl内置方法验签，返回bool值
+        $data = self::getSignContent($params);
+
+        if ("RSA2" == self::getConfig('sign_type', 'RSA2')) {
+            $result = (openssl_verify($data, base64_decode($sign), $res, OPENSSL_ALGO_SHA256) === 1);
+        } else {
+            $result = (openssl_verify($data, base64_decode($sign), $res) === 1);
+        }
+
+        if ($keyFromFile) {
+            // 释放资源
+            openssl_free_key($res);
+        }
+        return $result;
     }
 
     /**
@@ -149,11 +228,105 @@ class Support
     public static function characet($data, $targetCharset)
     {
         if (!empty($data)) {
-            if (strcasecmp('gb2312', $targetCharset) != 0) {
-                $data = mb_convert_encoding($data, $targetCharset, 'gb2312');
-            }
+            $data = mb_convert_encoding($data, $targetCharset, self::$fileCharset);
         }
         return $data;
+    }
+
+
+    /**
+     * @static   requestApi
+     *
+     * @param array $data
+     *
+     * @return AccessData
+     *
+     * @throws Exceptions\ApplicationException
+     * @throws Exceptions\BusinessException
+     * @throws Exceptions\InvalidArgumentException
+     *
+     * @author   liuml  <liumenglei0211@163.com>
+     * @DateTime 2019-04-09  17:19
+     */
+    public static function requestApi(array $data): AccessData
+    {
+        $data = array_filter($data, function($value) {
+            return ($value == '' || is_null($value)) ? false : true;
+        });
+
+        $result = mb_convert_encoding(self::getInstance()->post(self::$config->get('base_uri'), $data), self::$config->get('charset', 'utf-8'), self::$fileCharset);
+
+        return self::processingApiResult($data, $result);
+    }
+
+    /**
+     * @static   processingApiResult
+     *
+     * @param $data
+     * @param $resp
+     *
+     * @return AccessData
+     *
+     * @throws Exceptions\ApplicationException
+     * @throws Exceptions\BusinessException
+     * @throws Exceptions\InvalidArgumentException
+     *
+     * @author   liuml  <liumenglei0211@163.com>
+     * @DateTime 2019-04-09  18:45
+     */
+    protected static function processingApiResult($data, $resp): AccessData
+    {
+        $format = self::getConfig('format', 'JSON');
+        $result = [];
+        // 解析返回结果
+        $respWellFormed = false;
+        if ("JSON" == $format) {
+            $result = json_decode($resp, true);
+            if (NULL !== $result) {
+                $respWellFormed = true;
+            }
+        } else if ("XML" == $format) {
+            $disableLibxmlEntityLoader = libxml_disable_entity_loader(true);
+            $respObject                = @ simplexml_load_string($resp);
+            libxml_disable_entity_loader($disableLibxmlEntityLoader);
+            if (NULL !== $respObject) {
+                $respWellFormed = true;
+            }
+            $result = json_decode(json_encode($respObject), true);
+        }
+
+        //返回的HTTP文本不是标准JSON或者XML，记下错误日志
+        if (false === $respWellFormed) {
+            throw new Exceptions\InvalidArgumentException('返回的HTTP文本不是标准JSON或者XML', $resp);
+        }
+
+        $method = str_replace('.', '_', $data['method']) . '_response';
+
+        // 签名不存在抛出应用异常，该异常为支付宝网关错误，例如 app_id 配置错误
+        if (!isset($result['sign'])) {
+            throw new Exceptions\ApplicationException(
+                '[' . $method . '] Get Alipay API Error: msg [' . $result[$method]['msg'] . ']',
+                $result
+            );
+        }
+
+        // 验证支付返回的签名，验证失败抛出应用异常
+        if (!self::verifySign($result[$method], $result['sign'])) {
+            throw new Exceptions\ApplicationException(
+                '[' . $method . '] Get Alipay API Error: Signature verification error',
+                $result
+            );
+        }
+
+        // 业务返回处理，返回码 10000 则正常返回成功数据，其他的则抛出业务异常
+        // 捕获 BusinessException 异常 获取 raw 元素查看完整数据并做处理
+        if ($result[$method]['code'] != '10000') {
+            throw new Exceptions\BusinessException(
+                '[' . $method . '] Business Error: msg [' . $result[$method]['msg'] . ']' . (isset($result[$method]['sub_code']) ? ' - sub_code [' . $result[$method]['sub_code'] . ']' : '') . (isset($result[$method]['sub_msg']) ? ' - sub_msg [' . $result[$method]['sub_msg'] . ']' : ''), $result
+            );
+        }
+
+        return new AccessData($result[$method]);
     }
 
 

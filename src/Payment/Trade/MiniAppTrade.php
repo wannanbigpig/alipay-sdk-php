@@ -1,22 +1,20 @@
 <?php
 /**
- * AppTrade.php
+ * MiniAppTrade.php
  *
  * Created by PhpStorm.
  *
  * author: liuml  <liumenglei0211@163.com>
- * DateTime: 2019-04-04  16:36
+ * DateTime: 2019-04-09  09:59
  */
 
 namespace WannanBigPig\Alipay\Payment\Trade;
 
-use Symfony\Component\HttpFoundation\Response;
 use WannanBigPig\Alipay\Kernel\Support\Support;
 use WannanBigPig\Alipay\Payment\PayInterface;
-use WannanBigPig\Alipay\Kernel;
 use WannanBigPig\Supports\Exceptions\InvalidArgumentException;
 
-class AppTrade implements PayInterface
+class MiniAppTrade implements PayInterface
 {
 
     /**
@@ -24,7 +22,7 @@ class AppTrade implements PayInterface
      *
      * @var string
      */
-    private $method = 'alipay.trade.app.pay';
+    private $method = 'alipay.trade.create';
 
     /**
      * pay
@@ -32,21 +30,20 @@ class AppTrade implements PayInterface
      * @param       $endpoint
      * @param array $payload
      *
-     * @return Response
+     * @return mixed|\WannanBigPig\Supports\AccessData
      *
      * @throws InvalidArgumentException
-     *
-     * @link https://docs.open.alipay.com/api_1/alipay.trade.app.pay/
+     * @throws \WannanBigPig\Supports\Exceptions\ApplicationException
+     * @throws \WannanBigPig\Supports\Exceptions\BusinessException
      *
      * @author   liuml  <liumenglei0211@163.com>
-     * @DateTime 2019-04-08  17:42
+     * @DateTime 2019-04-09  17:21
      */
-    public function pay($endpoint, array $payload): Response
+    public function pay($endpoint, array $payload)
     {
         $payload['method'] = $this->method;
+        $payload['sign']   = Support::generateSign($payload);
 
-        $payload['sign'] = Support::generateSign($payload);
-
-        return Response::create(http_build_query($payload));
+        return Support::requestApi($payload);
     }
 }

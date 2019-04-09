@@ -13,6 +13,7 @@ namespace WannanBigPig\Alipay\Payment;
 
 use Symfony\Component\HttpFoundation\Response;
 use WannanBigPig\Alipay\Kernel\Support\Support;
+use WannanBigPig\Supports\AccessData;
 use WannanBigPig\Supports\Exceptions\InvalidArgumentException;
 use WannanBigPig\Supports\Str;
 
@@ -20,6 +21,8 @@ use WannanBigPig\Supports\Str;
  * Class Application.
  *
  * @method Response app(array $attributes)
+ * @method AccessData miniApp(array $attributes)
+ * @method AccessData pos(array $attributes)
  */
 class Application implements GatewaysInterface
 {

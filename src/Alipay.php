@@ -133,7 +133,7 @@ class Alipay
         $config->set('payload', $this->commonParams($config));
 
         // 设置支付宝网关
-        $base_uri = self::URL[$config->get('mode', self::ENV_NORMAL)];
+        $base_uri = self::URL[$config->get('env', self::ENV_NORMAL)];
         $config->set('base_uri', $base_uri);
 
         return $this;

@@ -28,10 +28,9 @@ class AppTradeTest extends TestCase
                 'timeout'         => 5.0,
                 'connect_timeout' => 5.0,
             ],
-            'mode'           => 'dev', // optional,设置此参数，将进入沙箱模式
+            'env'            => 'dev', // optional,设置此参数，将进入沙箱模式,默认为正式环境
         ])->app(['price' => 100]);
-        echo $alipay->getContent();
-        $this->assertNotEmpty($alipay);
+        $this->assertNotEmpty($alipay->getContent());
     }
 
 }
