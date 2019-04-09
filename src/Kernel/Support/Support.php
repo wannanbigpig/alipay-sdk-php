@@ -171,19 +171,19 @@ class Support
     /**
      * @static   verifySign
      *
-     * @param array $params
-     * @param       $sign
+     * @param string $params
+     * @param        $sign
      *
      * @return bool
      *
      * @throws Exceptions\InvalidArgumentException
      *
      * @author   liuml  <liumenglei0211@163.com>
-     * @DateTime 2019-04-09  17:06
+     * @DateTime 2019-04-09  19:02
      */
-    public static function verifySign(array $params, $sign): bool
+    public static function verifySign(string $params, $sign): bool
     {
-        $publicKey   = self::getConfig('ali_public_key');
+        $publicKey = self::getConfig('ali_public_key');
 
         $keyFromFile = Str::endsWith($publicKey, '.pem');
         if ($keyFromFile) {
@@ -197,14 +197,13 @@ class Support
         if (!$res) {
             throw new Exceptions\InvalidArgumentException('支付宝RSA公钥错误。请检查 [ ali_public_key ] 配置项的公钥文件格式或路径是否正确');
         }
+        $params = mb_convert_encoding($params, 'gb2312', 'utf-8');
 
         // 调用openssl内置方法验签，返回bool值
-        $data = self::getSignContent($params);
-
         if ("RSA2" == self::getConfig('sign_type', 'RSA2')) {
-            $result = (openssl_verify($data, base64_decode($sign), $res, OPENSSL_ALGO_SHA256) === 1);
+            $result = (openssl_verify($params, base64_decode($sign), $res, OPENSSL_ALGO_SHA256) === 1);
         } else {
-            $result = (openssl_verify($data, base64_decode($sign), $res) === 1);
+            $result = (openssl_verify($params, base64_decode($sign), $res) === 1);
         }
 
         if ($keyFromFile) {
@@ -311,7 +310,7 @@ class Support
         }
 
         // 验证支付返回的签名，验证失败抛出应用异常
-        if (!self::verifySign($result[$method], $result['sign'])) {
+        if (!self::verifySign(json_encode($result[$method], JSON_UNESCAPED_UNICODE), $result['sign'])) {
             throw new Exceptions\ApplicationException(
                 '[' . $method . '] Get Alipay API Error: Signature verification error',
                 $result

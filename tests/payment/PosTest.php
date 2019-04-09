@@ -44,11 +44,11 @@ class PosTest extends TestCase
             'out_trade_no' => Str::getRandomString(22),
             'total_amount' => 100,
             'scene' => "bar_code",
-            'auth_code' => "283354705294335772",
+            'auth_code' => "282616934556261995",
             'product_code' => "FACE_TO_FACE_PAYMENT",
             'subject' => 'mac Xpro'
         ]);
-        var_dump($result);
+        var_dump($result->toJson());
         $this->assertNotEmpty($result);
     }
 }
