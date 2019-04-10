@@ -30,6 +30,7 @@ class AppTradeTest extends TestCase
             ],
             'env'            => 'dev', // optional,设置此参数，将进入沙箱模式,默认为正式环境
         ])->app(['price' => 100]);
+        echo $alipay->getContent();
         $this->assertNotEmpty($alipay->getContent());
     }
 

@@ -10,6 +10,7 @@
 
 namespace WannanBigPig\Alipay\Kernel\Support;
 
+use Symfony\Component\HttpFoundation\Response;
 use WannanBigPig\Supports\AccessData;
 use WannanBigPig\Supports\Config;
 use WannanBigPig\Supports\Curl\HttpRequest;
@@ -328,5 +329,64 @@ class Support
         return new AccessData($result[$method]);
     }
 
+    /**
+     * @static   pageExecute
+     *
+     * @param array  $data
+     * @param string $httpmethod
+     *
+     * @return Response
+     *
+     * @author   liuml  <liumenglei0211@163.com>
+     * @DateTime 2019-04-10  12:00
+     */
+    public static function pageExecute(array $data, $httpmethod = "POST"): Response
+    {
+        if ("GET" == strtoupper($httpmethod)) {
+
+            //value做urlencode
+            $preString = self::getSignContent($data);
+
+            //拼接GET请求串
+            $requestUrl = self::getConfig('base_uri') . "?" . $preString;
+
+            return Response::create($requestUrl);
+        } else {
+            //拼接表单字符串
+            return Response::create(self::buildRequestForm($data));
+        }
+    }
+
+    /**
+     * @static   buildRequestForm 建立请求，以表单HTML形式构造（默认）
+     *
+     * @param $para_temp
+     *
+     * @return string
+     *
+     * @author   liuml  <liumenglei0211@163.com>
+     * @DateTime 2019-04-10  11:58
+     */
+    protected static function buildRequestForm($para_temp)
+    {
+
+        $sHtml = "<form id='alipaysubmit' name='alipaysubmit' action='" . self::getConfig('base_uri') . "' method='POST'>";
+
+        foreach ($para_temp as $key => $val) {
+            if (!is_null($val)) {
+                //$val = $this->characet($val, $this->postCharset);
+                $val = str_replace("'", "&apos;", $val);
+                //$val = str_replace("\"","&quot;",$val);
+                $sHtml .= "<input type='hidden' name='" . $key . "' value='" . $val . "'/>";
+            }
+        }
+
+        //submit按钮控件请不要含有name属性
+        $sHtml = $sHtml . "<input type='submit' value='ok' style='display:none;''></form>";
+
+        $sHtml = $sHtml . "<script>document.forms['alipaysubmit'].submit();</script>";
+
+        return $sHtml;
+    }
 
 }
