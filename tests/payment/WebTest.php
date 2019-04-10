@@ -44,7 +44,7 @@ class WapTest extends TestCase
             'total_amount' => 100,
             'subject' => 'mac Xpro',
             'quit_url' => 'http://wannanbigpig.com',
-            'product_code' => 'QUICK_WAP_WAY',
+            'product_code' => 'FAST_INSTANT_TRADE_PAY',
         ]);
         echo ($result->getContent());
         $this->assertNotEmpty($result->getContent());

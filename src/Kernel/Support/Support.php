@@ -332,16 +332,16 @@ class Support
     /**
      * @static   pageExecute
      *
-     * @param array  $data
-     * @param string $httpmethod
+     * @param array $data
      *
      * @return Response
      *
      * @author   liuml  <liumenglei0211@163.com>
      * @DateTime 2019-04-10  12:00
      */
-    public static function pageExecute(array $data, $httpmethod = "POST"): Response
+    public static function pageExecute(array $data): Response
     {
+        $httpmethod = self::getConfig('http_method', "POST");
         if ("GET" == strtoupper($httpmethod)) {
 
             //value做urlencode

@@ -18,7 +18,8 @@ class MiniAppTrade implements PayInterface
 {
 
     /**
-     * method
+     * 小程序支付 alipay.trade.create (统一收单交易创建接口)
+     * 商户通过该接口进行交易的创建下单
      *
      * @var string
      */

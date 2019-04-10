@@ -1,6 +1,6 @@
 <?php
 /**
- * PrecreateTrade.php
+ * PosTrade.php
  *
  * Created by PhpStorm.
  *
@@ -15,15 +15,15 @@ use WannanBigPig\Alipay\Payment\PayInterface;
 use WannanBigPig\Supports\AccessData;
 use WannanBigPig\Supports\Exceptions;
 
-class PrecreateTrade implements PayInterface
+class FaceInitTrade implements PayInterface
 {
     /**
-     * alipay.trade.precreate (统一收单线下交易预创建) 商户被扫
-     * 收银员通过收银台或商户后台调用支付宝接口，生成二维码后，展示给用户，由用户扫描二维码完成订单支付。
+     * zoloz.authentication.customer.smilepay.initialize (人脸初始化唤起 zim)
+     * 人脸初始化刷脸付
      *
      * @var string
      */
-    private $method = 'alipay.trade.precreate';
+    private $method = 'zoloz.authentication.customer.smilepay.initialize';
 
     /**
      * pay
@@ -38,7 +38,7 @@ class PrecreateTrade implements PayInterface
      * @throws Exceptions\InvalidArgumentException
      *
      * @author   liuml  <liumenglei0211@163.com>
-     * @DateTime 2019-04-10  09:26
+     * @DateTime 2019-04-09  17:22
      */
     public function pay($endpoint, array $payload): AccessData
     {

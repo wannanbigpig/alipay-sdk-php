@@ -18,7 +18,8 @@ use WannanBigPig\Supports\Exceptions;
 class WapTrade implements PayInterface
 {
     /**
-     * method
+     * alipay.trade.wap.pay (手机网站支付接口 2.0)
+     * 外部商户创建订单并支付
      *
      * @var string
      */
