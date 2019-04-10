@@ -23,6 +23,7 @@ use WannanBigPig\Supports\Str;
  * @method Response app(array $attributes)
  * @method AccessData miniApp(array $attributes)
  * @method AccessData pos(array $attributes)
+ * @method AccessData precreate(array $attributes)
  */
 class Application implements GatewaysInterface
 {
