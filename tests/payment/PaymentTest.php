@@ -15,7 +15,6 @@ use PHPUnit\Framework\TestCase;
 use WannanBigPig\Alipay\Alipay;
 use WannanBigPig\Alipay\Kernel\Exceptions\SignException;
 use WannanBigPig\Alipay\Payment\Application;
-use WannanBigPig\Supports\AccessData;
 use WannanBigPig\Supports\Exceptions;
 use WannanBigPig\Supports\Str;
 
