@@ -10,7 +10,6 @@
 
 namespace WannanBigPig\Alipay\Tests\payment;
 
-
 use PHPUnit\Framework\TestCase;
 use WannanBigPig\Alipay\Alipay;
 use WannanBigPig\Alipay\Kernel\Exceptions\SignException;
