@@ -28,8 +28,8 @@ class WebTrade implements PayInterface
     /**
      * pay
      *
-     * @param       $endpoint
-     * @param array $payload
+     * @param string $gatewayUrl
+     * @param array  $payload
      *
      * @return Response
      *
@@ -38,12 +38,12 @@ class WebTrade implements PayInterface
      * @author   liuml  <liumenglei0211@163.com>
      * @DateTime 2019-04-10  12:03
      */
-    public function pay($endpoint, array $payload): Response
+    public function pay(string $gatewayUrl, array $payload): Response
     {
         $payload['method'] = $this->method;
 
         $payload['sign'] = Support::generateSign($payload);
 
-        return Support::pageExecute($payload);
+        return Support::pageExecute($gatewayUrl, $payload);
     }
 }

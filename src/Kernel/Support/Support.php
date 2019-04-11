@@ -11,6 +11,7 @@
 namespace WannanBigPig\Alipay\Kernel\Support;
 
 use Symfony\Component\HttpFoundation\Response;
+use WannanBigPig\Alipay\Kernel\Exceptions\SignException;
 use WannanBigPig\Supports\AccessData;
 use WannanBigPig\Supports\Config;
 use WannanBigPig\Supports\Curl\HttpRequest;
@@ -159,8 +160,40 @@ class Support
 
         foreach ($params as $k => $v) {
             if ($v !== '' && !is_null($v) && $k != 'sign' && '@' != substr($v, 0, 1)) {
-                $v                = self::characet($v, $params['charset'] ?? 'utf-8');
+
+                $v = self::characet($v, $params['charset'] ?? 'utf-8');
+
                 $stringToBeSigned .= $k . '=' . $v . '&';
+            }
+        }
+
+        unset ($k, $v);
+
+        return rtrim($stringToBeSigned, '&');
+    }
+
+    /**
+     * @static   getSignContentUrlencode
+     *
+     * @param $params
+     *
+     * @return string
+     *
+     * @author   liuml  <liumenglei0211@163.com>
+     * @DateTime 2019-04-11  11:56
+     */
+    public static function getSignContentUrlencode($params)
+    {
+        ksort($params);
+
+        $stringToBeSigned = "";
+
+        foreach ($params as $k => $v) {
+            if ($v !== '' && !is_null($v) && $k != 'sign' && '@' != substr($v, 0, 1)) {
+
+                $v = self::characet($v, $params['charset'] ?? 'utf-8');
+
+                $stringToBeSigned .= $k . '=' . urlencode($v) . '&';
             }
         }
 
@@ -237,24 +270,25 @@ class Support
     /**
      * @static   requestApi
      *
+     * @param       $gatewayUrl
      * @param array $data
      *
      * @return AccessData
      *
-     * @throws Exceptions\ApplicationException
      * @throws Exceptions\BusinessException
      * @throws Exceptions\InvalidArgumentException
+     * @throws SignException
      *
      * @author   liuml  <liumenglei0211@163.com>
-     * @DateTime 2019-04-09  17:19
+     * @DateTime 2019-04-11  10:38
      */
-    public static function requestApi(array $data): AccessData
+    public static function requestApi($gatewayUrl, array $data): AccessData
     {
         $data = array_filter($data, function($value) {
             return ($value == '' || is_null($value)) ? false : true;
         });
 
-        $result = mb_convert_encoding(self::getInstance()->post(self::$config->get('base_uri'), $data), self::$config->get('charset', 'utf-8'), self::$fileCharset);
+        $result = mb_convert_encoding(self::getInstance()->post($gatewayUrl, $data), self::$config->get('charset', 'utf-8'), self::$fileCharset);
 
         return self::processingApiResult($data, $result);
     }
@@ -267,12 +301,12 @@ class Support
      *
      * @return AccessData
      *
-     * @throws Exceptions\ApplicationException
      * @throws Exceptions\BusinessException
      * @throws Exceptions\InvalidArgumentException
+     * @throws SignException
      *
      * @author   liuml  <liumenglei0211@163.com>
-     * @DateTime 2019-04-09  18:45
+     * @DateTime 2019-04-11  10:38
      */
     protected static function processingApiResult($data, $resp): AccessData
     {
@@ -287,9 +321,9 @@ class Support
             }
         } else if ("XML" == $format) {
             $disableLibxmlEntityLoader = libxml_disable_entity_loader(true);
-            $respObject                = @ simplexml_load_string($resp);
+            $respObject                = @simplexml_load_string($resp);
             libxml_disable_entity_loader($disableLibxmlEntityLoader);
-            if (NULL !== $respObject) {
+            if (false !== $respObject) {
                 $respWellFormed = true;
             }
             $result = json_decode(json_encode($respObject), true);
@@ -302,9 +336,9 @@ class Support
 
         $method = str_replace('.', '_', $data['method']) . '_response';
 
-        // 签名不存在抛出应用异常，该异常为支付宝网关错误，例如 app_id 配置错误
+        // 签名不存在抛出应用异常，该异常为支付宝网关错误，例如 app_id 配置错误,没有返回签名，建议检查配置项是否正确
         if (!isset($result['sign'])) {
-            throw new Exceptions\ApplicationException(
+            throw new SignException(
                 '[' . $method . '] Get Alipay API Error: msg [' . $result[$method]['msg'] . ']',
                 $result
             );
@@ -312,7 +346,7 @@ class Support
 
         // 验证支付返回的签名，验证失败抛出应用异常
         if (!self::verifySign(json_encode($result[$method], JSON_UNESCAPED_UNICODE), $result['sign'])) {
-            throw new Exceptions\ApplicationException(
+            throw new SignException(
                 '[' . $method . '] Get Alipay API Error: Signature verification error',
                 $result
             );
@@ -320,9 +354,9 @@ class Support
 
         // 业务返回处理，返回码 10000 则正常返回成功数据，其他的则抛出业务异常
         // 捕获 BusinessException 异常 获取 raw 元素查看完整数据并做处理
-        if ($result[$method]['code'] != '10000') {
+        if ($result[$method]['code'] != '10000' && Support::getConfig('business_exception', false)) {
             throw new Exceptions\BusinessException(
-                '[' . $method . '] Business Error: msg [' . $result[$method]['msg'] . ']' . (isset($result[$method]['sub_code']) ? ' - sub_code [' . $result[$method]['sub_code'] . ']' : '') . (isset($result[$method]['sub_msg']) ? ' - sub_msg [' . $result[$method]['sub_msg'] . ']' : ''), $result
+                '[' . $method . '] Business Error: msg [' . $result[$method]['msg'] . ']' . (isset($result[$method]['sub_code']) ? ' - sub_code [' . $result[$method]['sub_code'] . ']' : '') . (isset($result[$method]['sub_msg']) ? ' - sub_msg [' . $result[$method]['sub_msg'] . ']' : ''), $result[$method]
             );
         }
 
@@ -332,45 +366,49 @@ class Support
     /**
      * @static   pageExecute
      *
+     * @param       $gatewayUrl
      * @param array $data
+     * @param       $httpmethod
      *
      * @return Response
      *
      * @author   liuml  <liumenglei0211@163.com>
-     * @DateTime 2019-04-10  12:00
+     * @DateTime 2019-04-10  15:12
      */
-    public static function pageExecute(array $data): Response
+    public static function pageExecute($gatewayUrl, array $data, $httpmethod = 'POST'): Response
     {
-        $httpmethod = self::getConfig('http_method', "POST");
+        $httpmethod = Support::getConfig('http_method', $httpmethod);
+
         if ("GET" == strtoupper($httpmethod)) {
 
             //value做urlencode
-            $preString = self::getSignContent($data);
+            $preString = self::getSignContentUrlencode($data);
 
             //拼接GET请求串
-            $requestUrl = self::getConfig('base_uri') . "?" . $preString;
+            $requestUrl = $gatewayUrl . "?" . $preString;
 
             return Response::create($requestUrl);
         } else {
             //拼接表单字符串
-            return Response::create(self::buildRequestForm($data));
+            return Response::create(self::buildRequestForm($gatewayUrl, $data));
         }
     }
 
     /**
-     * @static   buildRequestForm 建立请求，以表单HTML形式构造（默认）
+     * @static   buildRequestForm
      *
+     * @param $gatewayUrl
      * @param $para_temp
      *
      * @return string
      *
      * @author   liuml  <liumenglei0211@163.com>
-     * @DateTime 2019-04-10  11:58
+     * @DateTime 2019-04-10  15:13
      */
-    protected static function buildRequestForm($para_temp)
+    protected static function buildRequestForm($gatewayUrl, $para_temp)
     {
 
-        $sHtml = "<form id='alipaysubmit' name='alipaysubmit' action='" . self::getConfig('base_uri') . "' method='POST'>";
+        $sHtml = "<form id='alipaysubmit' name='alipaysubmit' action='" . $gatewayUrl . "' method='POST'>";
 
         foreach ($para_temp as $key => $val) {
             if (!is_null($val)) {

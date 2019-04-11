@@ -10,6 +10,7 @@
 
 namespace WannanBigPig\Alipay\Payment\Trade;
 
+use WannanBigPig\Alipay\Kernel\Exceptions\SignException;
 use WannanBigPig\Alipay\Kernel\Support\Support;
 use WannanBigPig\Alipay\Payment\PayInterface;
 use WannanBigPig\Supports\AccessData;
@@ -29,24 +30,24 @@ class PosTrade implements PayInterface
     /**
      * pay
      *
-     * @param       $endpoint
-     * @param array $payload
+     * @param string $gatewayUrl
+     * @param array  $payload
      *
      * @return AccessData
      *
-     * @throws Exceptions\ApplicationException
      * @throws Exceptions\BusinessException
      * @throws Exceptions\InvalidArgumentException
+     * @throws SignException
      *
      * @author   liuml  <liumenglei0211@163.com>
-     * @DateTime 2019-04-09  17:22
+     * @DateTime 2019-04-11  10:42
      */
-    public function pay($endpoint, array $payload): AccessData
+    public function pay(string $gatewayUrl, array $payload): AccessData
     {
         $payload['method'] = $this->method;
 
         $payload['sign'] = Support::generateSign($payload);
 
-        return Support::requestApi($payload);
+        return Support::requestApi($gatewayUrl, $payload);
     }
 }

@@ -30,24 +30,24 @@ class AppTrade implements PayInterface
     /**
      * pay
      *
-     * @param       $endpoint
-     * @param array $payload
+     * @param string $gatewayUrl
+     * @param array  $payload
      *
      * @return Response
      *
      * @throws InvalidArgumentException
      *
-     * @link https://docs.open.alipay.com/api_1/alipay.trade.app.pay/
+     * @link     https://docs.open.alipay.com/api_1/alipay.trade.app.pay/
      *
      * @author   liuml  <liumenglei0211@163.com>
-     * @DateTime 2019-04-08  17:42
+     * @DateTime 2019-04-11  10:41
      */
-    public function pay($endpoint, array $payload): Response
+    public function pay(string $gatewayUrl, array $payload): Response
     {
         $payload['method'] = $this->method;
 
         $payload['sign'] = Support::generateSign($payload);
 
-        return Support::pageExecute($payload);
+        return Support::pageExecute($gatewayUrl, $payload);
     }
 }

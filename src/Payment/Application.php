@@ -12,19 +12,23 @@ namespace WannanBigPig\Alipay\Payment;
 
 
 use Symfony\Component\HttpFoundation\Response;
+use WannanBigPig\Alipay\Kernel\Exceptions\SignException;
 use WannanBigPig\Alipay\Kernel\Support\Support;
+use WannanBigPig\Alipay\Payment\Trade\FindTrade;
 use WannanBigPig\Supports\AccessData;
-use WannanBigPig\Supports\Exceptions\InvalidArgumentException;
+use WannanBigPig\Supports\Exceptions;
 use WannanBigPig\Supports\Str;
 
 /**
  * Class Application.
  *
- * @method Response app(array $attributes)
- * @method AccessData miniApp(array $attributes)
- * @method AccessData pos(array $attributes)
- * @method AccessData precreate(array $attributes)
- * @method Response wap(array $attributes)
+ * @method Response app(array $parameters)
+ * @method AccessData miniApp(array $parameters)
+ * @method AccessData pos(array $parameters)
+ * @method AccessData precreate(array $parameters)
+ * @method AccessData faceInit(array $parameters)
+ * @method Response wap(array $parameters)
+ * @method Response web(array $parameters)
  */
 class Application implements GatewaysInterface
 {
@@ -34,12 +38,13 @@ class Application implements GatewaysInterface
      * @param $name
      * @param $arguments
      *
-     * @return mixed|void
+     * @return mixed|Response|AccessData
      *
-     * @throws InvalidArgumentException
+     * @throws Exceptions\ApplicationException
+     * @throws Exceptions\InvalidArgumentException
      *
      * @author   liuml  <liumenglei0211@163.com>
-     * @DateTime 2019-04-08  11:15
+     * @DateTime 2019-04-10  18:04
      */
     public function __call($name, $arguments)
     {
@@ -49,45 +54,53 @@ class Application implements GatewaysInterface
     /**
      * pay
      *
-     * @param       $gateway
+     * @param       $method
      * @param array $params
      *
-     * @return mixed|void
+     * @return mixed|Response|AccessData
      *
-     * @throws InvalidArgumentException
+     * @throws Exceptions\ApplicationException
+     * @throws Exceptions\InvalidArgumentException
      *
      * @author   liuml  <liumenglei0211@163.com>
-     * @DateTime 2019-04-08  11:15
+     * @DateTime 2019-04-10  18:04
      */
-    public function pay($gateway, $params = [])
+    public function pay($method, $params = [])
     {
-        // 设置业务参数
-        Support::$config->set('payload.biz_content', json_encode($params));
-
         // 组装命名空间
-        $gateway = __NAMESPACE__ . '\\Trade\\' . Str::studly($gateway) . 'Trade';
+        $gateway = __NAMESPACE__ . '\\Trade\\' . Str::studly($method) . 'Trade';
 
         if (class_exists($gateway)) {
-            return $this->makePay($gateway);
+            return $this->make($gateway, $params);
         }
 
-        throw new InvalidArgumentException("Pay Gateway [{$gateway}] not exists");
+        throw new Exceptions\InvalidArgumentException("Pay Gateway [{$gateway}] not exists");
     }
 
     /**
-     * makePay
+     * make
      *
-     * @param $gateway
+     * @param string $gateway
+     * @param array  $params
      *
      * @return mixed
      *
-     * @throws InvalidArgumentException
+     * @throws Exceptions\ApplicationException
      *
      * @author   liuml  <liumenglei0211@163.com>
-     * @DateTime 2019-04-08  11:37
+     * @DateTime 2019-04-10  18:04
      */
-    public function makePay($gateway)
+    public function make(string $gateway, $params = [])
     {
+        // 对于app，wap，web类支付，返回字符串组装格式get url或post表单形式，默认post表单形式
+        if (isset($params['http_method'])) {
+            Support::$config->set('http_method', $params['http_method']);
+            unset($params['http_method']);
+        }
+
+        // 设置业务参数
+        Support::$config->set('payload.biz_content', json_encode($params));
+
         $app = new $gateway();
 
         if ($app instanceof PayInterface) {
@@ -96,11 +109,112 @@ class Application implements GatewaysInterface
             }));
         }
 
-        throw new InvalidArgumentException("Pay Gateway [{$gateway}] Must Be An Instance Of PayInterface");
+        throw new Exceptions\ApplicationException("Pay Gateway [{$gateway}] Must Be An Instance Of PayInterface");
     }
 
-    public function refund($order)
+    /**
+     * refund  alipay.trade.refund (统一收单交易退款接口)
+     * 当交易发生之后一段时间内，由于买家或者卖家的原因需要退款时，卖家可以通过退款接口将支付款退还给买家，支付宝将在收到退款请求并且验证成功之后，按照退款规则将支付款按原路退到买家帐号上。 交易超过约定时间（签约时设置的可退款时间）的订单无法进行退款 支付宝退款支持单笔交易分多次退款，多次退款需要提交原支付订单的商户订单号和设置不同的退款单号。一笔退款失败后重新提交，要采用原来的退款单号。总退款金额不能超过用户实际支付金额
+     *
+     * @param array $params
+     *
+     * @return AccessData
+     *
+     * @throws Exceptions\BusinessException
+     * @throws Exceptions\InvalidArgumentException
+     * @throws SignException
+     *
+     * @author   liuml  <liumenglei0211@163.com>
+     * @DateTime 2019-04-11  10:39
+     */
+    public function refund(array $params)
     {
-        // TODO: Implement refund() method.
+        $payload                = Support::getConfig('payload');
+        $payload['method']      = 'alipay.trade.refund';
+        $payload['biz_content'] = json_encode($params);
+        $payload['sign']        = Support::generateSign($payload);
+        return Support::requestApi(Support::getConfig('base_uri'), $payload);
+    }
+
+
+    /**
+     * find
+     *
+     * @param array  $params
+     * @param string $method [ pay || refund ]
+     *
+     * @return AccessData
+     *
+     * @throws Exceptions\ApplicationException
+     * @throws Exceptions\BusinessException
+     * @throws Exceptions\InvalidArgumentException
+     * @throws SignException
+     *
+     * @author   liuml  <liumenglei0211@163.com>
+     * @DateTime 2019-04-11  10:51
+     */
+    public function find(array $params, string $method = 'pay')
+    {
+        $findObj = new FindTrade();
+        if (!property_exists($findObj, $method)) {
+            throw new Exceptions\ApplicationException("There is no such find method");
+        }
+
+        $payload                = Support::getConfig('payload');
+        $payload['method']      = $findObj->{$method};
+        $payload['biz_content'] = json_encode($params);
+        $payload['sign']        = Support::generateSign($payload);
+
+        return Support::requestApi(Support::getConfig('base_uri'), $payload);
+    }
+
+    /**
+     * alipay.trade.cancel (统一收单交易撤销接口)
+     * 支付交易返回失败或支付系统超时，调用该接口撤销交易。如果此订单用户支付失败，支付宝系统会将此订单关闭；如果用户支付成功，支付宝系统会将此订单资金退还给用户。 注意：只有发生支付系统超时或者支付结果未知时可调用撤销，其他正常支付的单如需实现相同功能请调用申请退款 API。提交支付交易后调用【查询订单 API】，没有明确的支付结果再调用【撤销订单 API】。
+     *
+     * @param array $params
+     *
+     * @return AccessData
+     *
+     * @throws Exceptions\BusinessException
+     * @throws Exceptions\InvalidArgumentException
+     * @throws SignException
+     *
+     * @author   liuml  <liumenglei0211@163.com>
+     * @DateTime 2019-04-11  10:40
+     */
+    public function cancel(array $params)
+    {
+        $payload                = Support::getConfig('payload');
+        $payload['method']      = 'alipay.trade.cancel';
+        $payload['biz_content'] = json_encode($params);
+        $payload['sign']        = Support::generateSign($payload);
+
+        return Support::requestApi(Support::getConfig('base_uri'), $payload);
+    }
+
+    /**
+     * alipay.trade.close (统一收单交易关闭接口)
+     * 用于交易创建后，用户在一定时间内未进行支付，可调用该接口直接将未付款的交易进行关闭。
+     *
+     * @param array $params
+     *
+     * @return AccessData
+     *
+     * @throws Exceptions\BusinessException
+     * @throws Exceptions\InvalidArgumentException
+     * @throws SignException
+     *
+     * @author   liuml  <liumenglei0211@163.com>
+     * @DateTime 2019-04-11  10:41
+     */
+    public function close(array $params)
+    {
+        $payload                = Support::getConfig('payload');
+        $payload['method']      = 'alipay.trade.close';
+        $payload['biz_content'] = json_encode($params);
+        $payload['sign']        = Support::generateSign($payload);
+
+        return Support::requestApi(Support::getConfig('base_uri'), $payload);
     }
 }
