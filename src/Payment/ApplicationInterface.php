@@ -14,7 +14,7 @@ namespace WannanBigPig\Alipay\Payment;
 use Symfony\Component\HttpFoundation\Response;
 use WannanBigPig\Supports\AccessData;
 
-interface GatewaysInterface
+interface ApplicationInterface
 {
     /**
      * pay
@@ -44,7 +44,7 @@ interface GatewaysInterface
     public function refund(array $params);
 
     /**
-     * find
+     * query
      *
      * @param array  $params
      * @param string $method
@@ -54,7 +54,7 @@ interface GatewaysInterface
      * @author   liuml  <liumenglei0211@163.com>
      * @DateTime 2019-04-10  16:28
      */
-    public function find(array $params, string $method);
+    public function query(array $params, string $method);
 
     /**
      * cancel

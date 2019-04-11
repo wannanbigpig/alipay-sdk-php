@@ -11,7 +11,7 @@
 namespace WannanBigPig\Alipay\Payment\Trade;
 
 
-class FindTrade
+class QueryTrade
 {
     /**
      * alipay.trade.query (统一收单线下交易查询)

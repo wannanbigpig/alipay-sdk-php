@@ -11,6 +11,7 @@
 namespace WannanBigPig\Alipay\Payment\Trade;
 
 use Symfony\Component\HttpFoundation\Response;
+use WannanBigPig\Alipay\Kernel\Exceptions\SignException;
 use WannanBigPig\Alipay\Kernel\Support\Support;
 use WannanBigPig\Alipay\Payment\PayInterface;
 use WannanBigPig\Supports\Exceptions;
@@ -28,22 +29,20 @@ class WebTrade implements PayInterface
     /**
      * pay
      *
-     * @param string $gatewayUrl
-     * @param array  $payload
+     * @param array $params
      *
      * @return Response
      *
+     * @throws Exceptions\BusinessException
      * @throws Exceptions\InvalidArgumentException
+     * @throws SignException
      *
      * @author   liuml  <liumenglei0211@163.com>
-     * @DateTime 2019-04-10  12:03
+     * @DateTime 2019-04-11  15:27
      */
-    public function pay(string $gatewayUrl, array $payload): Response
+    public function pay(array $params): Response
     {
-        $payload['method'] = $this->method;
-
-        $payload['sign'] = Support::generateSign($payload);
-
-        return Support::pageExecute($gatewayUrl, $payload);
+        $payload = Support::setBizContent($params);
+        return Support::execute($payload, $this->method, 'page');
     }
 }

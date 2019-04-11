@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 use WannanBigPig\Alipay\Kernel\Support\Support;
 use WannanBigPig\Alipay\Payment\PayInterface;
 use WannanBigPig\Alipay\Kernel;
+use WannanBigPig\Supports\Exceptions\BusinessException;
 use WannanBigPig\Supports\Exceptions\InvalidArgumentException;
 
 class AppTrade implements PayInterface
@@ -30,24 +31,20 @@ class AppTrade implements PayInterface
     /**
      * pay
      *
-     * @param string $gatewayUrl
-     * @param array  $payload
+     * @param array $params
      *
      * @return Response
      *
      * @throws InvalidArgumentException
-     *
-     * @link     https://docs.open.alipay.com/api_1/alipay.trade.app.pay/
+     * @throws Kernel\Exceptions\SignException
+     * @throws BusinessException
      *
      * @author   liuml  <liumenglei0211@163.com>
-     * @DateTime 2019-04-11  10:41
+     * @DateTime 2019-04-11  15:18
      */
-    public function pay(string $gatewayUrl, array $payload): Response
+    public function pay(array $params): Response
     {
-        $payload['method'] = $this->method;
-
-        $payload['sign'] = Support::generateSign($payload);
-
-        return Support::pageExecute($gatewayUrl, $payload);
+        $payload = Support::setBizContent($params);
+        return Support::execute($payload, $this->method, 'page');
     }
 }

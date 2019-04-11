@@ -30,8 +30,7 @@ class PosTrade implements PayInterface
     /**
      * pay
      *
-     * @param string $gatewayUrl
-     * @param array  $payload
+     * @param array $params
      *
      * @return AccessData
      *
@@ -42,12 +41,9 @@ class PosTrade implements PayInterface
      * @author   liuml  <liumenglei0211@163.com>
      * @DateTime 2019-04-11  10:42
      */
-    public function pay(string $gatewayUrl, array $payload): AccessData
+    public function pay(array $params): AccessData
     {
-        $payload['method'] = $this->method;
-
-        $payload['sign'] = Support::generateSign($payload);
-
-        return Support::requestApi($gatewayUrl, $payload);
+        $payload = Support::setBizContent($params);
+        return Support::execute($payload, $this->method);
     }
 }

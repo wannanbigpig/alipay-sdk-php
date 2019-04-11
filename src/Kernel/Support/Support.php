@@ -427,4 +427,74 @@ class Support
         return $sHtml;
     }
 
+    /**
+     * @static   execute
+     *
+     * @param        $payload
+     * @param        $method
+     * @param string $type
+     *
+     * @return Response|AccessData
+     *
+     * @throws Exceptions\BusinessException
+     * @throws Exceptions\InvalidArgumentException
+     * @throws SignException
+     *
+     * @author   liuml  <liumenglei0211@163.com>
+     * @DateTime 2019-04-11  15:19
+     */
+    public static function execute($payload, $method, $type = '')
+    {
+        // 设置方法
+        $payload['method'] = $method;
+        // 过滤空值
+        $payload = array_filter($payload, function($value) {
+            return $value !== '' && !is_null($value);
+        });
+        // 设置签名
+        $payload['sign'] = self::generateSign($payload);
+        // 获取支付宝网关地址
+        $base_uri = self::getConfig('base_uri');
+        // 根据type类型判断是否请求支付宝网关
+        if ($type == 'page') {
+            // 生成客户端需要的表单或者url字符串
+            return self::pageExecute($base_uri, $payload);
+        } else {
+            // 请求支付宝网关
+            return self::requestApi($base_uri, $payload);
+        }
+    }
+
+    /**
+     * @static   setBizContent
+     *
+     * @param $params
+     *
+     * @return array|mixed|null
+     *
+     * @author   liuml  <liumenglei0211@163.com>
+     * @DateTime 2019-04-11  17:39
+     */
+    public static function setBizContent($params)
+    {
+        // 对于app，wap，web类支付，返回字符串组装格式get url或post表单形式，默认post表单形式
+        if (isset($params['http_method'])) {
+            self::$config->set('http_method', $params['http_method']);
+            unset($params['http_method']);
+        }
+        // 过滤空值
+        $params = array_filter($params, function($value) {
+            return $value !== '' && !is_null($value);
+        });
+
+        $biz_content = '';
+        if (count($params) >= 1) {
+            $biz_content = json_encode($params);
+        }
+
+        // 设置业务参数
+        self::$config->set('payload.biz_content', $biz_content);
+
+        return self::$config->get('payload');
+    }
 }

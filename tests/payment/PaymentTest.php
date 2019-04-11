@@ -110,7 +110,7 @@ class PaymentTest extends TestCase
     }
 
     /**
-     * testFind
+     * testQuery
      * 订单查询（支付，退款）
      *
      * @param Application $alipay
@@ -125,10 +125,10 @@ class PaymentTest extends TestCase
      * @author   liuml  <liumenglei0211@163.com>
      * @DateTime 2019-04-11  10:51
      */
-    public function testFind(Application $alipay)
+    public function testQuery(Application $alipay)
     {
         // find 第二个参数不传默认pay （所有支付宝支付订单的查询）传入refund （退款订单查询）
-        $result = $alipay->find([
+        $result = $alipay->query([
             'out_trade_no'   => 'gpwKLbarfkdvC9A1SRjqFc',
             'trade_no'       => '2019041122001491681000007119',
             'out_request_no' => 'gpwKLbarfkdvC9A1SRjqFc',
@@ -155,7 +155,7 @@ class PaymentTest extends TestCase
             'out_trade_no' => time(),
             'total_amount' => '0.01',
             'subject'      => 'mac X pro 2080',
-            'http_method'  => 'get',
+            'http_method'  => 'post',
         ]);
         $result->send();
         $this->assertNotEmpty($result);
@@ -326,6 +326,32 @@ class PaymentTest extends TestCase
             'subject' => 'mac Xpro',
             'quit_url' => 'http://wannanbigpig.com',
             'product_code' => 'FAST_INSTANT_TRADE_PAY',
+        ]);
+
+        echo $result;
+        $this->assertNotEmpty($result);
+    }
+
+    /**
+     * testdownload
+     * 下载对账单
+     *
+     * @param Application $alipay
+     *
+     * @throws Exceptions\BusinessException
+     * @throws Exceptions\InvalidArgumentException
+     * @throws SignException
+     *
+     * @depends testAlipay
+     *
+     * @author   liuml  <liumenglei0211@163.com>
+     * @DateTime 2019-04-11  14:13
+     */
+    public function testdownload(Application $alipay)
+    {
+        $result = $alipay->download([
+            'bill_type'=> 'trade',
+            'bill_date'=> '2019-04-09',
         ]);
 
         echo $result;

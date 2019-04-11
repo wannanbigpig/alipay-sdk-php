@@ -17,13 +17,12 @@ Interface PayInterface
     /**
      * pay
      *
-     * @param string $gatewayUrl
-     * @param array  $payload
+     * @param array $params
      *
      * @return mixed
      *
      * @author   liuml  <liumenglei0211@163.com>
-     * @DateTime 2019-04-10  15:10
+     * @DateTime 2019-04-11  15:10
      */
-    public function pay(string $gatewayUrl, array $payload);
+    public function pay(array $params);
 }
