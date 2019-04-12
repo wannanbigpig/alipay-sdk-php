@@ -10,8 +10,14 @@
 
 namespace WannanBigPig\Alipay\Payment\Trade;
 
+use WannanBigPig\Alipay\Kernel\Exceptions\SignException;
+use WannanBigPig\Alipay\Kernel\Support\Support;
+use WannanBigPig\Alipay\Payment\DoctorInterface;
+use WannanBigPig\Supports\AccessData;
+use WannanBigPig\Supports\Exceptions\BusinessException;
+use WannanBigPig\Supports\Exceptions\InvalidArgumentException;
 
-class QueryTrade
+class QueryTrade implements DoctorInterface
 {
     /**
      * alipay.trade.query (统一收单线下交易查询)
@@ -19,7 +25,7 @@ class QueryTrade
      *
      * @var string
      */
-    public $pay = 'alipay.trade.query';
+    private $pay = 'alipay.trade.query';
 
     /**
      * alipay.trade.fastpay.refund.query (统一收单交易退款查询)
@@ -27,6 +33,52 @@ class QueryTrade
      *
      * @var string
      */
-    public $refund = 'alipay.trade.fastpay.refund.query';
+    private $refund = 'alipay.trade.fastpay.refund.query';
 
+    /**
+     * 业务参数
+     *
+     * @var
+     */
+    private $params;
+
+    public function exce(array $params)
+    {
+        $this->params = $params;
+        return $this;
+    }
+
+    /**
+     * payQuery
+     *
+     * @return AccessData
+     *
+     * @throws InvalidArgumentException
+     * @throws SignException
+     * @throws BusinessException
+     *
+     * @author   liuml  <liumenglei0211@163.com>
+     * @DateTime 2019-04-12  11:27
+     */
+    public function pay()
+    {
+        return Support::executeApi($this->params, $this->pay);
+    }
+
+    /**
+     * refundQuery
+     *
+     * @return AccessData
+     *
+     * @throws BusinessException
+     * @throws InvalidArgumentException
+     * @throws SignException
+     *
+     * @author   liuml  <liumenglei0211@163.com>
+     * @DateTime 2019-04-12  11:28
+     */
+    public function refund()
+    {
+        return Support::executeApi($this->params, $this->refund);
+    }
 }

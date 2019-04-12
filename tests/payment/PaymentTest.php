@@ -59,18 +59,14 @@ class PaymentTest extends TestCase
 
     /**
      * testCancel
-     * 支付订单取消
+     * 支付取消
      *
      * @param Application $alipay
-     *
-     * @throws Exceptions\BusinessException
-     * @throws Exceptions\InvalidArgumentException
-     * @throws SignException
      *
      * @depends  testAlipay
      *
      * @author   liuml  <liumenglei0211@163.com>
-     * @DateTime 2019-04-11  10:48
+     * @DateTime 2019-04-12  11:04
      */
     public function testCancel(Application $alipay)
     {
@@ -85,18 +81,14 @@ class PaymentTest extends TestCase
 
     /**
      * testClose
-     * 支付订单关闭
+     * 关闭订单
      *
      * @param Application $alipay
-     *
-     * @throws SignException
-     * @throws Exceptions\BusinessException
-     * @throws Exceptions\InvalidArgumentException
      *
      * @depends  testAlipay
      *
      * @author   liuml  <liumenglei0211@163.com>
-     * @DateTime 2019-04-10  17:44
+     * @DateTime 2019-04-12  11:40
      */
     public function testClose(Application $alipay)
     {
@@ -115,7 +107,6 @@ class PaymentTest extends TestCase
      *
      * @param Application $alipay
      *
-     * @throws Exceptions\ApplicationException
      * @throws Exceptions\BusinessException
      * @throws Exceptions\InvalidArgumentException
      * @throws SignException
@@ -123,7 +114,7 @@ class PaymentTest extends TestCase
      * @depends  testAlipay
      *
      * @author   liuml  <liumenglei0211@163.com>
-     * @DateTime 2019-04-11  10:51
+     * @DateTime 2019-04-12  11:43
      */
     public function testQuery(Application $alipay)
     {
@@ -132,7 +123,9 @@ class PaymentTest extends TestCase
             'out_trade_no'   => 'gpwKLbarfkdvC9A1SRjqFc',
             'trade_no'       => '2019041122001491681000007119',
             'out_request_no' => 'gpwKLbarfkdvC9A1SRjqFc',
-        ]);
+        ])->pay();
+        // pay() 支付订单查询
+        // refund() 退款订单查询
 
         echo $result;
         $this->assertNotEmpty($result);
@@ -260,20 +253,16 @@ class PaymentTest extends TestCase
      *
      * @param Application $alipay
      *
-     * @throws Exceptions\BusinessException
-     * @throws Exceptions\InvalidArgumentException
-     * @throws SignException
-     *
-     * @depends testAlipay
+     * @depends  testAlipay
      *
      * @author   liuml  <liumenglei0211@163.com>
-     * @DateTime 2019-04-11  11:43
+     * @DateTime 2019-04-12  11:47
      */
     public function testRefund(Application $alipay)
     {
         $result = $alipay->refund([
-            'out_trade_no' => 'wrKsPGxfN6uaR8z0Lj3Zbv',
-            'trade_no' => '2019041022001491681000005830',
+            'out_trade_no'  => 'wrKsPGxfN6uaR8z0Lj3Zbv',
+            'trade_no'      => '2019041022001491681000005830',
             'refund_amount' => '100',
         ]);
 
@@ -287,7 +276,7 @@ class PaymentTest extends TestCase
      *
      * @param Application $alipay
      *
-     * @depends testAlipay
+     * @depends  testAlipay
      *
      * @author   liuml  <liumenglei0211@163.com>
      * @DateTime 2019-04-11  11:45
@@ -297,10 +286,10 @@ class PaymentTest extends TestCase
         $result = $alipay->wap([
             'out_trade_no' => Str::getRandomString(22),
             'total_amount' => 100,
-            'subject' => 'mac Xpro',
-            'quit_url' => 'http://wannanbigpig.com',
+            'subject'      => 'mac Xpro',
+            'quit_url'     => 'http://wannanbigpig.com',
             'product_code' => 'QUICK_WAP_WAY',
-            'http_method' => 'get'
+            'http_method'  => 'get',
         ]);
 
         echo $result;
@@ -313,7 +302,7 @@ class PaymentTest extends TestCase
      *
      * @param Application $alipay
      *
-     * @depends testAlipay
+     * @depends  testAlipay
      *
      * @author   liuml  <liumenglei0211@163.com>
      * @DateTime 2019-04-11  11:58
@@ -323,8 +312,8 @@ class PaymentTest extends TestCase
         $result = $alipay->web([
             'out_trade_no' => Str::getRandomString(22),
             'total_amount' => 100,
-            'subject' => 'mac Xpro',
-            'quit_url' => 'http://wannanbigpig.com',
+            'subject'      => 'mac Xpro',
+            'quit_url'     => 'http://wannanbigpig.com',
             'product_code' => 'FAST_INSTANT_TRADE_PAY',
         ]);
 
@@ -338,23 +327,54 @@ class PaymentTest extends TestCase
      *
      * @param Application $alipay
      *
-     * @throws Exceptions\BusinessException
-     * @throws Exceptions\InvalidArgumentException
-     * @throws SignException
-     *
-     * @depends testAlipay
+     * @depends  testAlipay
      *
      * @author   liuml  <liumenglei0211@163.com>
-     * @DateTime 2019-04-11  14:13
+     * @DateTime 2019-04-12  11:47
      */
     public function testdownload(Application $alipay)
     {
         $result = $alipay->download([
-            'bill_type'=> 'trade',
-            'bill_date'=> '2019-04-09',
+            'bill_type' => 'trade',
+            'bill_date' => '2019-04-09',
         ]);
 
         echo $result;
         $this->assertNotEmpty($result);
     }
+
+    /**
+     * testException
+     *
+     * @param Application $alipay
+     *
+     * @depends  testAlipay
+     *
+     * @author   liuml  <liumenglei0211@163.com>
+     * @DateTime 2019-04-12  11:49
+     */
+    public function testException(Application $alipay)
+    {
+        $this->expectExceptionMessage("APPLICATION_ERROR: The func method doesn't exist");
+        $result = $alipay->func([]);
+
+    }
+
+    /**
+     * testFooGateway
+     *
+     * @param Application $alipay
+     *
+     * @depends                  testAlipay
+     * @expectedException \WannanBigPig\Supports\Exceptions\ApplicationException
+     * @expectedExceptionMessage APPLICATION_ERROR: The foo method doesn't exist
+     *
+     * @author                   liuml  <liumenglei0211@163.com>
+     * @DateTime                 2019-04-12  11:54
+     */
+    public function testFooGateway(Application $alipay)
+    {
+        $alipay->foo([]);
+    }
+
 }

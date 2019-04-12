@@ -12,22 +12,22 @@ namespace WannanBigPig\Alipay\Payment\Trade;
 
 use WannanBigPig\Alipay\Kernel\Exceptions\SignException;
 use WannanBigPig\Alipay\Kernel\Support\Support;
-use WannanBigPig\Alipay\Payment\PayInterface;
+use WannanBigPig\Alipay\Payment\DoctorInterface;
 use WannanBigPig\Supports\AccessData;
 use WannanBigPig\Supports\Exceptions;
 
-class FaceInitTrade implements PayInterface
+class CloseTrade implements DoctorInterface
 {
     /**
-     * zoloz.authentication.customer.smilepay.initialize (人脸初始化唤起 zim)
-     * 人脸初始化刷脸付
+     * alipay.trade.close (统一收单交易关闭接口)
+     * 用于交易创建后，用户在一定时间内未进行支付，可调用该接口直接将未付款的交易进行关闭。
      *
      * @var string
      */
-    private $method = 'zoloz.authentication.customer.smilepay.initialize';
+    private $close = 'alipay.trade.close';
 
     /**
-     * pay
+     * exce
      *
      * @param array $params
      *
@@ -38,10 +38,10 @@ class FaceInitTrade implements PayInterface
      * @throws SignException
      *
      * @author   liuml  <liumenglei0211@163.com>
-     * @DateTime 2019-04-12  09:51
+     * @DateTime 2019-04-12  11:36
      */
-    public function pay(array $params): AccessData
+    public function exce(array $params): AccessData
     {
-        return Support::executeApi($params, $this->method);
+        return Support::executeApi($params, $this->close);
     }
 }

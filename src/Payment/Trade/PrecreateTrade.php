@@ -42,7 +42,6 @@ class PrecreateTrade implements PayInterface
      */
     public function pay(array $params): AccessData
     {
-        $payload = Support::setBizContent($params);
-        return Support::execute($payload, $this->method);
+        return Support::executeApi($params, $this->method);
     }
 }

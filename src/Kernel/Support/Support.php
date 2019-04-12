@@ -364,21 +364,19 @@ class Support
     }
 
     /**
-     * @static   pageExecute
+     * @static   assemblyProgram
      *
-     * @param       $gatewayUrl
-     * @param array $data
-     * @param       $httpmethod
+     * @param        $gatewayUrl
+     * @param array  $data
+     * @param string $httpmethod
      *
      * @return Response
      *
      * @author   liuml  <liumenglei0211@163.com>
-     * @DateTime 2019-04-10  15:12
+     * @DateTime 2019-04-12  09:54
      */
-    public static function pageExecute($gatewayUrl, array $data, $httpmethod = 'POST'): Response
+    public static function assemblyProgram($gatewayUrl, array $data, $httpmethod = 'POST'): Response
     {
-        $httpmethod = Support::getConfig('http_method', $httpmethod);
-
         if ("GET" == strtoupper($httpmethod)) {
 
             //value做urlencode
@@ -388,10 +386,11 @@ class Support
             $requestUrl = $gatewayUrl . "?" . $preString;
 
             return Response::create($requestUrl);
-        } else {
-            //拼接表单字符串
-            return Response::create(self::buildRequestForm($gatewayUrl, $data));
         }
+
+        //拼接表单字符串
+        return Response::create(self::buildRequestForm($gatewayUrl, $data));
+
     }
 
     /**
@@ -428,25 +427,28 @@ class Support
     }
 
     /**
-     * @static   execute
+     * @static   executeApi
      *
-     * @param        $payload
-     * @param        $method
-     * @param string $type
+     * @param $params
+     * @param $method
      *
-     * @return Response|AccessData
+     * @return AccessData
      *
      * @throws Exceptions\BusinessException
      * @throws Exceptions\InvalidArgumentException
      * @throws SignException
      *
      * @author   liuml  <liumenglei0211@163.com>
-     * @DateTime 2019-04-11  15:19
+     * @DateTime 2019-04-12  10:06
      */
-    public static function execute($payload, $method, $type = '')
+    public static function executeApi($params, $method)
     {
+        // 获取公共参数
+        $payload = self::$config->get('payload');
         // 设置方法
         $payload['method'] = $method;
+        // 设置业务参数
+        $payload['biz_content'] = json_encode($params);
         // 过滤空值
         $payload = array_filter($payload, function($value) {
             return $value !== '' && !is_null($value);
@@ -455,46 +457,47 @@ class Support
         $payload['sign'] = self::generateSign($payload);
         // 获取支付宝网关地址
         $base_uri = self::getConfig('base_uri');
-        // 根据type类型判断是否请求支付宝网关
-        if ($type == 'page') {
-            // 生成客户端需要的表单或者url字符串
-            return self::pageExecute($base_uri, $payload);
-        } else {
-            // 请求支付宝网关
-            return self::requestApi($base_uri, $payload);
-        }
+        // 请求支付宝网关
+        return self::requestApi($base_uri, $payload);
+
     }
 
     /**
-     * @static   setBizContent
+     * @static   executePage
      *
      * @param $params
+     * @param $method
      *
-     * @return array|mixed|null
+     * @return Response
+     *
+     * @throws Exceptions\InvalidArgumentException
      *
      * @author   liuml  <liumenglei0211@163.com>
-     * @DateTime 2019-04-11  17:39
+     * @DateTime 2019-04-12  09:59
      */
-    public static function setBizContent($params)
+    public static function executePage($params, $method)
     {
         // 对于app，wap，web类支付，返回字符串组装格式get url或post表单形式，默认post表单形式
+        $http_method = 'POST';
         if (isset($params['http_method'])) {
-            self::$config->set('http_method', $params['http_method']);
+            $http_method = isset($params['http_method']) ? $params['http_method'] : 'POST';
             unset($params['http_method']);
         }
+        // 获取公共参数
+        $payload = self::$config->get('payload');
+        // 设置方法
+        $payload['method'] = $method;
+        // 设置业务参数
+        $payload['biz_content'] = json_encode($params);
         // 过滤空值
-        $params = array_filter($params, function($value) {
+        $payload = array_filter($payload, function($value) {
             return $value !== '' && !is_null($value);
         });
-
-        $biz_content = '';
-        if (count($params) >= 1) {
-            $biz_content = json_encode($params);
-        }
-
-        // 设置业务参数
-        self::$config->set('payload.biz_content', $biz_content);
-
-        return self::$config->get('payload');
+        // 设置签名
+        $payload['sign'] = self::generateSign($payload);
+        // 获取支付宝网关地址
+        $base_uri = self::getConfig('base_uri');
+        // 生成客户端需要的表单或者url字符串
+        return self::assemblyProgram($base_uri, $payload, $http_method);
     }
 }

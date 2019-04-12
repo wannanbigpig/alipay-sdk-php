@@ -12,22 +12,22 @@ namespace WannanBigPig\Alipay\Payment\Trade;
 
 use WannanBigPig\Alipay\Kernel\Exceptions\SignException;
 use WannanBigPig\Alipay\Kernel\Support\Support;
-use WannanBigPig\Alipay\Payment\PayInterface;
+use WannanBigPig\Alipay\Payment\DoctorInterface;
 use WannanBigPig\Supports\AccessData;
 use WannanBigPig\Supports\Exceptions;
 
-class FaceInitTrade implements PayInterface
+class DownloadTrade implements DoctorInterface
 {
     /**
-     * zoloz.authentication.customer.smilepay.initialize (人脸初始化唤起 zim)
-     * 人脸初始化刷脸付
+     * alipay.data.dataservice.bill.downloadurl.query (查询对账单下载地址)
+     * 为方便商户快速查账，支持商户通过本接口获取商户离线账单下载地址
      *
      * @var string
      */
-    private $method = 'zoloz.authentication.customer.smilepay.initialize';
+    private $download = 'alipay.data.dataservice.bill.downloadurl.query';
 
     /**
-     * pay
+     * exce
      *
      * @param array $params
      *
@@ -38,10 +38,10 @@ class FaceInitTrade implements PayInterface
      * @throws SignException
      *
      * @author   liuml  <liumenglei0211@163.com>
-     * @DateTime 2019-04-12  09:51
+     * @DateTime 2019-04-12  11:36
      */
-    public function pay(array $params): AccessData
+    public function exce(array $params): AccessData
     {
-        return Support::executeApi($params, $this->method);
+        return Support::executeApi($params, $this->download);
     }
 }
