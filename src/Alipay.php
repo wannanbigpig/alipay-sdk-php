@@ -39,15 +39,16 @@ class Alipay
     /**
      * Const url.
      */
-    const URL = [
-        self::ENV_NORMAL => 'https://openapi.alipay.com/gateway.do',
-        self::ENV_DEV    => 'https://openapi.alipaydev.com/gateway.do',
-    ];
+    const URL
+        = [
+            self::ENV_NORMAL => 'https://openapi.alipay.com/gateway.do',
+            self::ENV_DEV    => 'https://openapi.alipaydev.com/gateway.do',
+        ];
 
     /**
      * commonParams
      *
-     * @param Config $config
+     * @param  Config  $config
      *
      * @return array
      *
@@ -76,7 +77,7 @@ class Alipay
      * create
      *
      * @param       $name
-     * @param array $config
+     * @param  array  $config
      *
      * @return mixed
      *
@@ -88,10 +89,11 @@ class Alipay
     public function create($name, array $config)
     {
         $name        = Str::studly($name);
-        $application = __NAMESPACE__ . "\\{$name}\\Application";
+        $application = __NAMESPACE__."\\{$name}\\Application";
         if (class_exists($application)) {
             // 设置配置数组
             $this->config($config);
+
             // 实例化应用
             return $this->make($application);
         }
@@ -117,7 +119,7 @@ class Alipay
     /**
      * config
      *
-     * @param array $config
+     * @param  array  $config
      *
      * @return $this
      *
@@ -158,7 +160,7 @@ class Alipay
         if (method_exists($app, $name)) {
             return $app->$name(...$arguments);
         }
+
         return $app->create($name, ...$arguments);
     }
-
 }
