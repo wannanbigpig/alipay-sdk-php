@@ -120,11 +120,16 @@ class PaymentTest extends TestCase
     {
         // find 第二个参数不传默认pay （所有支付宝支付订单的查询）传入refund （退款订单查询）
         $result = $alipay->query([
-            'out_trade_no'   => 'gpwKLbarfkdvC9A1SRjqFc',
-            'trade_no'       => '2019041122001491681000007119',
-            'out_request_no' => 'gpwKLbarfkdvC9A1SRjqFc',
+            'out_trade_no'   => 'lml20190412102647828498635',
+            'trade_no'       => '2019041222001491681000012117',
+            'out_request_no' => 'lml20190412102647828498635',
         ])->pay();
         // pay() 支付订单查询
+        // $result = $alipay->query([
+        //     'out_trade_no'   => 'gpwKLbarfkdvC9A1SRjqFc',
+        //     'trade_no'       => '2019041122001491681000007119',
+        //     'out_request_no' => 'gpwKLbarfkdvC9A1SRjqFc',
+        // ])->refund();
         // refund() 退款订单查询
 
         echo $result;
@@ -216,7 +221,7 @@ class PaymentTest extends TestCase
             'out_trade_no' => Str::getRandomInt('lml', 3),
             'total_amount' => 100,
             'scene'        => "bar_code",
-            'auth_code'    => "281246173186124919",
+            'auth_code'    => "284212196152421511",
             'product_code' => "FACE_TO_FACE_PAYMENT",
             'subject'      => 'mac Xpro',
         ]);
@@ -261,8 +266,8 @@ class PaymentTest extends TestCase
     public function testRefund(Application $alipay)
     {
         $result = $alipay->refund([
-            'out_trade_no'  => 'wrKsPGxfN6uaR8z0Lj3Zbv',
-            'trade_no'      => '2019041022001491681000005830',
+            'out_trade_no'  => 'lml20190412102647828498635',
+            'trade_no'      => '2019041222001491681000012117',
             'refund_amount' => '100',
         ]);
 

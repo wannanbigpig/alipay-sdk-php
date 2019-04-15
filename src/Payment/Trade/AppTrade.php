@@ -35,9 +35,6 @@ class AppTrade implements PayInterface
      * @return Response
      *
      * @throws InvalidArgumentException
-     *
-     * @author   liuml  <liumenglei0211@163.com>
-     * @DateTime 2019-04-12  09:51
      */
     public function pay(array $params): Response
     {
