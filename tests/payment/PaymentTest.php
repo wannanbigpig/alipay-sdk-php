@@ -61,7 +61,7 @@ class PaymentTest extends TestCase
      * testCancel
      * 支付取消
      *
-     * @param Application $alipay
+     * @param  Application  $alipay
      *
      * @depends  testAlipay
      *
@@ -83,7 +83,7 @@ class PaymentTest extends TestCase
      * testClose
      * 关闭订单
      *
-     * @param Application $alipay
+     * @param  Application  $alipay
      *
      * @depends  testAlipay
      *
@@ -105,7 +105,7 @@ class PaymentTest extends TestCase
      * testQuery
      * 订单查询（支付，退款）
      *
-     * @param Application $alipay
+     * @param  Application  $alipay
      *
      * @throws Exceptions\BusinessException
      * @throws Exceptions\InvalidArgumentException
@@ -140,7 +140,7 @@ class PaymentTest extends TestCase
      * testApp
      * APP支付
      *
-     * @param Application $alipay
+     * @param  Application  $alipay
      *
      * @depends  testAlipay
      *
@@ -163,7 +163,7 @@ class PaymentTest extends TestCase
      * testFaceInit
      * 人脸支付识别初始化
      *
-     * @param Application $alipay
+     * @param  Application  $alipay
      *
      * @depends  testAlipay
      *
@@ -173,7 +173,7 @@ class PaymentTest extends TestCase
     public function testFaceInit(Application $alipay)
     {
         $result = $alipay->faceInit([
-            'zimmetainfo' => '{"apdidToken": "设备指纹", "appName": "应用名称", "appVersion": "应用版本", "bioMetaInfo": "生物信息如 2.3.0:3,-4"}',
+            'zimmetainfo' => '{ "apdidToken": "设备指纹", "appName": "应用名称", "appVersion": "应用版本", "bioMetaInfo": "生物信息如 2.3.0:3,-4"}',
         ]);
         echo $result;
         $this->assertNotEmpty($result);
@@ -183,7 +183,7 @@ class PaymentTest extends TestCase
      * testMiniApp
      * 小程序支付 订单预创建接口
      *
-     * @param Application $alipay
+     * @param  Application  $alipay
      *
      * @depends  testAlipay
      *
@@ -208,7 +208,7 @@ class PaymentTest extends TestCase
      * testPos
      * pos机等扫码支付
      *
-     * @param Application $alipay
+     * @param  Application  $alipay
      *
      * @depends  testAlipay
      *
@@ -233,7 +233,7 @@ class PaymentTest extends TestCase
      * testPrecreate
      * 预创建订单，生成二维码，被扫
      *
-     * @param Application $alipay
+     * @param  Application  $alipay
      *
      * @depends  testAlipay
      *
@@ -256,7 +256,7 @@ class PaymentTest extends TestCase
      * testRefund
      * 支付订单退款
      *
-     * @param Application $alipay
+     * @param  Application  $alipay
      *
      * @depends  testAlipay
      *
@@ -279,7 +279,7 @@ class PaymentTest extends TestCase
      * testWap
      * 手机网站支付
      *
-     * @param Application $alipay
+     * @param  Application  $alipay
      *
      * @depends  testAlipay
      *
@@ -305,7 +305,7 @@ class PaymentTest extends TestCase
      * testWeb
      * PC场景支付
      *
-     * @param Application $alipay
+     * @param  Application  $alipay
      *
      * @depends  testAlipay
      *
@@ -330,7 +330,7 @@ class PaymentTest extends TestCase
      * testdownload
      * 下载对账单
      *
-     * @param Application $alipay
+     * @param  Application  $alipay
      *
      * @depends  testAlipay
      *
@@ -351,7 +351,7 @@ class PaymentTest extends TestCase
     /**
      * testException
      *
-     * @param Application $alipay
+     * @param  Application  $alipay
      *
      * @depends  testAlipay
      *
@@ -362,13 +362,12 @@ class PaymentTest extends TestCase
     {
         $this->expectExceptionMessage("APPLICATION_ERROR: The func method doesn't exist");
         $result = $alipay->func([]);
-
     }
 
     /**
      * testFooGateway
      *
-     * @param Application $alipay
+     * @param  Application  $alipay
      *
      * @depends                  testAlipay
      * @expectedException \WannanBigPig\Supports\Exceptions\ApplicationException
@@ -381,5 +380,4 @@ class PaymentTest extends TestCase
     {
         $alipay->foo([]);
     }
-
 }

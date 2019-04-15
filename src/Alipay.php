@@ -39,7 +39,8 @@ class Alipay
     /**
      * Const url.
      */
-    const URL = [
+    const URL
+        = [
             self::ENV_NORMAL => 'https://openapi.alipay.com/gateway.do',
             self::ENV_DEV    => 'https://openapi.alipaydev.com/gateway.do',
         ];

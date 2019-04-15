@@ -10,7 +10,6 @@
 
 namespace WannanBigPig\Alipay\Payment;
 
-
 interface DoctorInterface
 {
     /**

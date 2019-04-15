@@ -80,15 +80,15 @@ class Support
     /**
      * @static   getConfig
      *
-     * @param null $key
-     * @param null $default
+     * @param  null  $key
+     * @param  null  $default
      *
      * @return array|mixed|null
      *
      * @author   liuml  <liumenglei0211@163.com>
      * @DateTime 2019-04-08  17:17
      */
-    public static function getConfig($key = NULL, $default = NULL)
+    public static function getConfig($key = null, $default = null)
     {
         if (is_null($key)) {
             return self::$config->get();
@@ -104,7 +104,7 @@ class Support
     /**
      * @static   generateSign
      *
-     * @param array $params
+     * @param  array  $params
      *
      * @return string
      *
@@ -118,9 +118,15 @@ class Support
         $privateKey  = self::getConfig('private_key');
         $keyFromFile = Str::endsWith($privateKey, '.pem');
         if ($keyFromFile) {
-            $res = openssl_pkey_get_private('file://' . $privateKey);
+            $res = openssl_pkey_get_private('file://'.$privateKey);
         } else {
-            $res = "-----BEGIN RSA PRIVATE KEY-----\n" . wordwrap($privateKey, 64, "\n", true) . "\n-----END RSA PRIVATE KEY-----";
+            $res = "-----BEGIN RSA PRIVATE KEY-----\n".
+                wordwrap(
+                    $privateKey,
+                    64,
+                    "\n",
+                    true
+                )."\n-----END RSA PRIVATE KEY-----";
         }
 
         if (!$res) {
@@ -139,6 +145,7 @@ class Support
             // 释放资源
             openssl_free_key($res);
         }
+
         return $sign;
     }
 
@@ -159,15 +166,15 @@ class Support
         $stringToBeSigned = "";
 
         foreach ($params as $k => $v) {
-            if ($v !== '' && !is_null($v) && $k != 'sign' && '@' != substr($v, 0, 1)) {
-
+            if ($v !== '' && !is_null($v) && $k != 'sign'
+                && '@' != substr($v, 0, 1)
+            ) {
                 $v = self::characet($v, $params['charset'] ?? 'utf-8');
 
-                $stringToBeSigned .= $k . '=' . $v . '&';
+                $stringToBeSigned .= $k.'='.$v.'&';
             }
         }
-
-        unset ($k, $v);
+        unset($k, $v);
 
         return rtrim($stringToBeSigned, '&');
     }
@@ -189,15 +196,16 @@ class Support
         $stringToBeSigned = "";
 
         foreach ($params as $k => $v) {
-            if ($v !== '' && !is_null($v) && $k != 'sign' && '@' != substr($v, 0, 1)) {
-
+            if ($v !== '' && !is_null($v) && $k != 'sign'
+                && '@' != substr($v, 0, 1)
+            ) {
                 $v = self::characet($v, $params['charset'] ?? 'utf-8');
 
-                $stringToBeSigned .= $k . '=' . urlencode($v) . '&';
+                $stringToBeSigned .= $k.'='.urlencode($v).'&';
             }
         }
 
-        unset ($k, $v);
+        unset($k, $v);
 
         return rtrim($stringToBeSigned, '&');
     }
@@ -205,7 +213,7 @@ class Support
     /**
      * @static   verifySign
      *
-     * @param string $params
+     * @param  string  $params
      * @param        $sign
      *
      * @return bool
@@ -221,10 +229,10 @@ class Support
 
         $keyFromFile = Str::endsWith($publicKey, '.pem');
         if ($keyFromFile) {
-            $res = openssl_pkey_get_public("file://" . $publicKey);
+            $res = openssl_pkey_get_public("file://".$publicKey);
         } else {
-            $res = "-----BEGIN PUBLIC KEY-----\n" .
-                wordwrap($publicKey, 64, "\n", true) .
+            $res = "-----BEGIN PUBLIC KEY-----\n".
+                wordwrap($publicKey, 64, "\n", true).
                 "\n-----END PUBLIC KEY-----";
         }
 
@@ -235,15 +243,23 @@ class Support
 
         // 调用openssl内置方法验签，返回bool值
         if ("RSA2" == self::getConfig('sign_type', 'RSA2')) {
-            $result = (openssl_verify($params, base64_decode($sign), $res, OPENSSL_ALGO_SHA256) === 1);
+            $result = (
+                openssl_verify(
+                    $params,
+                    base64_decode($sign),
+                    $res,
+                    OPENSSL_ALGO_SHA256
+                ) === 1);
         } else {
-            $result = (openssl_verify($params, base64_decode($sign), $res) === 1);
+            $result = (openssl_verify($params, base64_decode($sign), $res)
+                === 1);
         }
 
         if ($keyFromFile) {
             // 释放资源
             openssl_free_key($res);
         }
+
         return $result;
     }
 
@@ -261,8 +277,13 @@ class Support
     public static function characet($data, $targetCharset)
     {
         if (!empty($data)) {
-            $data = mb_convert_encoding($data, $targetCharset, self::$fileCharset);
+            $data = mb_convert_encoding(
+                $data,
+                $targetCharset,
+                self::$fileCharset
+            );
         }
+
         return $data;
     }
 
@@ -271,7 +292,7 @@ class Support
      * @static   requestApi
      *
      * @param       $gatewayUrl
-     * @param array $data
+     * @param  array  $data
      *
      * @return AccessData
      *
@@ -284,11 +305,15 @@ class Support
      */
     public static function requestApi($gatewayUrl, array $data): AccessData
     {
-        $data = array_filter($data, function($value) {
+        $data = array_filter($data, function ($value) {
             return ($value == '' || is_null($value)) ? false : true;
         });
 
-        $result = mb_convert_encoding(self::getInstance()->post($gatewayUrl, $data), self::$config->get('charset', 'utf-8'), self::$fileCharset);
+        $result = mb_convert_encoding(
+            self::getInstance()->post($gatewayUrl, $data),
+            self::$config->get('charset', 'utf-8'),
+            self::$fileCharset
+        );
 
         return self::processingApiResult($data, $result);
     }
@@ -316,47 +341,65 @@ class Support
         $respWellFormed = false;
         if ("JSON" == $format) {
             $result = json_decode($resp, true);
-            if (NULL !== $result) {
+            if (null !== $result) {
                 $respWellFormed = true;
             }
-        } else if ("XML" == $format) {
-            $disableLibxmlEntityLoader = libxml_disable_entity_loader(true);
-            $respObject                = @simplexml_load_string($resp);
-            libxml_disable_entity_loader($disableLibxmlEntityLoader);
-            if (false !== $respObject) {
-                $respWellFormed = true;
+        } else {
+            if ("XML" == $format) {
+                $disableLibxmlEntityLoader = libxml_disable_entity_loader(true);
+                $respObject                = @simplexml_load_string($resp);
+                libxml_disable_entity_loader($disableLibxmlEntityLoader);
+                if (false !== $respObject) {
+                    $respWellFormed = true;
+                }
+                $result = json_decode(json_encode($respObject), true);
             }
-            $result = json_decode(json_encode($respObject), true);
         }
 
         //返回的HTTP文本不是标准JSON或者XML，记下错误日志
         if (false === $respWellFormed) {
-            throw new Exceptions\InvalidArgumentException('返回的HTTP文本不是标准JSON或者XML', $resp);
+            throw new Exceptions\InvalidArgumentException(
+                '返回的HTTP文本不是标准JSON或者XML',
+                $resp
+            );
         }
 
-        $method = str_replace('.', '_', $data['method']) . '_response';
+        $method = str_replace('.', '_', $data['method']).'_response';
 
         // 签名不存在抛出应用异常，该异常为支付宝网关错误，例如 app_id 配置错误,没有返回签名，建议检查配置项是否正确
         if (!isset($result['sign'])) {
             throw new SignException(
-                '[' . $method . '] Get Alipay API Error: msg [' . $result[$method]['msg'] . ']',
+                '['.$method.'] Get Alipay API Error: msg ['
+                .$result[$method]['msg'].']',
                 $result
             );
         }
 
         // 验证支付返回的签名，验证失败抛出应用异常
-        if (!self::verifySign(json_encode($result[$method], JSON_UNESCAPED_UNICODE), $result['sign'])) {
+        if (!self::verifySign(
+            json_encode($result[$method], JSON_UNESCAPED_UNICODE),
+            $result['sign']
+        )
+        ) {
             throw new SignException(
-                '[' . $method . '] Get Alipay API Error: Signature verification error',
+                '['.$method
+                .'] Get Alipay API Error: Signature verification error',
                 $result
             );
         }
 
         // 业务返回处理，返回码 10000 则正常返回成功数据，其他的则抛出业务异常
         // 捕获 BusinessException 异常 获取 raw 元素查看完整数据并做处理
-        if ($result[$method]['code'] != '10000' && Support::getConfig('business_exception', false)) {
+        if ($result[$method]['code'] != '10000'
+            && Support::getConfig('business_exception', false)
+        ) {
             throw new Exceptions\BusinessException(
-                '[' . $method . '] Business Error: msg [' . $result[$method]['msg'] . ']' . (isset($result[$method]['sub_code']) ? ' - sub_code [' . $result[$method]['sub_code'] . ']' : '') . (isset($result[$method]['sub_msg']) ? ' - sub_msg [' . $result[$method]['sub_msg'] . ']' : ''), $result[$method]
+                '['.$method.'] Business Error: msg ['.$result[$method]['msg']
+                .']'.(isset($result[$method]['sub_code']) ? ' - sub_code ['
+                    .$result[$method]['sub_code'].']' : '')
+                .(isset($result[$method]['sub_msg']) ? ' - sub_msg ['
+                    .$result[$method]['sub_msg'].']' : ''),
+                $result[$method]
             );
         }
 
@@ -367,30 +410,31 @@ class Support
      * @static   assemblyProgram
      *
      * @param        $gatewayUrl
-     * @param array  $data
-     * @param string $httpmethod
+     * @param  array  $data
+     * @param  string  $httpmethod
      *
      * @return Response
      *
      * @author   liuml  <liumenglei0211@163.com>
      * @DateTime 2019-04-12  09:54
      */
-    public static function assemblyProgram($gatewayUrl, array $data, $httpmethod = 'POST'): Response
-    {
+    public static function assemblyProgram(
+        $gatewayUrl,
+        array $data,
+        $httpmethod = 'POST'
+    ): Response {
         if ("GET" == strtoupper($httpmethod)) {
-
             //value做urlencode
             $preString = self::getSignContentUrlencode($data);
 
             //拼接GET请求串
-            $requestUrl = $gatewayUrl . "?" . $preString;
+            $requestUrl = $gatewayUrl."?".$preString;
 
             return Response::create($requestUrl);
         }
 
         //拼接表单字符串
         return Response::create(self::buildRequestForm($gatewayUrl, $data));
-
     }
 
     /**
@@ -407,21 +451,25 @@ class Support
     protected static function buildRequestForm($gatewayUrl, $para_temp)
     {
 
-        $sHtml = "<form id='alipaysubmit' name='alipaysubmit' action='" . $gatewayUrl . "' method='POST'>";
+        $sHtml = "<form id='alipaysubmit' name='alipaysubmit' action='"
+            .$gatewayUrl."' method='POST'>";
 
         foreach ($para_temp as $key => $val) {
             if (!is_null($val)) {
                 //$val = $this->characet($val, $this->postCharset);
                 $val = str_replace("'", "&apos;", $val);
                 //$val = str_replace("\"","&quot;",$val);
-                $sHtml .= "<input type='hidden' name='" . $key . "' value='" . $val . "'/>";
+                $sHtml .= "<input type='hidden' name='".$key."' value='".$val
+                    ."'/>";
             }
         }
 
         //submit按钮控件请不要含有name属性
-        $sHtml = $sHtml . "<input type='submit' value='ok' style='display:none;''></form>";
+        $sHtml = $sHtml
+            ."<input type='submit' value='ok' style='display:none;''></form>";
 
-        $sHtml = $sHtml . "<script>document.forms['alipaysubmit'].submit();</script>";
+        $sHtml = $sHtml
+            ."<script>document.forms['alipaysubmit'].submit();</script>";
 
         return $sHtml;
     }
@@ -450,16 +498,16 @@ class Support
         // 设置业务参数
         $payload['biz_content'] = json_encode($params);
         // 过滤空值
-        $payload = array_filter($payload, function($value) {
+        $payload = array_filter($payload, function ($value) {
             return $value !== '' && !is_null($value);
         });
         // 设置签名
         $payload['sign'] = self::generateSign($payload);
         // 获取支付宝网关地址
         $base_uri = self::getConfig('base_uri');
+
         // 请求支付宝网关
         return self::requestApi($base_uri, $payload);
-
     }
 
     /**
@@ -490,13 +538,14 @@ class Support
         // 设置业务参数
         $payload['biz_content'] = json_encode($params);
         // 过滤空值
-        $payload = array_filter($payload, function($value) {
+        $payload = array_filter($payload, function ($value) {
             return $value !== '' && !is_null($value);
         });
         // 设置签名
         $payload['sign'] = self::generateSign($payload);
         // 获取支付宝网关地址
         $base_uri = self::getConfig('base_uri');
+
         // 生成客户端需要的表单或者url字符串
         return self::assemblyProgram($base_uri, $payload, $http_method);
     }

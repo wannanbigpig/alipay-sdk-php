@@ -10,9 +10,7 @@
 
 namespace WannanBigPig\Alipay\Payment;
 
-
 use Symfony\Component\HttpFoundation\Response;
-use WannanBigPig\Alipay\Payment\Trade\DoctorTrade;
 use WannanBigPig\Alipay\Payment\Trade\QueryTrade;
 use WannanBigPig\Supports\AccessData;
 use WannanBigPig\Supports\Exceptions;
@@ -58,7 +56,7 @@ class Application
      * pay
      *
      * @param       $method
-     * @param array $params
+     * @param  array  $params
      *
      * @return mixed
      *
@@ -70,7 +68,7 @@ class Application
     public function pay($method, $params = [])
     {
         // 组装命名空间
-        $gateway = __NAMESPACE__ . '\\Trade\\' . Str::studly($method) . 'Trade';
+        $gateway = __NAMESPACE__.'\\Trade\\'.Str::studly($method).'Trade';
 
         if (class_exists($gateway)) {
             return $this->make($gateway, $params);
@@ -82,8 +80,8 @@ class Application
     /**
      * make
      *
-     * @param string $gateway
-     * @param array  $params
+     * @param  string  $gateway
+     * @param  array  $params
      *
      * @return mixed
      *

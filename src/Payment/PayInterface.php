@@ -11,8 +11,7 @@
 
 namespace WannanBigPig\Alipay\Payment;
 
-
-Interface PayInterface
+interface PayInterface
 {
     /**
      * pay
