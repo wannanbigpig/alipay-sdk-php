@@ -18,7 +18,6 @@ use WannanBigPig\Supports\Exceptions\InvalidArgumentException;
 
 class AppTrade implements PayInterface
 {
-
     /**
      * alipay.trade.app.pay (app 支付接口 2.0)
      * 外部商户 APP 唤起快捷 SDK 创建订单并支付
