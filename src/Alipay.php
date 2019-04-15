@@ -50,9 +50,6 @@ class Alipay
      * @param  Config  $config
      *
      * @return array
-     *
-     * @author   liuml  <liumenglei0211@163.com>
-     * @DateTime 2019-04-08  15:53
      */
     public function commonParams(Config $config)
     {
@@ -75,15 +72,12 @@ class Alipay
     /**
      * create
      *
-     * @param       $name
+     * @param $name
      * @param  array  $config
      *
      * @return mixed
      *
      * @throws ApplicationException
-     *
-     * @author   liuml  <liumenglei0211@163.com>
-     * @DateTime 2019-04-04  16:25
      */
     public function create($name, array $config)
     {
@@ -106,9 +100,6 @@ class Alipay
      * @param $application
      *
      * @return mixed
-     *
-     * @author   liuml  <liumenglei0211@163.com>
-     * @DateTime 2019-04-04  16:29
      */
     public function make($application)
     {
@@ -121,9 +112,6 @@ class Alipay
      * @param  array  $config
      *
      * @return $this
-     *
-     * @author   liuml  <liumenglei0211@163.com>
-     * @DateTime 2019-04-08  16:06
      */
     public function config(array $config)
     {
@@ -141,7 +129,7 @@ class Alipay
     }
 
     /**
-     * static __callStatic
+     * @static  __callStatic
      *
      * @param $name
      * @param $arguments
@@ -149,9 +137,6 @@ class Alipay
      * @return mixed
      *
      * @throws ApplicationException
-     *
-     * @author   liuml  <liumenglei0211@163.com>
-     * @DateTime 2019-04-04  16:30
      */
     public static function __callStatic($name, $arguments)
     {
