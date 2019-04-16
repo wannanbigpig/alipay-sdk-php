@@ -10,6 +10,7 @@
 
 namespace WannanBigPig\Alipay\Payment;
 
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use WannanBigPig\Alipay\Kernel\Support\Support;
 use WannanBigPig\Alipay\Payment\Trade\QueryTrade;
@@ -131,10 +132,14 @@ class Application
      */
     public function verify($data)
     {
+        if (is_null($data)) {
+            $request = Request::createFromGlobals();
+            $data    = $request->request->count() > 0 ? $request->request->all()
+                : $request->query->all();
+        }
         $data['sign_type'] = null;
-
         return Support::verifySign(
-            Support::getSignContent($data),
+            mb_convert_encoding(Support::getSignContent($data), $data['charset'], 'utf-8'),
             $data['sign']
         );
     }

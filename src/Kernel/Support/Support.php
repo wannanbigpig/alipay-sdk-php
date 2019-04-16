@@ -119,7 +119,7 @@ class Support
      */
     public static function generateSign(array $params): string
     {
-        $privateKey  = self::getConfig('private_key');
+        $privateKey = self::getConfig('private_key');
         $keyFromFile = Str::endsWith($privateKey, '.pem');
         if ($keyFromFile) {
             $res = openssl_pkey_get_private('file://'.$privateKey);
@@ -170,7 +170,9 @@ class Support
         $stringToBeSigned = "";
 
         foreach ($params as $k => $v) {
-            if ($v !== '' && !is_null($v) && $k != 'sign' && '@' != substr($v, 0, 1)) {
+            if ($v !== '' && !is_null($v) && $k != 'sign'
+                && '@' != substr($v, 0, 1)
+            ) {
                 $v = self::characet($v, $params['charset'] ?? 'utf-8');
 
                 $stringToBeSigned .= $k.'='.$v.'&';
@@ -238,7 +240,6 @@ class Support
         if (!$res) {
             throw new Exceptions\InvalidArgumentException('支付宝RSA公钥错误。请检查 [ ali_public_key ] 配置项的公钥文件格式或路径是否正确');
         }
-        $data = mb_convert_encoding($data, 'gb2312', 'utf-8');
 
         // 调用openssl内置方法验签，返回bool值
         if ("RSA2" == self::getConfig('sign_type', 'RSA2')) {
@@ -389,11 +390,7 @@ class Support
         }
 
         // 验证支付返回的签名，验证失败抛出应用异常
-        if (!self::verifySign(
-            json_encode($result[$method], JSON_UNESCAPED_UNICODE),
-            $result['sign']
-        )
-        ) {
+        if (!self::verifySign(json_encode($result[$method], JSON_UNESCAPED_UNICODE), $result['sign'])) {
             Events::dispatch(
                 SignFailed::NAME,
                 new SignFailed(
@@ -470,29 +467,23 @@ class Support
      * @author   liuml  <liumenglei0211@163.com>
      * @DateTime 2019-04-10  15:13
      */
-    protected static function buildRequestForm(
-        $gatewayUrl,
-        $para_temp
-    ) {
-        $sHtml = "<form id='alipaysubmit' name='alipaysubmit' action='"
-            .$gatewayUrl."' method='POST'>";
+    protected static function buildRequestForm($gatewayUrl, $para_temp)
+    {
+        $sHtml = "<form id='alipaysubmit' name='alipaysubmit' action='".$gatewayUrl."' method='POST'>";
 
         foreach ($para_temp as $key => $val) {
             if (!is_null($val)) {
                 //$val = $this->characet($val, $this->postCharset);
                 $val = str_replace("'", "&apos;", $val);
                 //$val = str_replace("\"","&quot;",$val);
-                $sHtml .= "<input type='hidden' name='".$key."' value='".$val
-                    ."'/>";
+                $sHtml .= "<input type='hidden' name='".$key."' value='".$val."'/>";
             }
         }
 
         //submit按钮控件请不要含有name属性
-        $sHtml = $sHtml
-            ."<input type='submit' value='ok' style='display:none;'></form>";
+        $sHtml = $sHtml."<input type='submit' value='ok' style='display:none;'></form>";
 
-        $sHtml = $sHtml
-            ."<script>document.forms['alipaysubmit'].submit();</script>";
+        $sHtml = $sHtml."<script>document.forms['alipaysubmit'].submit();</script>";
 
         return $sHtml;
     }

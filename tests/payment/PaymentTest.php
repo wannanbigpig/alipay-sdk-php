@@ -223,7 +223,7 @@ class PaymentTest extends TestCase
             'scene'        => "bar_code",
             'auth_code'    => "280446632386044965",
             'product_code' => "FACE_TO_FACE_PAYMENT",
-            'subject'      => 'mac Xpro',
+            'subject'      => 'mac Xpro妮可妮可妮啥的解释道ß',
         ]);
         echo $result;
         $this->assertNotEmpty($result);
@@ -360,25 +360,25 @@ class PaymentTest extends TestCase
     public function testVerigy(Application $alipay)
     {
         $result = $alipay->verify([
-            'gmt_create'     => '2019-04-16 17:05:09',
-            'charset'        => 'GBK',
-            'seller_email'   => 'jopdvw3241@sandbox.com',
-            'notify_time'    => '2019-04-16 17:05:10',
-            'subject'        => 'mac Xpro',
-            'sign'           => 'FmbKmjG5c2N2JHeB5r3lnZlf6MHzobeWz4QVsGIfIfr6ZxfjfLiGHwJj2YixQpqHmkW9AWyFBvAUBZYbYzndRv2pnAu1ReaULzTjbOFXMHXnP9I4mI3vUJrW0g/Cb73lecWgmTut63DHIQHE62UcZHNv+WkmB6DiF1PWb4s3DPqyIq9KiLfZoar8VMK/14563cJEe9qURUrDaLC39lyMJhl5MZqDstV+5UpzgWG24bhjnjYS7Xx4SQQi4Bmwcs5uL6LrZGjXDLHPa9ukOylzlCIvqBXNXhAMeV5OiM7w7Uv/p88VK7LvSWgExMESfzQerbrHI+3EcbP3HfT6PTlBZw==',
-            'buyer_id'       => '2088102177891684',
-            'version'        => '1.0',
-            'notify_id'      => '2019041600222170510091681000118128',
-            'notify_type'    => 'trade_status_sync',
-            'out_trade_no'   => 'lml20190416090509482623290',
-            'total_amount'   => '100.00',
-            'trade_status'   => 'WAIT_BUYER_PAY',
-            'trade_no'       => '2019041622001491681000017429',
-            'auth_app_id'    => '2016092600598145',
+            'gmt_create' => '2019-04-16 17:32:32',
+            'charset' => 'GBK',
+            'seller_email' => 'jopdvw3241@sandbox.com',
+            'notify_time' => '2019-04-16 17:32:32',
+            'subject' => 'mac Xpro妮可妮可妮啥的解释道ß',
+            'sign' => 'LKpmwXnseH8cmsTuOz7qiPhb1gTgiondysIX3B3QhAPTsdEHMX6wllt6hZXUgQ+7eI/pPKmoB7p6KH5Or19Ve8dGV7nUwe/iQaDg1r853y4HmhnbfvXcQQJc83qbHB19YTdee0lYvn3Va7YAUeEn8Z3c21v0WNFdvwP2PM+O/Eaq6KpdkLn/D1UDUI+PxGwGovOPUkM9cBIdgGCji1gNME5+1KriNCmZpNjMTX6hQmiw3AuJD3GTB5HOp57/emeRMz0mjSzMdpfarLaF4EdhcaECfmxpFLJUzW+MtTtIV2Y5AEYZsYnd43QbtqQ8YIk34UbUfM2AAjGpExoD3qgPGA==',
+            'buyer_id' => '2088102177891684',
+            'version' => '1.0',
+            'notify_id' => '2019041600222173232091681000116360',
+            'notify_type' => 'trade_status_sync',
+            'out_trade_no' => 'lml20190416093231447219497',
+            'total_amount' => '100.00',
+            'trade_status' => 'WAIT_BUYER_PAY',
+            'trade_no' => '2019041622001491681000015903',
+            'auth_app_id' => '2016092600598145',
             'buyer_logon_id' => 'arl***@sandbox.com',
-            'app_id'         => '2016092600598145',
-            'sign_type'      => 'RSA2',
-            'seller_id'      => '2088102177302492',
+            'app_id' => '2016092600598145',
+            'sign_type' => 'RSA2',
+            'seller_id' => '2088102177302492',
         ]);
         var_dump($result);
 
