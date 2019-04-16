@@ -8,10 +8,13 @@
 
 namespace WannanBigPig\Alipay;
 
+use WannanBigPig\Alipay\Kernel\Listeners\KernelLogSubscriber;
 use WannanBigPig\Alipay\Kernel\Support\Support;
 use WannanBigPig\Alipay\Payment\Application;
 use WannanBigPig\Supports\Config;
+use WannanBigPig\Supports\Events;
 use WannanBigPig\Supports\Exceptions\ApplicationException;
+use WannanBigPig\Supports\Logs\Log;
 use WannanBigPig\Supports\Str;
 
 /**
@@ -113,6 +116,8 @@ class Alipay
      * @param  array  $config
      *
      * @return $this
+     *
+     * @throws \Exception
      */
     public function config(array $config)
     {
@@ -125,6 +130,9 @@ class Alipay
         // 设置支付宝网关
         $base_uri = self::URL[$config->get('env', self::ENV_NORMAL)];
         $config->set('base_uri', $base_uri);
+
+        $this->registerLogService();
+        $this->registerEventService();
 
         return $this;
     }
@@ -147,5 +155,33 @@ class Alipay
         }
 
         return $app->create($name, ...$arguments);
+    }
+
+    /**
+     * registerLogService
+     *
+     * @throws \Exception
+     */
+    protected function registerLogService()
+    {
+        $logger = Log::createLogger(
+            Support::$config->get('log.file'),
+            'wannanbigpig.alipay',
+            Support::$config->get('log.level', 'warning'),
+            Support::$config->get('log.type', 'daily'),
+            Support::$config->get('log.max_file', 30)
+        );
+
+        Log::setLogger($logger);
+    }
+
+    /**
+     * registerEventService
+     */
+    protected function registerEventService()
+    {
+        Events::setDispatcher(Events::createDispatcher());
+
+        Events::addSubscriber(new KernelLogSubscriber());
     }
 }

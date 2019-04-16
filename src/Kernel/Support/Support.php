@@ -11,10 +11,14 @@
 namespace WannanBigPig\Alipay\Kernel\Support;
 
 use Symfony\Component\HttpFoundation\Response;
+use WannanBigPig\Alipay\Kernel\Events\ApiRequestEnd;
+use WannanBigPig\Alipay\Kernel\Events\ApiRequestStart;
+use WannanBigPig\Alipay\Kernel\Events\SignFailed;
 use WannanBigPig\Alipay\Kernel\Exceptions\SignException;
 use WannanBigPig\Supports\AccessData;
 use WannanBigPig\Supports\Config;
 use WannanBigPig\Supports\Curl\HttpRequest;
+use WannanBigPig\Supports\Events;
 use WannanBigPig\Supports\Exceptions;
 use WannanBigPig\Supports\Str;
 
@@ -305,6 +309,15 @@ class Support
      */
     public static function requestApi($gatewayUrl, array $data): AccessData
     {
+        Events::dispatch(
+            ApiRequestStart::NAME,
+            new ApiRequestStart(
+                self::$config->get('event.driver'),
+                self::$config->get('event.method'),
+                $gatewayUrl,
+                $data
+            )
+        );
         $data = array_filter($data, function ($value) {
             return ($value == '' || is_null($value)) ? false : true;
         });
@@ -314,7 +327,16 @@ class Support
             self::$config->get('charset', 'utf-8'),
             self::$fileCharset
         );
-
+        Events::dispatch(
+            ApiRequestEnd::NAME,
+            new ApiRequestEnd(
+                self::$config->get('event.driver'),
+                self::$config->get('event.method'),
+                $gatewayUrl,
+                $data,
+                $result
+            )
+        );
         return self::processingApiResult($data, $result);
     }
 
@@ -339,23 +361,20 @@ class Support
         $result = [];
         // 解析返回结果
         $respWellFormed = false;
-        if ("JSON" == $format) {
+        if ("XML" == $format) {
+            $disableLibxmlEntityLoader = libxml_disable_entity_loader(true);
+            $respObject                = @simplexml_load_string($resp);
+            libxml_disable_entity_loader($disableLibxmlEntityLoader);
+            if (false !== $respObject) {
+                $respWellFormed = true;
+            }
+            $result = json_decode(json_encode($respObject), true);
+        } else {
             $result = json_decode($resp, true);
             if (null !== $result) {
                 $respWellFormed = true;
             }
-        } else {
-            if ("XML" == $format) {
-                $disableLibxmlEntityLoader = libxml_disable_entity_loader(true);
-                $respObject                = @simplexml_load_string($resp);
-                libxml_disable_entity_loader($disableLibxmlEntityLoader);
-                if (false !== $respObject) {
-                    $respWellFormed = true;
-                }
-                $result = json_decode(json_encode($respObject), true);
-            }
         }
-
         //返回的HTTP文本不是标准JSON或者XML，记下错误日志
         if (false === $respWellFormed) {
             throw new Exceptions\InvalidArgumentException(
@@ -381,6 +400,14 @@ class Support
             $result['sign']
         )
         ) {
+            Events::dispatch(
+                SignFailed::NAME,
+                new SignFailed(
+                    self::$config->get('event.driver'),
+                    self::$config->get('event.method'),
+                    $result
+                )
+            );
             throw new SignException(
                 '['.$method
                 .'] Get Alipay API Error: Signature verification error',
@@ -394,7 +421,8 @@ class Support
             && Support::getConfig('business_exception', false)
         ) {
             throw new Exceptions\BusinessException(
-                '['.$method.'] Business Error: msg ['.$result[$method]['msg']
+                '['.$method.'] Business Error: msg ['
+                .$result[$method]['msg']
                 .']'.(isset($result[$method]['sub_code']) ? ' - sub_code ['
                     .$result[$method]['sub_code'].']' : '')
                 .(isset($result[$method]['sub_msg']) ? ' - sub_msg ['
@@ -448,9 +476,10 @@ class Support
      * @author   liuml  <liumenglei0211@163.com>
      * @DateTime 2019-04-10  15:13
      */
-    protected static function buildRequestForm($gatewayUrl, $para_temp)
-    {
-
+    protected static function buildRequestForm(
+        $gatewayUrl,
+        $para_temp
+    ) {
         $sHtml = "<form id='alipaysubmit' name='alipaysubmit' action='"
             .$gatewayUrl."' method='POST'>";
 
@@ -466,7 +495,7 @@ class Support
 
         //submit按钮控件请不要含有name属性
         $sHtml = $sHtml
-            ."<input type='submit' value='ok' style='display:none;''></form>";
+            ."<input type='submit' value='ok' style='display:none;'></form>";
 
         $sHtml = $sHtml
             ."<script>document.forms['alipaysubmit'].submit();</script>";
@@ -489,8 +518,10 @@ class Support
      * @author   liuml  <liumenglei0211@163.com>
      * @DateTime 2019-04-12  10:06
      */
-    public static function executeApi($params, $method)
-    {
+    public static function executeApi(
+        $params,
+        $method
+    ) {
         // 获取公共参数
         $payload = self::$config->get('payload');
         // 设置方法
@@ -523,12 +554,15 @@ class Support
      * @author   liuml  <liumenglei0211@163.com>
      * @DateTime 2019-04-12  09:59
      */
-    public static function executePage($params, $method)
-    {
+    public static function executePage(
+        $params,
+        $method
+    ) {
         // 对于app，wap，web类支付，返回字符串组装格式get url或post表单形式，默认post表单形式
         $http_method = 'POST';
         if (isset($params['http_method'])) {
-            $http_method = isset($params['http_method']) ? $params['http_method'] : 'POST';
+            $http_method = isset($params['http_method'])
+                ? $params['http_method'] : 'POST';
             unset($params['http_method']);
         }
         // 获取公共参数
