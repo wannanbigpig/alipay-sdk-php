@@ -1,32 +1,23 @@
+---
+description: 根据支付宝最新接口扩展
+---
+
 # README
 
-## alipay
-
-支付宝接口扩展
-
-## Pay
+## Alipay
 
 **请先熟悉 支付宝 说明文档**
 
 欢迎 Star，欢迎 PR！
-
-### 特点
-
-* 丰富的事件系统
-* 命名不那么乱七八糟
-* 隐藏开发者不需要关注的细节
-* 根据支付宝、微信最新 API 开发而成
-* 高度抽象的类，免去各种拼json与xml的痛苦
-* 符合 PSR 标准，你可以各种方便的与你的框架集成
-* 文件结构清晰易理解，可以随心所欲添加本项目中没有的支付网关
-* 方法使用更优雅，不必再去研究那些奇怪的的方法名或者类名是做啥用的
 
 ### 运行环境
 
 * PHP 7.0+
 * composer
 
-> php5 请使用 v1.x 版本[https://github.com/yansongda/pay/tree/v1.x](https://github.com/yansongda/pay/tree/v1.x)
+### 安装方法
+
+`composer require wannanbigpig/alipay -vv`
 
 ### 支持的支付方法
 
@@ -49,30 +40,6 @@
 | scan | 扫码支付 |
 | transfer | 帐户转账 |
 | mini | 小程序支付 |
-
-#### 2、微信
-
-* 公众号支付
-* 小程序支付
-* H5 支付
-* 扫码支付
-* 刷卡支付
-* APP 支付
-* 企业付款
-* 普通红包
-* 分裂红包
-
-| method | 描述 |
-| :---: | :---: |
-| mp | 公众号支付 |
-| miniapp | 小程序支付 |
-| wap | H5 支付 |
-| scan | 扫码支付 |
-| pos | 刷卡支付 |
-| app | APP 支付 |
-| transfer | 企业付款 |
-| redpack | 普通红包 |
-| groupRedpack | 分裂红包 |
 
 ### 支持的方法
 
