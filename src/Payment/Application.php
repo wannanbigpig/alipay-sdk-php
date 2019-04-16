@@ -74,6 +74,7 @@ class Application
 
         if (class_exists($gateway)) {
             $this->setMethod($method);
+
             return $this->make($gateway, $params);
         }
 
@@ -117,5 +118,24 @@ class Application
             'driver' => 'Payment',
             'method' => $method,
         ]);
+    }
+
+    /**
+     * verify
+     *
+     * @param $data
+     *
+     * @return bool
+     *
+     * @throws Exceptions\InvalidArgumentException
+     */
+    public function verify($data)
+    {
+        $data['sign_type'] = null;
+
+        return Support::verifySign(
+            Support::getSignContent($data),
+            $data['sign']
+        );
     }
 }

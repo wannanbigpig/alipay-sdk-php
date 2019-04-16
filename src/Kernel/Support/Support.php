@@ -170,9 +170,7 @@ class Support
         $stringToBeSigned = "";
 
         foreach ($params as $k => $v) {
-            if ($v !== '' && !is_null($v) && $k != 'sign'
-                && '@' != substr($v, 0, 1)
-            ) {
+            if ($v !== '' && !is_null($v) && $k != 'sign' && '@' != substr($v, 0, 1)) {
                 $v = self::characet($v, $params['charset'] ?? 'utf-8');
 
                 $stringToBeSigned .= $k.'='.$v.'&';
@@ -215,19 +213,16 @@ class Support
     }
 
     /**
-     * @static   verifySign
+     * @static  verifySign
      *
-     * @param  string  $params
-     * @param        $sign
+     * @param  string  $data
+     * @param  string  $sign
      *
      * @return bool
      *
      * @throws Exceptions\InvalidArgumentException
-     *
-     * @author   liuml  <liumenglei0211@163.com>
-     * @DateTime 2019-04-09  19:02
      */
-    public static function verifySign(string $params, $sign): bool
+    public static function verifySign(string $data, string $sign): bool
     {
         $publicKey = self::getConfig('ali_public_key');
 
@@ -243,20 +238,19 @@ class Support
         if (!$res) {
             throw new Exceptions\InvalidArgumentException('支付宝RSA公钥错误。请检查 [ ali_public_key ] 配置项的公钥文件格式或路径是否正确');
         }
-        $params = mb_convert_encoding($params, 'gb2312', 'utf-8');
+        $data = mb_convert_encoding($data, 'gb2312', 'utf-8');
 
         // 调用openssl内置方法验签，返回bool值
         if ("RSA2" == self::getConfig('sign_type', 'RSA2')) {
             $result = (
                 openssl_verify(
-                    $params,
+                    $data,
                     base64_decode($sign),
                     $res,
                     OPENSSL_ALGO_SHA256
                 ) === 1);
         } else {
-            $result = (openssl_verify($params, base64_decode($sign), $res)
-                === 1);
+            $result = (openssl_verify($data, base64_decode($sign), $res) === 1);
         }
 
         if ($keyFromFile) {
@@ -337,6 +331,7 @@ class Support
                 $result
             )
         );
+
         return self::processingApiResult($data, $result);
     }
 
@@ -358,7 +353,6 @@ class Support
     protected static function processingApiResult($data, $resp): AccessData
     {
         $format = self::getConfig('format', 'JSON');
-        $result = [];
         // 解析返回结果
         $respWellFormed = false;
         if ("XML" == $format) {
