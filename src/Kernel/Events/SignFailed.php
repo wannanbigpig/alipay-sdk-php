@@ -4,6 +4,7 @@ namespace WannanBigPig\Alipay\Kernel\Events;
 
 class SignFailed extends Event
 {
+
     /**
      * NAME
      *
@@ -19,15 +20,24 @@ class SignFailed extends Event
     public $result;
 
     /**
+     * Error
+     *
+     * @var string
+     */
+    public $error;
+
+    /**
      * SignFailed constructor.
      *
      * @param  string  $driver
      * @param  string  $method
-     * @param  array  $result
+     * @param  array   $result
+     * @param  string  $error
      */
-    public function __construct(string $driver, string $method, array $result)
+    public function __construct(string $driver, string $method, array $result, string $error = null)
     {
         $this->result = $result;
+        $this->error  = $error;
 
         parent::__construct($driver, $method);
     }

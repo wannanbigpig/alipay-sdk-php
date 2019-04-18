@@ -10,6 +10,7 @@
 
 namespace WannanBigPig\Alipay\Kernel\Support;
 
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use WannanBigPig\Alipay\Kernel\Events\ApiRequestEnd;
 use WannanBigPig\Alipay\Kernel\Events\ApiRequestStart;
@@ -24,6 +25,7 @@ use WannanBigPig\Supports\Str;
 
 class Support
 {
+
     use HttpRequest;
 
     /**
@@ -119,18 +121,18 @@ class Support
      */
     public static function generateSign(array $params): string
     {
-        $privateKey = self::getConfig('private_key');
+        $privateKey  = self::getConfig('private_key');
         $keyFromFile = Str::endsWith($privateKey, '.pem');
         if ($keyFromFile) {
-            $res = openssl_pkey_get_private('file://'.$privateKey);
+            $res = openssl_pkey_get_private('file://' . $privateKey);
         } else {
-            $res = "-----BEGIN RSA PRIVATE KEY-----\n".
+            $res = "-----BEGIN RSA PRIVATE KEY-----\n" .
                 wordwrap(
                     $privateKey,
                     64,
                     "\n",
                     true
-                )."\n-----END RSA PRIVATE KEY-----";
+                ) . "\n-----END RSA PRIVATE KEY-----";
         }
 
         if (!$res) {
@@ -175,7 +177,7 @@ class Support
             ) {
                 $v = self::characet($v, $params['charset'] ?? 'utf-8');
 
-                $stringToBeSigned .= $k.'='.$v.'&';
+                $stringToBeSigned .= $k . '=' . $v . '&';
             }
         }
         unset($k, $v);
@@ -205,7 +207,7 @@ class Support
             ) {
                 $v = self::characet($v, $params['charset'] ?? 'utf-8');
 
-                $stringToBeSigned .= $k.'='.urlencode($v).'&';
+                $stringToBeSigned .= $k . '=' . urlencode($v) . '&';
             }
         }
 
@@ -230,26 +232,38 @@ class Support
 
         $keyFromFile = Str::endsWith($publicKey, '.pem');
         if ($keyFromFile) {
-            $res = openssl_pkey_get_public("file://".$publicKey);
+            $res = openssl_pkey_get_public("file://" . $publicKey);
         } else {
-            $res = "-----BEGIN PUBLIC KEY-----\n".
-                wordwrap($publicKey, 64, "\n", true).
-                "\n-----END PUBLIC KEY-----";
+            $res = "-----BEGIN PUBLIC KEY-----\n" .
+                wordwrap(
+                    $publicKey,
+                    64,
+                    "\n",
+                    true
+                ) . "\n-----END PUBLIC KEY-----";
         }
 
         if (!$res) {
+            Events::dispatch(
+                SignFailed::NAME,
+                new SignFailed(
+                    self::$config->get('event.driver'),
+                    self::$config->get('event.method'),
+                    [$data],
+                    '支付宝RSA公钥错误。请检查 [ ali_public_key ] 配置项的公钥文件格式或路径是否正确'
+                )
+            );
             throw new Exceptions\InvalidArgumentException('支付宝RSA公钥错误。请检查 [ ali_public_key ] 配置项的公钥文件格式或路径是否正确');
         }
 
         // 调用openssl内置方法验签，返回bool值
         if ("RSA2" == self::getConfig('sign_type', 'RSA2')) {
-            $result = (
-                openssl_verify(
-                    $data,
-                    base64_decode($sign),
-                    $res,
-                    OPENSSL_ALGO_SHA256
-                ) === 1);
+            $result = (openssl_verify(
+                $data,
+                base64_decode($sign),
+                $res,
+                OPENSSL_ALGO_SHA256
+            ) === 1);
         } else {
             $result = (openssl_verify($data, base64_decode($sign), $res) === 1);
         }
@@ -290,7 +304,7 @@ class Support
     /**
      * @static   requestApi
      *
-     * @param       $gatewayUrl
+     * @param         $gatewayUrl
      * @param  array  $data
      *
      * @return AccessData
@@ -317,11 +331,10 @@ class Support
             return ($value == '' || is_null($value)) ? false : true;
         });
 
-        $result = mb_convert_encoding(
-            self::getInstance()->post($gatewayUrl, $data),
-            self::$config->get('charset', 'utf-8'),
-            self::$fileCharset
-        );
+        $result = mb_convert_encoding(self::getInstance()->post(
+            $gatewayUrl,
+            $data
+        ), self::$config->get('charset', 'utf-8'), self::$fileCharset);
         Events::dispatch(
             ApiRequestEnd::NAME,
             new ApiRequestEnd(
@@ -378,30 +391,35 @@ class Support
             );
         }
 
-        $method = str_replace('.', '_', $data['method']).'_response';
+        $method = str_replace('.', '_', $data['method']) . '_response';
 
         // 签名不存在抛出应用异常，该异常为支付宝网关错误，例如 app_id 配置错误,没有返回签名，建议检查配置项是否正确
         if (!isset($result['sign'])) {
             throw new SignException(
-                '['.$method.'] Get Alipay API Error: msg ['
-                .$result[$method]['msg'].']',
+                '[' . $method . '] Get Alipay API Error: msg ['
+                . $result[$method]['msg'] . ']',
                 $result
             );
         }
 
         // 验证支付返回的签名，验证失败抛出应用异常
-        if (!self::verifySign(json_encode($result[$method], JSON_UNESCAPED_UNICODE), $result['sign'])) {
+        if (!self::verifySign(json_encode(
+            $result[$method],
+            JSON_UNESCAPED_UNICODE
+        ), $result['sign'])
+        ) {
             Events::dispatch(
                 SignFailed::NAME,
                 new SignFailed(
                     self::$config->get('event.driver'),
                     self::$config->get('event.method'),
-                    $result
+                    $result,
+                    'Signature verification error'
                 )
             );
             throw new SignException(
-                '['.$method
-                .'] Get Alipay API Error: Signature verification error',
+                '[' . $method
+                . '] Get Alipay API Error: Signature verification error',
                 $result
             );
         }
@@ -412,12 +430,12 @@ class Support
             && Support::getConfig('business_exception', false)
         ) {
             throw new Exceptions\BusinessException(
-                '['.$method.'] Business Error: msg ['
-                .$result[$method]['msg']
-                .']'.(isset($result[$method]['sub_code']) ? ' - sub_code ['
-                    .$result[$method]['sub_code'].']' : '')
-                .(isset($result[$method]['sub_msg']) ? ' - sub_msg ['
-                    .$result[$method]['sub_msg'].']' : ''),
+                '[' . $method
+                . '] Business Error: msg [' . $result[$method]['msg'] . ']'
+                . (isset($result[$method]['sub_code']) ? ' - sub_code ['
+                    . $result[$method]['sub_code'] . ']' : '')
+                . (isset($result[$method]['sub_msg']) ? ' - sub_msg ['
+                    . $result[$method]['sub_msg'] . ']' : ''),
                 $result[$method]
             );
         }
@@ -428,8 +446,8 @@ class Support
     /**
      * @static   assemblyProgram
      *
-     * @param        $gatewayUrl
-     * @param  array  $data
+     * @param          $gatewayUrl
+     * @param  array   $data
      * @param  string  $httpmethod
      *
      * @return Response
@@ -447,7 +465,7 @@ class Support
             $preString = self::getSignContentUrlencode($data);
 
             //拼接GET请求串
-            $requestUrl = $gatewayUrl."?".$preString;
+            $requestUrl = $gatewayUrl . "?" . $preString;
 
             return Response::create($requestUrl);
         }
@@ -469,21 +487,25 @@ class Support
      */
     protected static function buildRequestForm($gatewayUrl, $para_temp)
     {
-        $sHtml = "<form id='alipaysubmit' name='alipaysubmit' action='".$gatewayUrl."' method='POST'>";
+        $sHtml = "<form id='alipaysubmit' name='alipaysubmit' action='"
+            . $gatewayUrl . "' method='POST'>";
 
         foreach ($para_temp as $key => $val) {
             if (!is_null($val)) {
                 //$val = $this->characet($val, $this->postCharset);
                 $val = str_replace("'", "&apos;", $val);
                 //$val = str_replace("\"","&quot;",$val);
-                $sHtml .= "<input type='hidden' name='".$key."' value='".$val."'/>";
+                $sHtml .= "<input type='hidden' name='" . $key . "' value='"
+                    . $val . "'/>";
             }
         }
 
         //submit按钮控件请不要含有name属性
-        $sHtml = $sHtml."<input type='submit' value='ok' style='display:none;'></form>";
+        $sHtml = $sHtml
+            . "<input type='submit' value='ok' style='display:none;'></form>";
 
-        $sHtml = $sHtml."<script>document.forms['alipaysubmit'].submit();</script>";
+        $sHtml = $sHtml
+            . "<script>document.forms['alipaysubmit'].submit();</script>";
 
         return $sHtml;
     }
@@ -503,10 +525,8 @@ class Support
      * @author   liuml  <liumenglei0211@163.com>
      * @DateTime 2019-04-12  10:06
      */
-    public static function executeApi(
-        $params,
-        $method
-    ) {
+    public static function executeApi($params, $method)
+    {
         // 获取公共参数
         $payload = self::$config->get('payload');
         // 设置方法
@@ -539,10 +559,8 @@ class Support
      * @author   liuml  <liumenglei0211@163.com>
      * @DateTime 2019-04-12  09:59
      */
-    public static function executePage(
-        $params,
-        $method
-    ) {
+    public static function executePage($params, $method)
+    {
         // 对于app，wap，web类支付，返回字符串组装格式get url或post表单形式，默认post表单形式
         $http_method = 'POST';
         if (isset($params['http_method'])) {
@@ -567,5 +585,39 @@ class Support
 
         // 生成客户端需要的表单或者url字符串
         return self::assemblyProgram($base_uri, $payload, $http_method);
+    }
+
+    /**
+     * @static  notifyVerify
+     *
+     * @param  null  $data
+     *
+     * @return bool
+     *
+     * @throws Exceptions\InvalidArgumentException
+     */
+    public static function notifyVerify($data = null)
+    {
+        $data = ($data === null) ? self::getRequest() : $data;
+
+        $data['sign_type'] = null;
+
+        return self::verifySign(mb_convert_encoding(
+            Support::getSignContent($data),
+            $data['charset'],
+            'utf-8'
+        ), $data['sign']);
+    }
+
+    /**
+     * @static  getRequest
+     *
+     * @return array
+     */
+    public static function getRequest()
+    {
+        $request = Request::createFromGlobals();
+
+        return $request->request->count() > 0 ? $request->request->all() : $request->query->all();
     }
 }

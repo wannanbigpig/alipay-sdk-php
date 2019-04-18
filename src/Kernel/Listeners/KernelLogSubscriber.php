@@ -8,6 +8,7 @@ use WannanBigPig\Supports\Logs\Log;
 
 class KernelLogSubscriber implements EventSubscriberInterface
 {
+
     /**
      * Returns an array of event names this subscriber wants to listen to.
      *
@@ -43,7 +44,7 @@ class KernelLogSubscriber implements EventSubscriberInterface
     public function writeApiRequestStartLog(Events\ApiRequestStart $event)
     {
         Log::debug(
-            "[ Request Start ] Alipay::{$event->getDriver()}()->{$event->getMethod()}()",
+            "[ Request Start ] Alipay::{$event->getDriver()}()->{$event->getMethod()}() ",
             [
                 'URI'            => $event->getUri(),
                 'request params' => $event->getRequest(),
@@ -59,7 +60,7 @@ class KernelLogSubscriber implements EventSubscriberInterface
     public function writeApiRequestEndLog(Events\ApiRequestEnd $event)
     {
         Log::debug(
-            "[ Request End ] Alipay::{$event->getDriver()}()->{$event->getMethod()}()",
+            "[ Request End ] Alipay::{$event->getDriver()}()->{$event->getMethod()}() ",
             [
                 'URI'            => $event->getUri(),
                 'request params' => $event->getRequest(),
@@ -76,7 +77,7 @@ class KernelLogSubscriber implements EventSubscriberInterface
     public function writeSignFailedLog(Events\SignFailed $event)
     {
         Log::debug(
-            "[ Sign Faile ] Alipay::{$event->getDriver()}()->{$event->getMethod()}()",
+            "[ Sign Faile ] Alipay::{$event->getDriver()}()->{$event->getMethod()}() error:[{$event->error}] ",
             [$event->getResult()]
         );
     }

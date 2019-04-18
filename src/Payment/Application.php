@@ -57,7 +57,7 @@ class Application
     /**
      * pay
      *
-     * @param       $method
+     * @param         $method
      * @param  array  $params
      *
      * @return mixed
@@ -86,7 +86,7 @@ class Application
      * make
      *
      * @param  string  $gateway
-     * @param  array  $params
+     * @param  array   $params
      *
      * @return mixed
      *
@@ -124,23 +124,14 @@ class Application
     /**
      * verify
      *
-     * @param $data
+     * @param  null  $data
      *
      * @return bool
      *
      * @throws Exceptions\InvalidArgumentException
      */
-    public function verify($data)
+    public function verify($data = null)
     {
-        if (is_null($data)) {
-            $request = Request::createFromGlobals();
-            $data    = $request->request->count() > 0 ? $request->request->all()
-                : $request->query->all();
-        }
-        $data['sign_type'] = null;
-        return Support::verifySign(
-            mb_convert_encoding(Support::getSignContent($data), $data['charset'], 'utf-8'),
-            $data['sign']
-        );
+        return Support::notifyVerify($data);
     }
 }
