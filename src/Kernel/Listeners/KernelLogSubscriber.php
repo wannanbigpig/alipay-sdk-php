@@ -76,8 +76,8 @@ class KernelLogSubscriber implements EventSubscriberInterface
      */
     public function writeSignFailedLog(Events\SignFailed $event)
     {
-        Log::debug(
-            "[ Sign Faile ] Alipay::{$event->getDriver()}()->{$event->getMethod()}() error:[{$event->error}] ",
+        Log::error(
+            "[ Sign Failed ] Alipay::{$event->getDriver()}()->{$event->getMethod()}() error:[{$event->error}] ",
             [$event->getResult()]
         );
     }

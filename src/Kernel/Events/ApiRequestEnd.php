@@ -38,8 +38,8 @@ class ApiRequestEnd extends Event
      * @param  string  $driver
      * @param  string  $method
      * @param  string  $uri
-     * @param  array  $request
-     * @param  array  $result
+     * @param          $request
+     * @param          $result
      */
     public function __construct(string $driver, string $method, string $uri, $request, $result)
     {

@@ -10,7 +10,7 @@
 
 namespace WannanBigPig\Alipay\Payment;
 
-use Symfony\Component\HttpFoundation\Request;
+use Closure;
 use Symfony\Component\HttpFoundation\Response;
 use WannanBigPig\Alipay\Kernel\Support\Support;
 use WannanBigPig\Alipay\Payment\Trade\QueryTrade;
@@ -33,9 +33,15 @@ use WannanBigPig\Supports\Str;
  * @method AccessData close($params) 关闭订单
  * @method AccessData download($params) 下载对账单
  * @method QueryTrade query($params) 订单查询
+ * @method notify(Closure $closure,$data = null) 订单查询
  */
 class Application
 {
+
+    /**
+     * @var string
+     */
+    public $method = '';
     /**
      * __call
      *
@@ -74,7 +80,8 @@ class Application
         $gateway = __NAMESPACE__.'\\Trade\\'.$method.'Trade';
 
         if (class_exists($gateway)) {
-            $this->setMethod($method);
+            $this->method = $method;
+            $this->setMethod();
 
             return $this->make($gateway, $params);
         }
@@ -102,7 +109,7 @@ class Application
         }
 
         if ($app instanceof DoctorInterface) {
-            return $app->exce($params);
+            return $app->exec($params);
         }
 
         return $app;
@@ -110,14 +117,12 @@ class Application
 
     /**
      * setMethod
-     *
-     * @param $method
      */
-    public function setMethod($method)
+    public function setMethod()
     {
         Support::$config->set('event', [
             'driver' => 'Payment',
-            'method' => $method,
+            'method' => $this->method,
         ]);
     }
 

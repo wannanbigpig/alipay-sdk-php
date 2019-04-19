@@ -47,7 +47,12 @@ class Support
      *
      * @var array
      */
-    public static $fileCharset = ['gb2312', 'GBK', 'uft-8'];
+    public static $fileCharset = 'UTF-8';
+
+    /**
+     * @var string
+     */
+    public static $respCharset = 'UTF-8';
 
     /**
      * @static   getInstance
@@ -221,12 +226,13 @@ class Support
      *
      * @param  string  $data
      * @param  string  $sign
+     * @param  null    $sign_type
      *
      * @return bool
      *
-     * @throws Exceptions\InvalidArgumentException
+     * @throws \WannanBigPig\Supports\Exceptions\InvalidArgumentException
      */
-    public static function verifySign(string $data, string $sign): bool
+    public static function verifySign(string $data, string $sign, $sign_type = null): bool
     {
         $publicKey = self::getConfig('ali_public_key');
 
@@ -234,13 +240,17 @@ class Support
         if ($keyFromFile) {
             $res = openssl_pkey_get_public("file://" . $publicKey);
         } else {
-            $res = "-----BEGIN PUBLIC KEY-----\n" .
-                wordwrap(
-                    $publicKey,
-                    64,
-                    "\n",
-                    true
-                ) . "\n-----END PUBLIC KEY-----";
+            if ($publicKey) {
+                $res = "-----BEGIN PUBLIC KEY-----\n" .
+                    wordwrap(
+                        $publicKey,
+                        64,
+                        "\n",
+                        true
+                    ) . "\n-----END PUBLIC KEY-----";
+            } else {
+                $res = false;
+            }
         }
 
         if (!$res) {
@@ -255,9 +265,9 @@ class Support
             );
             throw new Exceptions\InvalidArgumentException('支付宝RSA公钥错误。请检查 [ ali_public_key ] 配置项的公钥文件格式或路径是否正确');
         }
-
+        $sign_type = $sign_type === null ? self::getConfig('sign_type', 'RSA2') : $sign_type;
         // 调用openssl内置方法验签，返回bool值
-        if ("RSA2" == self::getConfig('sign_type', 'RSA2')) {
+        if ("RSA2" == $sign_type) {
             $result = (openssl_verify(
                 $data,
                 base64_decode($sign),
@@ -330,11 +340,14 @@ class Support
         $data = array_filter($data, function ($value) {
             return ($value == '' || is_null($value)) ? false : true;
         });
+        // 请求支付宝网关
+        $resp = self::getInstance()->post($gatewayUrl, $data);
 
-        $result = mb_convert_encoding(self::getInstance()->post(
-            $gatewayUrl,
-            $data
-        ), self::$config->get('charset', 'utf-8'), self::$fileCharset);
+        self::$respCharset = mb_detect_encoding($resp, "UTF-8, GBK, GB2312");
+
+        // 将返回结果转换本地文件编码
+        $result = iconv(self::$respCharset, self::$fileCharset . "//IGNORE", $resp);
+
         Events::dispatch(
             ApiRequestEnd::NAME,
             new ApiRequestEnd(
@@ -403,10 +416,10 @@ class Support
         }
 
         // 验证支付返回的签名，验证失败抛出应用异常
-        if (!self::verifySign(json_encode(
+        if (!self::verifySign(mb_convert_encoding(json_encode(
             $result[$method],
             JSON_UNESCAPED_UNICODE
-        ), $result['sign'])
+        ), self::$respCharset, self::$fileCharset), $result['sign'])
         ) {
             Events::dispatch(
                 SignFailed::NAME,
@@ -599,14 +612,18 @@ class Support
     public static function notifyVerify($data = null)
     {
         $data = ($data === null) ? self::getRequest() : $data;
+        $sign_type = null;
+        if (isset($data['sign_type'])) {
+            $sign_type = $data['sign_type'];
+            $data['sign_type'] = null;
+        }
 
-        $data['sign_type'] = null;
 
-        return self::verifySign(mb_convert_encoding(
+        return self::verifySign(
             Support::getSignContent($data),
-            $data['charset'],
-            'utf-8'
-        ), $data['sign']);
+            $data['sign'],
+            $sign_type
+        );
     }
 
     /**

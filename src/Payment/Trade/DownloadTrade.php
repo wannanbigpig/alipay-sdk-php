@@ -27,7 +27,7 @@ class DownloadTrade implements DoctorInterface
     private $download = 'alipay.data.dataservice.bill.downloadurl.query';
 
     /**
-     * exce
+     * exec
      *
      * @param array $params
      *
@@ -40,7 +40,7 @@ class DownloadTrade implements DoctorInterface
      * @author   liuml  <liumenglei0211@163.com>
      * @DateTime 2019-04-12  11:36
      */
-    public function exce(array $params): AccessData
+    public function exec(array $params): AccessData
     {
         return Support::executeApi($params, $this->download);
     }

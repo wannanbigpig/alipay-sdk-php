@@ -47,7 +47,14 @@ class QueryTrade implements DoctorInterface
      */
     private $params;
 
-    public function exce(array $params)
+    /**
+     * exec
+     *
+     * @param  array  $params
+     *
+     * @return $this|mixed
+     */
+    public function exec(array $params)
     {
         $this->params = $params;
 

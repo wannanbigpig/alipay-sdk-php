@@ -23,7 +23,8 @@
         "ext-openssl": "*",
         "ext-simplexml":"*",
         "ext-libxml":"*",
-        "wannanbigpig/supports": "dev-master"
+        "wannanbigpig/supports": "dev-master",
+        "ext-iconv": "*"
     },
     "require-dev": {
         "phpunit/phpunit": "^7.5",

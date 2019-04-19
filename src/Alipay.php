@@ -10,7 +10,6 @@ namespace WannanBigPig\Alipay;
 
 use WannanBigPig\Alipay\Kernel\Listeners\KernelLogSubscriber;
 use WannanBigPig\Alipay\Kernel\Support\Support;
-use WannanBigPig\Alipay\Payment\Application;
 use WannanBigPig\Supports\Config;
 use WannanBigPig\Supports\Events;
 use WannanBigPig\Supports\Exceptions\ApplicationException;
@@ -25,10 +24,12 @@ use WannanBigPig\Supports\Str;
  *
  * @package  WannanBigPig\Alipay
  *
- * @method static Application payment(array $config)
+ * @method static payment(array $config)
+ * @method static notify(array $config)
  */
 class Alipay
 {
+
     /**
      * Const mode_normal.
      */
@@ -76,17 +77,18 @@ class Alipay
     /**
      * create
      *
-     * @param $name
+     * @param         $name
      * @param  array  $config
      *
      * @return mixed
      *
-     * @throws ApplicationException
+     * @throws \WannanBigPig\Supports\Exceptions\ApplicationException
+     * @throws \Exception
      */
     public function create($name, array $config)
     {
         $name        = Str::studly($name);
-        $application = __NAMESPACE__."\\{$name}\\Application";
+        $application = __NAMESPACE__ . "\\{$name}\\Application";
         if (class_exists($application)) {
             // 设置配置数组
             $this->config($config);
