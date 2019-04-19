@@ -1,33 +1,34 @@
 <?php
 /**
- * PosTrade.php
+ * MiniApp.php
  *
  * Created by PhpStorm.
  *
  * author: liuml  <liumenglei0211@163.com>
- * DateTime: 2019-04-09  15:57
+ * DateTime: 2019-04-09  09:59
  */
 
 namespace WannanBigPig\Alipay\Payment\Trade;
 
 use WannanBigPig\Alipay\Kernel\Exceptions\SignException;
 use WannanBigPig\Alipay\Kernel\Support\Support;
-use WannanBigPig\Alipay\Payment\DoctorInterface;
+use WannanBigPig\Alipay\Payment\PayInterface;
 use WannanBigPig\Supports\AccessData;
 use WannanBigPig\Supports\Exceptions;
 
-class CloseTrade implements DoctorInterface
+class MiniApp implements PayInterface
 {
+
     /**
-     * alipay.trade.close (统一收单交易关闭接口)
-     * 用于交易创建后，用户在一定时间内未进行支付，可调用该接口直接将未付款的交易进行关闭。
+     * 小程序支付 alipay.trade.create (统一收单交易创建接口)
+     * 商户通过该接口进行交易的创建下单
      *
      * @var string
      */
-    private $close = 'alipay.trade.close';
+    private $method = 'alipay.trade.create';
 
     /**
-     * exec
+     * pay
      *
      * @param array $params
      *
@@ -38,10 +39,10 @@ class CloseTrade implements DoctorInterface
      * @throws SignException
      *
      * @author   liuml  <liumenglei0211@163.com>
-     * @DateTime 2019-04-12  11:36
+     * @DateTime 2019-04-11  10:42
      */
-    public function exec(array $params): AccessData
+    public function pay(array $params): AccessData
     {
-        return Support::executeApi($params, $this->close);
+        return Support::executeApi($params, $this->method);
     }
 }

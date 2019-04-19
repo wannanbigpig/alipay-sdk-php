@@ -1,6 +1,6 @@
 <?php
 /**
- * PosTrade.php
+ * Download.php
  *
  * Created by PhpStorm.
  *
@@ -16,7 +16,7 @@ use WannanBigPig\Alipay\Payment\DoctorInterface;
 use WannanBigPig\Supports\AccessData;
 use WannanBigPig\Supports\Exceptions;
 
-class DownloadTrade implements DoctorInterface
+class Download implements DoctorInterface
 {
     /**
      * alipay.data.dataservice.bill.downloadurl.query (查询对账单下载地址)

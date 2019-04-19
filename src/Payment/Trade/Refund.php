@@ -1,6 +1,6 @@
 <?php
 /**
- * PosTrade.php
+ * Refund.php
  *
  * Created by PhpStorm.
  *
@@ -16,7 +16,7 @@ use WannanBigPig\Alipay\Payment\DoctorInterface;
 use WannanBigPig\Supports\AccessData;
 use WannanBigPig\Supports\Exceptions;
 
-class RefundTrade implements DoctorInterface
+class Refund implements DoctorInterface
 {
     /**
      * refund  alipay.trade.refund (统一收单交易退款接口)

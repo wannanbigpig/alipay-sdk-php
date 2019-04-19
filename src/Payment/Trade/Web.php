@@ -1,6 +1,6 @@
 <?php
 /**
- * PrecreateTrade.php
+ * Web.php
  *
  * Created by PhpStorm.
  *
@@ -15,15 +15,15 @@ use WannanBigPig\Alipay\Kernel\Support\Support;
 use WannanBigPig\Alipay\Payment\PayInterface;
 use WannanBigPig\Supports\Exceptions;
 
-class WapTrade implements PayInterface
+class Web implements PayInterface
 {
     /**
-     * alipay.trade.wap.pay (手机网站支付接口 2.0)
-     * 外部商户创建订单并支付
+     * alipay.trade.page.pay (统一收单下单并支付页面接口)
+     * PC 场景下单并支付
      *
      * @var string
      */
-    private $method = 'alipay.trade.wap.pay';
+    private $method = 'alipay.trade.page.pay';
 
     /**
      * pay

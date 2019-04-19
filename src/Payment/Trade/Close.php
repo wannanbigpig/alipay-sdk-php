@@ -1,6 +1,6 @@
 <?php
 /**
- * PosTrade.php
+ * Close.php
  *
  * Created by PhpStorm.
  *
@@ -12,23 +12,22 @@ namespace WannanBigPig\Alipay\Payment\Trade;
 
 use WannanBigPig\Alipay\Kernel\Exceptions\SignException;
 use WannanBigPig\Alipay\Kernel\Support\Support;
-use WannanBigPig\Alipay\Payment\PayInterface;
+use WannanBigPig\Alipay\Payment\DoctorInterface;
 use WannanBigPig\Supports\AccessData;
 use WannanBigPig\Supports\Exceptions;
 
-class PosTrade implements PayInterface
+class Close implements DoctorInterface
 {
     /**
-     * alipay.trade.pay (统一收单交易支付接口) 商户主扫
-     * 收银员使用扫码设备读取用户手机支付宝 “付款码”/ 声波获取设备（如麦克风）读取用户手机支付宝的声波信息后，
-     * 将二维码或条码信息 / 声波信息通过本接口上送至支付宝发起支付。
+     * alipay.trade.close (统一收单交易关闭接口)
+     * 用于交易创建后，用户在一定时间内未进行支付，可调用该接口直接将未付款的交易进行关闭。
      *
      * @var string
      */
-    private $method = 'alipay.trade.pay';
+    private $close = 'alipay.trade.close';
 
     /**
-     * pay
+     * exec
      *
      * @param array $params
      *
@@ -39,10 +38,10 @@ class PosTrade implements PayInterface
      * @throws SignException
      *
      * @author   liuml  <liumenglei0211@163.com>
-     * @DateTime 2019-04-11  10:42
+     * @DateTime 2019-04-12  11:36
      */
-    public function pay(array $params): AccessData
+    public function exec(array $params): AccessData
     {
-        return Support::executeApi($params, $this->method);
+        return Support::executeApi($params, $this->close);
     }
 }

@@ -1,6 +1,6 @@
 <?php
 /**
- * FindTrade.php
+ * Query.php
  *
  * Created by PhpStorm.
  *
@@ -14,7 +14,7 @@ use WannanBigPig\Alipay\Kernel\Support\Support;
 use WannanBigPig\Alipay\Payment\DoctorInterface;
 use WannanBigPig\Supports\AccessData;
 
-class QueryTrade implements DoctorInterface
+class Query implements DoctorInterface
 {
 
     /**

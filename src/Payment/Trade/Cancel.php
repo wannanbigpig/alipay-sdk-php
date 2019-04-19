@@ -1,6 +1,6 @@
 <?php
 /**
- * PosTrade.php
+ * Cancel.php
  *
  * Created by PhpStorm.
  *
@@ -16,7 +16,7 @@ use WannanBigPig\Alipay\Payment\DoctorInterface;
 use WannanBigPig\Supports\AccessData;
 use WannanBigPig\Supports\Exceptions;
 
-class CancelTrade implements DoctorInterface
+class Cancel implements DoctorInterface
 {
     /**
      * alipay.trade.cancel (统一收单交易撤销接口)

@@ -1,11 +1,11 @@
 <?php
 /**
- * MiniAppTrade.php
+ * Precreate.php
  *
  * Created by PhpStorm.
  *
  * author: liuml  <liumenglei0211@163.com>
- * DateTime: 2019-04-09  09:59
+ * DateTime: 2019-04-09  15:57
  */
 
 namespace WannanBigPig\Alipay\Payment\Trade;
@@ -16,16 +16,15 @@ use WannanBigPig\Alipay\Payment\PayInterface;
 use WannanBigPig\Supports\AccessData;
 use WannanBigPig\Supports\Exceptions;
 
-class MiniAppTrade implements PayInterface
+class Precreate implements PayInterface
 {
-
     /**
-     * 小程序支付 alipay.trade.create (统一收单交易创建接口)
-     * 商户通过该接口进行交易的创建下单
+     * alipay.trade.precreate (统一收单线下交易预创建) 商户被扫
+     * 收银员通过收银台或商户后台调用支付宝接口，生成二维码后，展示给用户，由用户扫描二维码完成订单支付。
      *
      * @var string
      */
-    private $method = 'alipay.trade.create';
+    private $method = 'alipay.trade.precreate';
 
     /**
      * pay
@@ -39,7 +38,7 @@ class MiniAppTrade implements PayInterface
      * @throws SignException
      *
      * @author   liuml  <liumenglei0211@163.com>
-     * @DateTime 2019-04-11  10:42
+     * @DateTime 2019-04-11  10:43
      */
     public function pay(array $params): AccessData
     {

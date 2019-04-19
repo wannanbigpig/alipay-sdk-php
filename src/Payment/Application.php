@@ -13,7 +13,7 @@ namespace WannanBigPig\Alipay\Payment;
 use Closure;
 use Symfony\Component\HttpFoundation\Response;
 use WannanBigPig\Alipay\Kernel\Support\Support;
-use WannanBigPig\Alipay\Payment\Trade\QueryTrade;
+use WannanBigPig\Alipay\Payment\Trade\Query;
 use WannanBigPig\Supports\AccessData;
 use WannanBigPig\Supports\Exceptions;
 use WannanBigPig\Supports\Str;
@@ -32,8 +32,8 @@ use WannanBigPig\Supports\Str;
  * @method AccessData cancel($params) 取消订单
  * @method AccessData close($params) 关闭订单
  * @method AccessData download($params) 下载对账单
- * @method QueryTrade query($params) 订单查询
- * @method notify(Closure $closure,$data = null) 订单查询
+ * @method Query query($params) 订单查询
+ * @method notify(Closure $closure, $data = null) 订单查询
  */
 class Application
 {
@@ -42,6 +42,30 @@ class Application
      * @var string
      */
     public $method = '';
+
+    /**
+     * __get
+     *
+     * @param $name
+     *
+     * @return array|mixed|null
+     */
+    public function __get($name)
+    {
+        return Support::$config->get($name, '');
+    }
+
+    /**
+     * __set
+     *
+     * @param $name
+     * @param $value
+     */
+    public function __set($name, $value)
+    {
+        Support::$config->set($name, $value);
+    }
+
     /**
      * __call
      *
@@ -69,19 +93,15 @@ class Application
      * @return mixed
      *
      * @throws Exceptions\ApplicationException
-     *
-     * @author   liuml  <liumenglei0211@163.com>
-     * @DateTime 2019-04-12  11:14
      */
     public function pay($method, $params = [])
     {
         $method = Str::studly($method);
         // 组装命名空间
-        $gateway = __NAMESPACE__.'\\Trade\\'.$method.'Trade';
+        $gateway = __NAMESPACE__ . '\\Trade\\' . $method;
 
         if (class_exists($gateway)) {
-            $this->method = $method;
-            $this->setMethod();
+            $this->setMethod($method);
 
             return $this->make($gateway, $params);
         }
@@ -96,9 +116,6 @@ class Application
      * @param  array   $params
      *
      * @return mixed
-     *
-     * @author   liuml  <liumenglei0211@163.com>
-     * @DateTime 2019-04-11  17:15
      */
     public function make(string $gateway, $params = [])
     {
@@ -117,12 +134,14 @@ class Application
 
     /**
      * setMethod
+     *
+     * @param  string  $method
      */
-    public function setMethod()
+    public function setMethod($method = '')
     {
         Support::$config->set('event', [
             'driver' => 'Payment',
-            'method' => $this->method,
+            'method' => $method ? : $this->method,
         ]);
     }
 

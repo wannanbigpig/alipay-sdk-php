@@ -1,11 +1,11 @@
 <?php
 /**
- * PrecreateTrade.php
+ * App.php
  *
  * Created by PhpStorm.
  *
  * author: liuml  <liumenglei0211@163.com>
- * DateTime: 2019-04-09  15:57
+ * DateTime: 2019-04-04  16:36
  */
 
 namespace WannanBigPig\Alipay\Payment\Trade;
@@ -13,17 +13,18 @@ namespace WannanBigPig\Alipay\Payment\Trade;
 use Symfony\Component\HttpFoundation\Response;
 use WannanBigPig\Alipay\Kernel\Support\Support;
 use WannanBigPig\Alipay\Payment\PayInterface;
-use WannanBigPig\Supports\Exceptions;
+use WannanBigPig\Alipay\Kernel;
+use WannanBigPig\Supports\Exceptions\InvalidArgumentException;
 
-class WebTrade implements PayInterface
+class App implements PayInterface
 {
     /**
-     * alipay.trade.page.pay (统一收单下单并支付页面接口)
-     * PC 场景下单并支付
+     * alipay.trade.app.pay (app 支付接口 2.0)
+     * 外部商户 APP 唤起快捷 SDK 创建订单并支付
      *
      * @var string
      */
-    private $method = 'alipay.trade.page.pay';
+    private $method = 'alipay.trade.app.pay';
 
     /**
      * pay
@@ -32,10 +33,7 @@ class WebTrade implements PayInterface
      *
      * @return Response
      *
-     * @throws Exceptions\InvalidArgumentException
-     *
-     * @author   liuml  <liumenglei0211@163.com>
-     * @DateTime 2019-04-12  09:52
+     * @throws InvalidArgumentException
      */
     public function pay(array $params): Response
     {
