@@ -10,15 +10,13 @@
 
 namespace WannanBigPig\Alipay\Payment\Trade;
 
-use WannanBigPig\Alipay\Kernel\Exceptions\SignException;
 use WannanBigPig\Alipay\Kernel\Support\Support;
 use WannanBigPig\Alipay\Payment\DoctorInterface;
 use WannanBigPig\Supports\AccessData;
-use WannanBigPig\Supports\Exceptions\BusinessException;
-use WannanBigPig\Supports\Exceptions\InvalidArgumentException;
 
 class QueryTrade implements DoctorInterface
 {
+
     /**
      * alipay.trade.query (统一收单线下交易查询)
      * 该接口提供所有支付宝支付订单的查询，商户可以通过该接口主动查询订单状态，完成下一步的业务逻辑。
@@ -39,6 +37,14 @@ class QueryTrade implements DoctorInterface
      * @var string
      */
     private $refund = 'alipay.trade.fastpay.refund.query';
+
+    /**
+     * zoloz.authentication.customer.ftoken.query (人脸 ftoken 查询消费接口)
+     * 人脸 ftoken 查询消费接口
+     *
+     * @var string
+     */
+    private $face_ftoken = 'zoloz.authentication.customer.ftoken.query';
 
     /**
      * 业务参数
@@ -62,36 +68,47 @@ class QueryTrade implements DoctorInterface
     }
 
     /**
-     * payQuery
+     * pay
+     * alipay.trade.query (统一收单线下交易查询)
      *
-     * @return AccessData
+     * @return \WannanBigPig\Supports\AccessData
      *
-     * @throws InvalidArgumentException
-     * @throws SignException
-     * @throws BusinessException
-     *
-     * @author   liuml  <liumenglei0211@163.com>
-     * @DateTime 2019-04-12  11:27
+     * @throws \WannanBigPig\Alipay\Kernel\Exceptions\SignException
+     * @throws \WannanBigPig\Supports\Exceptions\BusinessException
+     * @throws \WannanBigPig\Supports\Exceptions\InvalidArgumentException
      */
-    public function pay()
+    public function pay(): AccessData
     {
         return Support::executeApi($this->params, $this->pay);
     }
 
     /**
-     * refundQuery
+     * refund
+     * alipay.trade.fastpay.refund.query (统一收单交易退款查询)
      *
-     * @return AccessData
+     * @return \WannanBigPig\Supports\AccessData
      *
-     * @throws BusinessException
-     * @throws InvalidArgumentException
-     * @throws SignException
-     *
-     * @author   liuml  <liumenglei0211@163.com>
-     * @DateTime 2019-04-12  11:28
+     * @throws \WannanBigPig\Alipay\Kernel\Exceptions\SignException
+     * @throws \WannanBigPig\Supports\Exceptions\BusinessException
+     * @throws \WannanBigPig\Supports\Exceptions\InvalidArgumentException
      */
-    public function refund()
+    public function refund(): AccessData
     {
         return Support::executeApi($this->params, $this->refund);
+    }
+
+    /**
+     * faceFtoken
+     * zoloz.authentication.customer.ftoken.query (人脸 ftoken 查询消费接口)
+     *
+     * @return \WannanBigPig\Supports\AccessData
+     *
+     * @throws \WannanBigPig\Alipay\Kernel\Exceptions\SignException
+     * @throws \WannanBigPig\Supports\Exceptions\BusinessException
+     * @throws \WannanBigPig\Supports\Exceptions\InvalidArgumentException
+     */
+    public function faceFtoken(): AccessData
+    {
+        return Support::executeApi($this->params, $this->face_ftoken);
     }
 }

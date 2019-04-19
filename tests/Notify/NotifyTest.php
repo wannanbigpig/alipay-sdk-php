@@ -68,10 +68,10 @@ class NotifyTest extends TestCase
     public function testNotify(Application $notify)
     {
         $this->assertTrue(true);
-        $notify->handle(function (AccessData $request, Application $notify) {
+        $response = $notify->handle(function (AccessData $request, Application $notify) {
             // 进入此代码块则表示签名已经验证通过，如果需要验证notify_id则调用如下方法:
             if (!$notify->notifyIdVerify($request->seller_id, $request->notify_id)) {
-                $notify->fail();
+                return $notify->fail();
             }
             // 在这里面直接写业务逻辑
             if ($request->trade_status == 'WAIT_BUYER_PAY') {
@@ -80,8 +80,8 @@ class NotifyTest extends TestCase
                 print_r($request->get());
             }
 
-            // ...
-            $notify->success();
+            // 返回给支付确认收到通知消息
+            return $notify->success();
         }, [
             'gmt_create'     => '2019-04-16 17:57:59',
             'charset'        => 'GBK',
@@ -103,5 +103,6 @@ class NotifyTest extends TestCase
             'sign_type'      => 'RSA2',
             'seller_id'      => '2088102177302492',
         ]);
+        $response->send();
     }
 }

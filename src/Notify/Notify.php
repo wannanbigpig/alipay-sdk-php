@@ -12,6 +12,7 @@ namespace WannanBigPig\Alipay\Notify;
 
 use Symfony\Component\HttpFoundation\Request;
 use Closure;
+use Symfony\Component\HttpFoundation\Response;
 use WannanBigPig\Alipay\Kernel\Events\SignFailed;
 use WannanBigPig\Alipay\Kernel\Support\Support;
 use WannanBigPig\Supports\AccessData;
@@ -27,25 +28,27 @@ trait Notify
     protected $data;
 
     /**
+     * @var string
+     */
+    protected $response;
+
+    /**
      * handle
      *
      * @param  \Closure  $closure
      * @param  null      $data
-     * @param  bool      $verify_notify_id
+     *
+     * @return mixed|\Symfony\Component\HttpFoundation\Response
      *
      * @throws \WannanBigPig\Supports\Exceptions\InvalidArgumentException
      */
-    public function handle(Closure $closure, $data = null, $verify_notify_id = true)
+    public function handle(Closure $closure, $data = null):Response
     {
         $this->setData($data);
         $request = $this->getRequset();
         // 签名验证
         if (Support::notifyVerify($request->get())) {
-            if ($verify_notify_id) {
-                // 验证notify_id合法性
-                $this->notifyIdVerify($request['seller_id'], $request['notify_id']) or $this->fail();
-            }
-            call_user_func($closure, $request, $this);
+            $this->response = call_user_func($closure, $request, $this);
         } else {
             Events::dispatch(
                 SignFailed::NAME,
@@ -56,8 +59,10 @@ trait Notify
                     'Signature verification error'
                 )
             );
-            $this->fail();
+            $this->response = $this->fail();
         }
+
+        return Response::create($this->response);
     }
 
     /**
@@ -129,22 +134,20 @@ trait Notify
     /**
      * success
      *
-     * @return string
+     * @return mixed
      */
     public function success()
     {
-        echo self::SUCCESS;
-        exit;
+        return self::SUCCESS;
     }
 
     /**
      * fail
      *
-     * @return string
+     * @return mixed
      */
     public function fail()
     {
-        echo self::FAIL;
-        exit;
+        return self::FAIL;
     }
 }
