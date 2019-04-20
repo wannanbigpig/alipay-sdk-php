@@ -56,7 +56,7 @@ trait Notify
                     Support::$config->get('event.driver'),
                     Support::$config->get('event.method'),
                     $this->getData(),
-                    'Signature verification error'
+                    'Notification request parameter validation signature failed'
                 )
             );
             $this->response = $this->fail();

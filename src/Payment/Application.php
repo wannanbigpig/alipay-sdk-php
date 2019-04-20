@@ -33,7 +33,6 @@ use WannanBigPig\Supports\Str;
  * @method AccessData close($params) 关闭订单
  * @method AccessData download($params) 下载对账单
  * @method Query query($params) 订单查询
- * @method notify(Closure $closure, $data = null) 订单查询
  */
 class Application
 {
@@ -48,11 +47,13 @@ class Application
      *
      * @param $name
      *
-     * @return array|mixed|null
+     * @return mixed
+     *
+     * @throws \WannanBigPig\Supports\Exceptions\ApplicationException
      */
     public function __get($name)
     {
-        return Support::$config->get($name, '');
+        return $this->getVariable($name);
     }
 
     /**
@@ -62,6 +63,52 @@ class Application
      * @param $value
      */
     public function __set($name, $value)
+    {
+        Support::$config->set($name, $value);
+    }
+
+    /**
+     * getVariable
+     *
+     * @param $name
+     *
+     * @return mixed
+     *
+     * @throws \WannanBigPig\Supports\Exceptions\ApplicationException
+     */
+    public function getVariable($name)
+    {
+        $method = Str::studly($name);
+        // 组装命名空间
+        $gateway = __NAMESPACE__ . '\\Trade\\' . $method;
+
+        if (class_exists($gateway)) {
+            $this->setMethod();
+            return $this->make($gateway);
+        }
+
+        throw new Exceptions\ApplicationException("The {$method}  member variable doesn't exist");
+    }
+
+    /**
+     * get
+     *
+     * @param $name
+     *
+     * @return array|mixed|null
+     */
+    public function get($name)
+    {
+        return Support::$config->get($name, '');
+    }
+
+    /**
+     * set
+     *
+     * @param $name
+     * @param $value
+     */
+    public function set($name, $value)
     {
         Support::$config->set($name, $value);
     }

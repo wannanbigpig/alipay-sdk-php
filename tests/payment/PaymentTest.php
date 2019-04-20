@@ -124,7 +124,7 @@ class PaymentTest extends TestCase
             'out_trade_no'   => 'lml20190412102647828498635',
             'trade_no'       => '2019041222001491681000012117',
             'out_request_no' => 'lml20190412102647828498635',
-        ])->pay();
+        ])->trade();
         // pay() 支付订单查询
         // $result = $alipay->query([
         //     'out_trade_no'   => 'gpwKLbarfkdvC9A1SRjqFc',
