@@ -2,7 +2,7 @@
 
 使用支付宝最新接口完成的扩展，简化对接支付宝接口的流程，方便在不同项目中快速上手使用。使用时只需要根据你所要对接的接口关注传递参数即可。
 
-**使用本扩展请先熟悉 支付宝 开发文档**
+你在阅读本文之前确认你已经仔细阅读了：[**支付宝开放平台文档**](https://docs.open.alipay.com/)
 
 欢迎 Star，欢迎 PR！
 
@@ -59,18 +59,6 @@ class PayController
         'business_exception' => true
     ];
     
-    protected $alipay;
-    
-    public function __construct()
-    {
-        $this->payment();
-    }
-    
-    public function payment()
-    {
-        $this->alipay = Alipay::payment($this->config);
-    }
-    
     /**
      * 当面付 统一收单交易支付接口 pos机扫码支付
      *
@@ -78,7 +66,7 @@ class PayController
     public function pos()
     {
         try{
-            $result = $this->alipay->pos([
+            $result = Alipay::payment($this->config)->pos([
                 'out_trade_no' => Str::getRandomInt('lml', 3),
                 'total_amount' => 100,
                 'scene'        => "bar_code",
