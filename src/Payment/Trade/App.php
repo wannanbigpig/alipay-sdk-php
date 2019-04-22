@@ -18,6 +18,7 @@ use WannanBigPig\Supports\Exceptions\InvalidArgumentException;
 
 class App implements PayInterface
 {
+
     /**
      * alipay.trade.app.pay (app 支付接口 2.0)
      * 外部商户 APP 唤起快捷 SDK 创建订单并支付
@@ -29,7 +30,7 @@ class App implements PayInterface
     /**
      * pay
      *
-     * @param array $params
+     * @param  array  $params
      *
      * @return Response
      *
@@ -37,6 +38,6 @@ class App implements PayInterface
      */
     public function pay(array $params): Response
     {
-        return Support::executePage($params, $this->method);
+        return Support::executeSdk($params, $this->method);
     }
 }

@@ -145,7 +145,7 @@ class Support
         }
 
         $data = self::getSignContent($params);
-        if ("RSA2" == self::getConfig('', 'RSA2')) {
+        if ("RSA2" == self::getConfig('sign_type', 'RSA2')) {
             openssl_sign($data, $sign, $res, OPENSSL_ALGO_SHA256);
         } else {
             openssl_sign($data, $sign, $res);
@@ -468,11 +468,8 @@ class Support
      * @author   liuml  <liumenglei0211@163.com>
      * @DateTime 2019-04-12  09:54
      */
-    public static function assemblyProgram(
-        $gatewayUrl,
-        array $data,
-        $httpmethod = 'POST'
-    ): Response {
+    public static function assemblyProgram($gatewayUrl, array $data, $httpmethod = 'POST'): Response
+    {
         if ("GET" == strtoupper($httpmethod)) {
             //value做urlencode
             $preString = self::getSignContentUrlencode($data);
@@ -560,10 +557,10 @@ class Support
     }
 
     /**
-     * @static   executePage
+     * 页面提交执行方法
      *
-     * @param $params
-     * @param $method
+     * @param  array   $params  跳转类接口的request; $httpmethod 提交方式。两个值可选：post、get
+     * @param  string  $method  构建好的、签名后的最终跳转URL（GET）或String形式的form（POST）
      *
      * @return Response
      *
@@ -574,7 +571,7 @@ class Support
      */
     public static function executePage($params, $method)
     {
-        // 对于app，wap，web类支付，返回字符串组装格式get url或post表单形式，默认post表单形式
+        // 请求跳转类接口，返回字符串组装格式get url或post表单形式，默认POST形式
         $http_method = 'POST';
         if (isset($params['http_method'])) {
             $http_method = isset($params['http_method'])
@@ -601,6 +598,39 @@ class Support
     }
 
     /**
+     * 生成用于调用收银台SDK的字符串
+     *
+     * @param  array  $params  SDK接口的请求参数对象
+     * @param         $method
+     *
+     * @return string
+     *
+     * @throws \WannanBigPig\Supports\Exceptions\InvalidArgumentException
+     */
+    public static function executeSdk($params, $method)
+    {
+        // 获取公共参数
+        $payload = self::$config->get('payload');
+        // 设置方法
+        $payload['method'] = $method;
+        // 设置业务参数
+        $payload['biz_content'] = json_encode($params);
+        // 过滤空值
+        $payload = array_filter($payload, function ($value) {
+            return $value !== '' && !is_null($value);
+        });
+        ksort($payload);
+        // 设置签名
+        $payload['sign'] = self::generateSign($payload);
+
+        foreach ($payload as &$value) {
+            $value = self::characet($value, $payload['charset']);
+        }
+        
+        return Response::create(http_build_query($payload));
+    }
+
+    /**
      * @static  notifyVerify
      *
      * @param  null  $data
@@ -611,13 +641,12 @@ class Support
      */
     public static function notifyVerify($data = null)
     {
-        $data = ($data === null) ? self::getRequest() : $data;
+        $data      = ($data === null) ? self::getRequest() : $data;
         $sign_type = null;
         if (isset($data['sign_type'])) {
-            $sign_type = $data['sign_type'];
+            $sign_type         = $data['sign_type'];
             $data['sign_type'] = null;
         }
-
 
         return self::verifySign(
             Support::getSignContent($data),

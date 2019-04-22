@@ -156,6 +156,7 @@ class PaymentTest extends TestCase
             'subject'      => 'mac X pro 2080',
             'http_method'  => 'post',
         ]);
+
         $result->send();
         $this->assertNotEmpty($result);
     }

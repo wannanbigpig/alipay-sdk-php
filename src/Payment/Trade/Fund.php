@@ -67,4 +67,53 @@ class Fund
     {
         return Support::executeApi($params, 'alipay.fund.auth.order.voucher.create');
     }
+
+    /**
+     * alipay.fund.auth.order.unfreeze (资金授权解冻接口) 在线调试（沙箱环境）
+     * 当资金授权发生之后一段时间内，由于买家或者商家等其他原因需要要解冻资金，商家可通过资金授权解冻接口将授权资金进行解冻，支付宝将在收到解冻请求并验证成功后，按解冻规则将冻结资金按原路进行解冻
+     *
+     * @param $params
+     *
+     * @return \WannanBigPig\Supports\AccessData
+     *
+     * @throws \WannanBigPig\Alipay\Kernel\Exceptions\SignException
+     * @throws \WannanBigPig\Supports\Exceptions\BusinessException
+     * @throws \WannanBigPig\Supports\Exceptions\InvalidArgumentException
+     */
+    public function fundAuthUnfreeze($params)
+    {
+        return Support::executeApi($params, 'alipay.fund.auth.order.unfreeze');
+    }
+
+    /**
+     * alipay.fund.auth.order.freeze (资金授权冻结接口) 在线调试（沙箱环境）
+     * 收银员使用扫码设备读取用户支付宝钱包 “付款码” 后，将条码信息和订单信息通过本接口上送至支付宝发起资金冻结。
+     *
+     * @param $params
+     *
+     * @return \WannanBigPig\Supports\AccessData
+     *
+     * @throws \WannanBigPig\Alipay\Kernel\Exceptions\SignException
+     * @throws \WannanBigPig\Supports\Exceptions\BusinessException
+     * @throws \WannanBigPig\Supports\Exceptions\InvalidArgumentException
+     */
+    public function fundAuthFreeze($params)
+    {
+        return Support::executeApi($params, 'alipay.fund.auth.order.freeze');
+    }
+
+    /**
+     * alipay.fund.auth.order.app.freeze (线上资金授权冻结接口) 在线调试（沙箱环境）
+     * 创建支付宝授权订单并完成资金冻结。适用于线上场景完成资金授权，例如从商户 APP 端拉起支付宝收银台完成冻结。
+     *
+     * @param $params
+     *
+     * @return string
+     *
+     * @throws \WannanBigPig\Supports\Exceptions\InvalidArgumentException
+     */
+    public function fundAuthAppFreeze($params)
+    {
+        return Support::executeSdk($params, 'alipay.fund.auth.order.app.freeze');
+    }
 }
