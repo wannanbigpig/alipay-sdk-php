@@ -98,7 +98,7 @@ class PayController
 
 ## 详细文档
 
-[详细开发文档](https://wannanbigpig.gitbook.io)
+[详细开发文档](https://docs.alipay.liuml.com/)
 
 ## 代码贡献
 
