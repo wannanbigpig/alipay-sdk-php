@@ -32,9 +32,9 @@ class App implements PayInterface
      *
      * @param  array  $params
      *
-     * @return Response
+     * @return \Symfony\Component\HttpFoundation\Response
      *
-     * @throws InvalidArgumentException
+     * @throws \WannanBigPig\Supports\Exceptions\InvalidArgumentException
      */
     public function pay(array $params): Response
     {

@@ -10,7 +10,6 @@
 
 namespace WannanBigPig\Alipay\Payment;
 
-use Closure;
 use Symfony\Component\HttpFoundation\Response;
 use WannanBigPig\Alipay\Kernel\Support\Support;
 use WannanBigPig\Alipay\Payment\Trade\Query;

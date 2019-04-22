@@ -603,11 +603,11 @@ class Support
      * @param  array  $params  SDK接口的请求参数对象
      * @param         $method
      *
-     * @return string
+     * @return Response
      *
      * @throws \WannanBigPig\Supports\Exceptions\InvalidArgumentException
      */
-    public static function executeSdk($params, $method)
+    public static function executeSdk($params, $method): Response
     {
         // 获取公共参数
         $payload = self::$config->get('payload');
@@ -626,7 +626,7 @@ class Support
         foreach ($payload as &$value) {
             $value = self::characet($value, $payload['charset']);
         }
-        
+
         return Response::create(http_build_query($payload));
     }
 
