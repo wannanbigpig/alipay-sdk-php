@@ -77,16 +77,21 @@ class PayController
      */
     public function pos()
     {
-        $result = $this->alipay->pos([
-            'out_trade_no' => Str::getRandomInt('lml', 3),
-            'total_amount' => 100,
-            'scene'        => "bar_code",
-            'auth_code'    => "287951669891795468",
-            'product_code' => "FACE_TO_FACE_PAYMENT",
-            'subject'      => '商品标题',
-        ]);
-        echo $result->code;
-        // {"code":"10000","msg":"Success","buyer_logon_id":"arl***@sandbox.com","buyer_pay_amount":"100.00","buyer_user_id":"2088102177891684","buyer_user_type":"PRIVATE","fund_bill_list":[{"amount":"100.00","fund_channel":"ALIPAYACCOUNT"}],"gmt_payment":"2019-04-22 16:56:05","invoice_amount":"100.00","out_trade_no":"lml20190422085602165540142","point_amount":"0.00","receipt_amount":"100.00","total_amount":"100.00","trade_no":"2019042222001491681000029208"}
+        try{
+            $result = $this->alipay->pos([
+                'out_trade_no' => Str::getRandomInt('lml', 3),
+                'total_amount' => 100,
+                'scene'        => "bar_code",
+                'auth_code'    => "287951669891795468",
+                'product_code' => "FACE_TO_FACE_PAYMENT",
+                'subject'      => '商品标题',
+            ]);
+            // ...
+        }catch (BusinessException $e){
+            // business_exception 配置项开启后需要捕获该异常处理请求失败的情况
+            $res = $e->raw; // 获取支付宝返回数据
+            // ...
+        }
     }
 }
 ```
