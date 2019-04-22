@@ -66,9 +66,21 @@ class Support
     {
         if (php_sapi_name() === 'cli' || !(self::$instance instanceof self)) {
             self::$instance = new self();
+            self::$instance->setHttpOptions();
         }
 
         return self::$instance;
+    }
+
+    /**
+     * setHttpOptions
+     */
+    protected function setHttpOptions()
+    {
+        if (self::$config->has('http') && is_array(self::$config->get('http'))) {
+            self::$config->offsetUnset('http.base_uri');
+            $this->httpOptions = self::$config->get('http');
+        }
     }
 
     /**
