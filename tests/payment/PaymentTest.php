@@ -120,11 +120,11 @@ class PaymentTest extends TestCase
     public function testQuery(Application $alipay)
     {
         // find 第二个参数不传默认pay （所有支付宝支付订单的查询）传入refund （退款订单查询）
-        $result = $alipay->query([
+        $result = $alipay->query->trade([
             'out_trade_no'   => 'lml20190412102647828498635',
             'trade_no'       => '2019041222001491681000012117',
             'out_request_no' => 'lml20190412102647828498635',
-        ])->trade();
+        ]);
         // pay() 支付订单查询
         // $result = $alipay->query([
         //     'out_trade_no'   => 'gpwKLbarfkdvC9A1SRjqFc',
@@ -223,7 +223,7 @@ class PaymentTest extends TestCase
             'out_trade_no' => Str::getRandomInt('lml', 3),
             'total_amount' => 100,
             'scene'        => "bar_code",
-            'auth_code'    => "287951669891795468",
+            'auth_code'    => "288012790952801571",
             'product_code' => "FACE_TO_FACE_PAYMENT",
             'subject'      => 'mac Xpro妮可妮可妮啥的解释道ß',
         ]);

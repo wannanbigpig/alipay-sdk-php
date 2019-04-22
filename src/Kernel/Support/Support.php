@@ -427,12 +427,10 @@ class Support
             );
         }
 
+        $result_method_content = json_encode($result[$method], JSON_UNESCAPED_UNICODE);
+        $result_method_content = mb_convert_encoding($result_method_content, self::$respCharset, self::$fileCharset);
         // 验证支付返回的签名，验证失败抛出应用异常
-        if (!self::verifySign(mb_convert_encoding(json_encode(
-            $result[$method],
-            JSON_UNESCAPED_UNICODE
-        ), self::$respCharset, self::$fileCharset), $result['sign'])
-        ) {
+        if (!self::verifySign($result_method_content, $result['sign'])) {
             Events::dispatch(
                 SignFailed::NAME,
                 new SignFailed(
@@ -451,9 +449,7 @@ class Support
 
         // 业务返回处理，返回码 10000 则正常返回成功数据，其他的则抛出业务异常
         // 捕获 BusinessException 异常 获取 raw 元素查看完整数据并做处理
-        if ($result[$method]['code'] != '10000'
-            && Support::getConfig('business_exception', false)
-        ) {
+        if ($result[$method]['code'] != '10000' && Support::getConfig('business_exception', false)) {
             throw new Exceptions\BusinessException(
                 '[' . $method
                 . '] Business Error: msg [' . $result[$method]['msg'] . ']'

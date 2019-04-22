@@ -31,7 +31,7 @@ use WannanBigPig\Supports\Str;
  * @method AccessData cancel($params) 取消订单
  * @method AccessData close($params) 关闭订单
  * @method AccessData download($params) 下载对账单
- * @method Query query($params) 订单查询
+ * @method Query query() 订单查询
  */
 class Application
 {
