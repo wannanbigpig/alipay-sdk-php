@@ -2,7 +2,7 @@
 
 你在阅读本文之前确认你已经仔细阅读了：[**支付宝开放平台文档**](https://docs.open.alipay.com/)
 
-### 配置
+## 配置
 
 相关配置如下：
 
@@ -30,10 +30,9 @@ $config = [
 ];
 
 $app = Alipay::payment($config);
-
 ```
 
-#### 服务商
+### 服务商
 
 **设置子商户信息**
 
@@ -41,7 +40,7 @@ $app = Alipay::payment($config);
 $app->setSubMerchant('sub-merchant-id', 'sub-app-id');  // 子商户 AppID 为可选项
 ```
 
-#### 刷卡支付
+### 刷卡支付
 
 [官方文档](https://pay.weixin.qq.com/wiki/doc/api/micropay.php?chapter=9_10)
 
@@ -54,13 +53,13 @@ $result = $app->pay([
 ]);
 ```
 
-### 授权码查询OPENID接口
+## 授权码查询OPENID接口
 
 ```php
 $app->authCodeToOpenid($authCode);
 ```
 
-### 沙箱模式
+## 沙箱模式
 
 微信支付沙箱环境，是提供给微信支付商户的开发者，用于模拟支付及回调通知。以验证商户是否理解回调通知、账单格式，以及是否对异常做了正确的处理。EasyWeChat SDK 对于这一功能进行了封装，开发者只需一步即可在沙箱模式和常规模式间切换，方便开发与最终的部署。
 
