@@ -182,7 +182,7 @@ class Support
         }
 
         $sign = base64_encode($sign);
-        if ($keyFromFile) {
+        if ($keyFromFile && is_resource($res)) {
             // 释放资源
             openssl_free_key($res);
         }
@@ -306,7 +306,7 @@ class Support
             $result = (openssl_verify($data, base64_decode($sign), $res) === 1);
         }
 
-        if ($keyFromFile) {
+        if ($keyFromFile && is_resource($res)) {
             // 释放资源
             openssl_free_key($res);
         }
