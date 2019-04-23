@@ -45,7 +45,7 @@ class Support
     /**
      * Charset
      *
-     * @var array
+     * @var string
      */
     public static $fileCharset = 'UTF-8';
 
@@ -53,6 +53,21 @@ class Support
      * @var string
      */
     public static $respCharset = 'UTF-8';
+
+    /**
+     * @var float
+     */
+    public $connectTimeout = 6.0;
+
+    /**
+     * @var string
+     */
+    public $baseUri = '';
+
+    /**
+     * @var float
+     */
+    public $timeout = 6.0;
 
     /**
      * @static   getInstance
@@ -103,17 +118,17 @@ class Support
     /**
      * @static   getConfig
      *
-     * @param  null  $key
-     * @param  null  $default
+     * @param  string  $key
+     * @param  string  $default
      *
-     * @return array|mixed|null
+     * @return mixed
      *
      * @author   liuml  <liumenglei0211@163.com>
      * @DateTime 2019-04-08  17:17
      */
-    public static function getConfig($key = null, $default = null)
+    public static function getConfig($key = '', $default = '')
     {
-        if (is_null($key)) {
+        if ($key === '') {
             return self::$config->get();
         }
 
@@ -138,7 +153,10 @@ class Support
      */
     public static function generateSign(array $params): string
     {
-        $privateKey  = self::getConfig('private_key');
+        $privateKey = self::getConfig('private_key');
+        if (!is_string($privateKey)) {
+            throw new Exceptions\InvalidArgumentException('请检查 [ private_key ] 配置项的私钥文件格式或路径是否正确,只接受字符串类型值');
+        }
         $keyFromFile = Str::endsWith($privateKey, '.pem');
         if ($keyFromFile) {
             $res = openssl_pkey_get_private('file://' . $privateKey);
@@ -232,9 +250,9 @@ class Support
     /**
      * @static  verifySign
      *
-     * @param  string  $data
-     * @param  string  $sign
-     * @param  null    $sign_type
+     * @param  string       $data
+     * @param  string       $sign
+     * @param  null|string  $sign_type
      *
      * @return bool
      *
@@ -243,7 +261,9 @@ class Support
     public static function verifySign(string $data, string $sign, $sign_type = null): bool
     {
         $publicKey = self::getConfig('ali_public_key');
-
+        if (!is_string($publicKey)) {
+            throw new Exceptions\InvalidArgumentException('请检查 [ ali_public_key ] 配置项的公钥文件格式或路径是否正确,只支持字符串类型参数');
+        }
         $keyFromFile = Str::endsWith($publicKey, '.pem');
         if ($keyFromFile) {
             $res = openssl_pkey_get_public("file://" . $publicKey);
@@ -637,7 +657,7 @@ class Support
     /**
      * @static  notifyVerify
      *
-     * @param  null  $data
+     * @param  mixed  $data
      *
      * @return bool
      *
