@@ -1,6 +1,6 @@
 <?php
 /**
- * Pos.php
+ * Pay.php
  *
  * Created by PhpStorm.
  *
@@ -12,11 +12,11 @@ namespace WannanBigPig\Alipay\Payment\Trade;
 
 use WannanBigPig\Alipay\Kernel\Exceptions\SignException;
 use WannanBigPig\Alipay\Kernel\Support\Support;
-use WannanBigPig\Alipay\Payment\PayInterface;
+use WannanBigPig\Alipay\Payment\DoctorInterface;
 use WannanBigPig\Supports\AccessData;
 use WannanBigPig\Supports\Exceptions;
 
-class Pos implements PayInterface
+class Pay implements DoctorInterface
 {
     /**
      * alipay.trade.pay (统一收单交易支付接口) 商户主扫
@@ -41,7 +41,7 @@ class Pos implements PayInterface
      * @author   liuml  <liumenglei0211@163.com>
      * @DateTime 2019-04-11  10:42
      */
-    public function pay(array $params): AccessData
+    public function exec(array $params): AccessData
     {
         return Support::executeApi($params, $this->method);
     }

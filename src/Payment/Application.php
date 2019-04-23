@@ -22,7 +22,7 @@ use WannanBigPig\Supports\Str;
  *
  * @method Response app(array $payload) app支付
  * @method AccessData miniApp(array $payload) 统一收单交易创建接口 小程序支付
- * @method AccessData pos(array $payload) pos支付 (统一收单交易支付接口) 商户主扫
+ * @method AccessData pay(array $payload) pos支付 (统一收单交易支付接口) 商户主扫
  * @method AccessData precreate(array $payload) 订单预创建
  * @method AccessData faceInit(array $payload) 扫脸支付 扫脸初始化
  * @method Response wap(array $payload) 手机站支付
@@ -127,11 +127,11 @@ class Application
      */
     public function __call($name, $arguments)
     {
-        return $this->pay($name, ...$arguments);
+        return $this->alipayMethod($name, ...$arguments);
     }
 
     /**
-     * pay
+     * alipayMethod
      *
      * @param         $method
      * @param  array  $params
@@ -140,7 +140,7 @@ class Application
      *
      * @throws Exceptions\ApplicationException
      */
-    public function pay($method, $params = [])
+    public function alipayMethod($method, $params = [])
     {
         $method = Str::studly($method);
         // 组装命名空间

@@ -58,18 +58,18 @@ class Alipay
     public function commonParams(Config $config)
     {
         return [
-            'app_id'         => $config->get('app_id'),
+            'app_id'         => $config->get('payload.app_id'),
             'method'         => '',
-            'format'         => $config->get('format', 'JSON'),
-            'charset'        => $config->get('charset', 'utf-8'),
-            'sign_type'      => $config->get('sign_type', 'RSA2'),
-            'version'        => $config->get('version', '1.0'),
-            'return_url'     => $config->get('return_url'),
-            'notify_url'     => $config->get('notify_url'),
+            'format'         => $config->get('payload.format', 'JSON'),
+            'charset'        => $config->get('payload.charset', 'utf-8'),
+            'sign_type'      => $config->get('payload.sign_type', 'RSA2'),
+            'version'        => $config->get('payload.version', '1.0'),
+            'return_url'     => $config->get('payload.return_url'),
+            'notify_url'     => $config->get('payload.notify_url'),
             'timestamp'      => date('Y-m-d H:i:s'),
             'sign'           => '',
             'biz_content'    => '',
-            'app_auth_token' => $config->get('app_auth_token'),
+            'app_auth_token' => $config->get('payload.app_auth_token'),
         ];
     }
 
@@ -125,7 +125,7 @@ class Alipay
         // 创建配置
         $config = Support::createConfig($config);
 
-        // 设置系统参数
+        // 设置支付宝公共参数
         $config->set('payload', $this->commonParams($config));
 
         // 设置支付宝网关
