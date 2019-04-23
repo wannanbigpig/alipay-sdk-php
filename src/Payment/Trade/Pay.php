@@ -28,7 +28,7 @@ class Pay implements DoctorInterface
     private $method = 'alipay.trade.pay';
 
     /**
-     * pay
+     * exec
      *
      * @param array $params
      *

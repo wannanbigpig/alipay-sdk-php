@@ -12,10 +12,10 @@ namespace WannanBigPig\Alipay\Payment\Trade;
 
 use Symfony\Component\HttpFoundation\Response;
 use WannanBigPig\Alipay\Kernel\Support\Support;
-use WannanBigPig\Alipay\Payment\PayInterface;
+use WannanBigPig\Alipay\Payment\DoctorInterface;
 use WannanBigPig\Supports\Exceptions;
 
-class Wap implements PayInterface
+class Wap implements DoctorInterface
 {
     /**
      * alipay.trade.wap.pay (手机网站支付接口 2.0)
@@ -26,7 +26,7 @@ class Wap implements PayInterface
     private $method = 'alipay.trade.wap.pay';
 
     /**
-     * pay
+     * exec
      *
      * @param array $params
      *
@@ -37,7 +37,7 @@ class Wap implements PayInterface
      * @author   liuml  <liumenglei0211@163.com>
      * @DateTime 2019-04-12  09:52
      */
-    public function pay(array $params): Response
+    public function exec(array $params): Response
     {
         return Support::executePage($params, $this->method);
     }

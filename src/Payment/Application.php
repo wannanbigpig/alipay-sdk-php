@@ -21,7 +21,7 @@ use WannanBigPig\Supports\Str;
  * Class Application.
  *
  * @method Response app(array $payload) app支付
- * @method AccessData miniApp(array $payload) 统一收单交易创建接口 小程序支付
+ * @method AccessData create(array $payload) 统一收单交易创建接口 小程序支付
  * @method AccessData pay(array $payload) pos支付 (统一收单交易支付接口) 商户主扫
  * @method AccessData precreate(array $payload) 订单预创建
  * @method AccessData faceInit(array $payload) 扫脸支付 扫脸初始化
@@ -166,10 +166,6 @@ class Application
     public function make(string $gateway, $params = [])
     {
         $app = new $gateway();
-
-        if ($app instanceof PayInterface) {
-            return $app->pay($params);
-        }
 
         if ($app instanceof DoctorInterface) {
             return $app->exec($params);

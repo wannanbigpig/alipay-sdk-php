@@ -185,7 +185,7 @@ class PaymentTest extends TestCase
     }
 
     /**
-     * testMiniApp
+     * testCreate
      * 小程序支付 订单预创建接口
      *
      * @param  Application  $alipay
@@ -195,9 +195,9 @@ class PaymentTest extends TestCase
      * @author   liuml  <liumenglei0211@163.com>
      * @DateTime 2019-04-10  18:11
      */
-    public function testMiniApp(Application $alipay)
+    public function testCreate(Application $alipay)
     {
-        $result = $alipay->miniApp([
+        $result = $alipay->create([
             'out_trade_no' => Str::getRandomInt('lml', 3),
             'total_amount' => 100,
             'seller_id'    => "2088102177302492",
@@ -210,7 +210,7 @@ class PaymentTest extends TestCase
     }
 
     /**
-     * testPos
+     * testPay
      * pos机等扫码支付
      *
      * @param  Application  $alipay
@@ -220,9 +220,9 @@ class PaymentTest extends TestCase
      * @author   liuml  <liumenglei0211@163.com>
      * @DateTime 2019-04-11  09:31
      */
-    public function testPos(Application $alipay)
+    public function testPay(Application $alipay)
     {
-        $result = $alipay->pos([
+        $result = $alipay->pay([
             'out_trade_no' => Str::getRandomInt('lml', 3),
             'total_amount' => 100,
             'scene'        => "bar_code",

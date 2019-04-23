@@ -12,11 +12,10 @@ namespace WannanBigPig\Alipay\Payment\Trade;
 
 use Symfony\Component\HttpFoundation\Response;
 use WannanBigPig\Alipay\Kernel\Support\Support;
-use WannanBigPig\Alipay\Payment\PayInterface;
+use WannanBigPig\Alipay\Payment\DoctorInterface;
 use WannanBigPig\Alipay\Kernel;
-use WannanBigPig\Supports\Exceptions\InvalidArgumentException;
 
-class App implements PayInterface
+class App implements DoctorInterface
 {
 
     /**
@@ -28,7 +27,7 @@ class App implements PayInterface
     private $method = 'alipay.trade.app.pay';
 
     /**
-     * pay
+     * exec
      *
      * @param  array  $params
      *
@@ -36,7 +35,7 @@ class App implements PayInterface
      *
      * @throws \WannanBigPig\Supports\Exceptions\InvalidArgumentException
      */
-    public function pay(array $params): Response
+    public function exec(array $params): Response
     {
         return Support::executeSdk($params, $this->method);
     }

@@ -12,11 +12,11 @@ namespace WannanBigPig\Alipay\Payment\Trade;
 
 use WannanBigPig\Alipay\Kernel\Exceptions\SignException;
 use WannanBigPig\Alipay\Kernel\Support\Support;
-use WannanBigPig\Alipay\Payment\PayInterface;
+use WannanBigPig\Alipay\Payment\DoctorInterface;
 use WannanBigPig\Supports\AccessData;
 use WannanBigPig\Supports\Exceptions;
 
-class Precreate implements PayInterface
+class Precreate implements DoctorInterface
 {
     /**
      * alipay.trade.precreate (统一收单线下交易预创建) 商户被扫
@@ -27,7 +27,7 @@ class Precreate implements PayInterface
     private $method = 'alipay.trade.precreate';
 
     /**
-     * pay
+     * exec
      *
      * @param array $params
      *
@@ -40,7 +40,7 @@ class Precreate implements PayInterface
      * @author   liuml  <liumenglei0211@163.com>
      * @DateTime 2019-04-11  10:43
      */
-    public function pay(array $params): AccessData
+    public function exec(array $params): AccessData
     {
         return Support::executeApi($params, $this->method);
     }

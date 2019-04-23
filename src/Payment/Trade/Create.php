@@ -1,6 +1,6 @@
 <?php
 /**
- * MiniApp.php
+ * Create.php
  *
  * Created by PhpStorm.
  *
@@ -12,11 +12,11 @@ namespace WannanBigPig\Alipay\Payment\Trade;
 
 use WannanBigPig\Alipay\Kernel\Exceptions\SignException;
 use WannanBigPig\Alipay\Kernel\Support\Support;
-use WannanBigPig\Alipay\Payment\PayInterface;
+use WannanBigPig\Alipay\Payment\DoctorInterface;
 use WannanBigPig\Supports\AccessData;
 use WannanBigPig\Supports\Exceptions;
 
-class MiniApp implements PayInterface
+class Create implements DoctorInterface
 {
 
     /**
@@ -28,7 +28,7 @@ class MiniApp implements PayInterface
     private $method = 'alipay.trade.create';
 
     /**
-     * pay
+     * exec
      *
      * @param array $params
      *
@@ -41,7 +41,7 @@ class MiniApp implements PayInterface
      * @author   liuml  <liumenglei0211@163.com>
      * @DateTime 2019-04-11  10:42
      */
-    public function pay(array $params): AccessData
+    public function exec(array $params): AccessData
     {
         return Support::executeApi($params, $this->method);
     }
