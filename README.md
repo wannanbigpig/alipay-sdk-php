@@ -1,3 +1,10 @@
+<h1 align="left"><a href="https://www.easywechat.com">WannanBibPig\Alipay</a></h1>
+
+📦 对接支付宝最新接口，使用灵活方便，你只需要关注传入支付数据，其他都不用管，交给我就行
+
+[![Build Status](https://travis-ci.org/wannanbigpig/alipay.svg?branch=master)](https://travis-ci.org/wannanbigpig/alipay)
+
+
 # 简介
 
 使用支付宝最新接口完成的扩展，简化对接支付宝接口的流程，方便在不同项目中快速上手使用。使用时只需要根据你所要对接的接口关注传递参数即可。
