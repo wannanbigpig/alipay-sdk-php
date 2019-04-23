@@ -86,8 +86,6 @@ class PayController
 
 ## 支持的方法
 
-### 支付方法
-
 | method | 描述 | 支付宝API文档 |
 | :---: | :---: | :---: |
 | App | App支付 | alipay.trade.app.pay \(app 支付接口 2.0\) |
@@ -101,13 +99,6 @@ class PayController
 ```php
 // 支付方法调用示例
 Alipay::payment($this->config)->{$method}([...]);
-```
-
-### 查询方法
-
-```php
-// 查询方法调用示例
-Alipay::payment($this->config)->query->pay([...]);
 ```
 
 ## 详细文档
