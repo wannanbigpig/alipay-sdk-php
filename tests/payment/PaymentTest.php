@@ -307,7 +307,7 @@ class PaymentTest extends TestCase
     }
 
     /**
-     * testWeb
+     * testPagePay
      * PC场景支付
      *
      * @param  Application  $alipay
@@ -317,9 +317,9 @@ class PaymentTest extends TestCase
      * @author   liuml  <liumenglei0211@163.com>
      * @DateTime 2019-04-11  11:58
      */
-    public function testWeb(Application $alipay)
+    public function testPagePay(Application $alipay)
     {
-        $result = $alipay->web([
+        $result = $alipay->pagePay([
             'out_trade_no' => Str::getRandomString(22),
             'total_amount' => 100,
             'subject'      => 'mac Xpro',

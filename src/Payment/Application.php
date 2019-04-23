@@ -26,7 +26,7 @@ use WannanBigPig\Supports\Str;
  * @method AccessData precreate(array $payload) 订单预创建
  * @method AccessData faceInit(array $payload) 扫脸支付 扫脸初始化
  * @method Response wap(array $payload) 手机站支付
- * @method Response web(array $payload) pc支付
+ * @method Response pagePay(array $payload) pc支付
  * @method AccessData refund($params) 退款
  * @method AccessData cancel($params) 取消订单
  * @method AccessData close($params) 关闭订单

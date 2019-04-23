@@ -1,6 +1,6 @@
 <?php
 /**
- * Web.php
+ * PagePay.php
  *
  * Created by PhpStorm.
  *
@@ -15,7 +15,7 @@ use WannanBigPig\Alipay\Kernel\Support\Support;
 use WannanBigPig\Alipay\Payment\DoctorInterface;
 use WannanBigPig\Supports\Exceptions;
 
-class Web implements DoctorInterface
+class PagePay implements DoctorInterface
 {
     /**
      * alipay.trade.page.pay (统一收单下单并支付页面接口)
