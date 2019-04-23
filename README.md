@@ -86,25 +86,24 @@ class PayController
 
 ## 支持的方法
 
-#### 支付方法
+### 支付方法
 
-| method |   描述     | 支付宝API文档 |
-| :-----: | :-------: |:--------------:|
-| App      | App支付  | alipay.trade.app.pay (app 支付接口 2.0) |
-| faceInit | 刷脸支付（刷脸初始化）  | zoloz.authentication.customer.smilepay.initialize (人脸初始化唤起 zim) |
-| pay | pos机支付  | alipay.trade.pay (统一收单交易支付接口) |
-| precreate | 预创建订单（扫码支付）  | alipay.trade.precreate (统一收单线下交易预创建) |
-| wap | 手机网站支付  | alipay.trade.wap.pay (手机网站支付接口 2.0) |
-| pagePay | pc网站支付  | alipay.trade.page.pay (统一收单下单并支付页面接口) |
-| create | 小程序支付  | alipay.trade.create (统一收单交易创建接口) |
-
+| method | 描述 | 支付宝API文档 |
+| :---: | :---: | :---: |
+| App | App支付 | alipay.trade.app.pay \(app 支付接口 2.0\) |
+| faceInit | 刷脸支付（刷脸初始化） | zoloz.authentication.customer.smilepay.initialize \(人脸初始化唤起 zim\) |
+| pay | pos机支付 | alipay.trade.pay \(统一收单交易支付接口\) |
+| precreate | 预创建订单（扫码支付） | alipay.trade.precreate \(统一收单线下交易预创建\) |
+| wap | 手机网站支付 | alipay.trade.wap.pay \(手机网站支付接口 2.0\) |
+| pagePay | pc网站支付 | alipay.trade.page.pay \(统一收单下单并支付页面接口\) |
+| create | 小程序支付 | alipay.trade.create \(统一收单交易创建接口\) |
 
 ```php
 // 支付方法调用示例
 Alipay::payment($this->config)->{$method}([...]);
 ```
 
-#### 查询方法
+### 查询方法
 
 ```php
 // 查询方法调用示例
