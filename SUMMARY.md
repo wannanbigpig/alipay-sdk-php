@@ -4,7 +4,7 @@
 
 ## 支付宝
 
-* [支付](docs/pay/README.md)
-  * [App支付](docs/pay/app.md)
-  * [扫码支付](docs/pay/scan.md)
+* [支付](zhi-fu-bao/pay/README.md)
+  * [App支付](zhi-fu-bao/pay/app.md)
+  * [扫码支付](zhi-fu-bao/pay/scan.md)
 
