@@ -52,7 +52,7 @@ class Application
     /**
      * verify
      *
-     * @param  null  $data
+     * @param  mixed  $data
      *
      * @return bool
      *

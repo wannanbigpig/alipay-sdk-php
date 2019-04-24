@@ -127,7 +127,7 @@ class Application
      */
     public function __call($name, $arguments)
     {
-        return $this->alipayMethod($name, ...$arguments);
+        return $this->alipayMethod($name, $arguments);
     }
 
     /**
@@ -190,7 +190,7 @@ class Application
     /**
      * verify
      *
-     * @param  null  $data
+     * @param  mixed  $data
      *
      * @return bool
      *

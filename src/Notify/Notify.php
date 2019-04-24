@@ -42,7 +42,7 @@ trait Notify
      *
      * @throws \WannanBigPig\Supports\Exceptions\InvalidArgumentException
      */
-    public function handle(Closure $closure, $data = null):Response
+    public function handle(Closure $closure, $data = null): Response
     {
         $this->setData($data);
         $request = $this->getRequset();
@@ -95,8 +95,7 @@ trait Notify
         if (is_null($this->data)) {
             $request = Request::createFromGlobals();
 
-            $this->data = $request->request->count() > 0 ? $request->request->all()
-                : $request->query->all();
+            $this->data = $request->request->count() > 0 ? $request->request->all() : $request->query->all();
         }
 
         return new AccessData($this->data);
@@ -134,7 +133,7 @@ trait Notify
     /**
      * success
      *
-     * @return mixed
+     * @return string
      */
     public function success()
     {
@@ -144,7 +143,7 @@ trait Notify
     /**
      * fail
      *
-     * @return mixed
+     * @return string
      */
     public function fail()
     {

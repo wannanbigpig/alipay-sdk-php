@@ -562,7 +562,7 @@ class Support
     public static function executeApi($params, $method)
     {
         // 获取公共参数
-        $payload = self::$config->get('payload');
+        $payload = self::$config->get('payload', []);
         // 设置方法
         $payload['method'] = $method;
         // 设置业务参数
@@ -603,7 +603,7 @@ class Support
             unset($params['http_method']);
         }
         // 获取公共参数
-        $payload = self::$config->get('payload');
+        $payload = self::$config->get('payload', []);
         // 设置方法
         $payload['method'] = $method;
         // 设置业务参数
@@ -634,7 +634,7 @@ class Support
     public static function executeSdk($params, $method): Response
     {
         // 获取公共参数
-        $payload = self::$config->get('payload');
+        $payload = self::$config->get('payload', []);
         // 设置方法
         $payload['method'] = $method;
         // 设置业务参数

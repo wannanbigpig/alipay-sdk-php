@@ -44,7 +44,7 @@ class ApiRequestStart extends Event
     /**
      * getRequest
      *
-     * @return string
+     * @return mixed
      */
     public function getRequest()
     {
