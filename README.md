@@ -68,13 +68,12 @@ class PayController
     ];
 
     /**
-     * 当面付 统一收单交易支付接口 pos机扫码支付
-     *
+     * 当面付 统一收单交易支付接口
      */
-    public function pos()
+    public function pay()
     {
         try{
-            $result = Alipay::payment($this->config)->pos([
+            $result = Alipay::payment($this->config)->pay([
                 'out_trade_no' => Str::getRandomInt('lml', 3),
                 'total_amount' => 100,
                 'scene'        => "bar_code",
