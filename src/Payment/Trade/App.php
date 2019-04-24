@@ -11,9 +11,9 @@
 namespace WannanBigPig\Alipay\Payment\Trade;
 
 use Symfony\Component\HttpFoundation\Response;
+use WannanBigPig\Alipay\Kernel;
 use WannanBigPig\Alipay\Kernel\Support\Support;
 use WannanBigPig\Alipay\Payment\DoctorInterface;
-use WannanBigPig\Alipay\Kernel;
 
 class App implements DoctorInterface
 {

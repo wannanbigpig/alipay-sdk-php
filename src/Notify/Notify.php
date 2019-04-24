@@ -10,8 +10,8 @@
 
 namespace WannanBigPig\Alipay\Notify;
 
-use Symfony\Component\HttpFoundation\Request;
 use Closure;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use WannanBigPig\Alipay\Kernel\Events\SignFailed;
 use WannanBigPig\Alipay\Kernel\Support\Support;
@@ -121,7 +121,7 @@ trait Notify
             );
         }
 
-        if ($res == 'true') {
+        if ($res === 'true') {
             return true;
         }
 
