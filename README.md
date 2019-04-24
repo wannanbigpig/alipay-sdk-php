@@ -10,7 +10,7 @@
 [![Latest Unstable Version](https://poser.pugx.org/wannanbigpig/alipay/v/unstable)](https://packagist.org/packages/wannanbigpig/alipay)
 [![Total Downloads](https://poser.pugx.org/wannanbigpig/alipay/downloads)](https://packagist.org/packages/wannanbigpig/alipay)
 [![License](https://poser.pugx.org/wannanbigpig/alipay/license)](https://packagist.org/packages/wannanbigpig/alipay)
-
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fwannanbigpig%2Falipay.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fwannanbigpig%2Falipay?ref=badge_shield)
 # 简介
 
 使用支付宝最新接口完成的扩展，简化对接支付宝接口的流程，方便在不同项目中快速上手使用。使用时只需要根据你所要对接的接口关注传递参数即可。
@@ -126,3 +126,4 @@ Alipay::payment($this->config)->{$method}([...]);
 
 MIT
 
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fwannanbigpig%2Falipay.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fwannanbigpig%2Falipay?ref=badge_large)
