@@ -10,6 +10,7 @@
 [![Latest Unstable Version](https://poser.pugx.org/wannanbigpig/alipay/v/unstable)](https://packagist.org/packages/wannanbigpig/alipay)
 [![Total Downloads](https://poser.pugx.org/wannanbigpig/alipay/downloads)](https://packagist.org/packages/wannanbigpig/alipay)
 [![License](https://poser.pugx.org/wannanbigpig/alipay/license)](https://packagist.org/packages/wannanbigpig/alipay)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fwannanbigpig%2Falipay.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fwannanbigpig%2Falipay?ref=badge_shield)
 
 # 简介
 
@@ -126,3 +127,6 @@ Alipay::payment($this->config)->{$method}([...]);
 
 MIT
 
+
+
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fwannanbigpig%2Falipay.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fwannanbigpig%2Falipay?ref=badge_large)
