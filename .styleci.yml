@@ -1,0 +1,11 @@
+preset: psr2
+
+enabled:
+  - strict
+  - strict_param
+  - ordered_use
+finder:
+  exclude:
+    - "tests"
+  name:
+    - "*.php"
