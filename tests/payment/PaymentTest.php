@@ -29,7 +29,7 @@ class PaymentTest extends TestCase
      */
     public function testAlipay(): Application
     {
-        $alipay = Alipay::payment([
+        $config = [
             'payload'        => [
                 'app_id'         => '2016092600598145',
                 // 'format'         => 'JSON', // 默认JSON，请勿修改，目前支付宝仅支持JSON
@@ -62,7 +62,9 @@ class PaymentTest extends TestCase
              * 不设置默认 false
              */
             // 'business_exception' => true
-        ]);
+        ];
+
+        $alipay = Alipay::payment($config, ['aaa'=>'232']);
 
         $this->assertNotEmpty($alipay);
 

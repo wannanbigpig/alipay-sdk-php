@@ -154,8 +154,7 @@ class Alipay
         if (method_exists($app, $name)) {
             return $app->{$name}(...$arguments);
         }
-
-        return $app->create($name, $arguments);
+        return $app->create($name, ...$arguments);
     }
 
     /**
