@@ -5,6 +5,7 @@
 [![Build Status](https://travis-ci.org/wannanbigpig/alipay.svg?branch=master)](https://travis-ci.org/wannanbigpig/alipay)
 [![StyleCI](https://github.styleci.io/repos/179242516/shield?branch=master)](https://github.styleci.io/repos/179242516)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/wannanbigpig/alipay/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/wannanbigpig/alipay/?branch=master)
+[![Code Coverage](https://scrutinizer-ci.com/g/wannanbigpig/alipay/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/wannanbigpig/alipay/?branch=master)
 [![Latest Stable Version](https://poser.pugx.org/wannanbigpig/alipay/v/stable)](https://packagist.org/packages/wannanbigpig/alipay)
 [![Latest Unstable Version](https://poser.pugx.org/wannanbigpig/alipay/v/unstable)](https://packagist.org/packages/wannanbigpig/alipay)
 [![Total Downloads](https://poser.pugx.org/wannanbigpig/alipay/downloads)](https://packagist.org/packages/wannanbigpig/alipay)

@@ -36,7 +36,7 @@ trait Notify
      * handle
      *
      * @param  \Closure  $closure
-     * @param  null      $data
+     * @param  mixed     $data
      *
      * @return mixed|\Symfony\Component\HttpFoundation\Response
      *
