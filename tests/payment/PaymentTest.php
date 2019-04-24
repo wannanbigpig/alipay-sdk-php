@@ -51,7 +51,7 @@ class PaymentTest extends TestCase
             ],
             'http'           => [
                 // optional
-                'timeout'         => 5.0,
+                'timeout'         => 0,
                 'connect_timeout' => 5.0,
             ],
             'env'            => 'dev', // optional,设置此参数，将进入沙箱模式,默认为正式环境
