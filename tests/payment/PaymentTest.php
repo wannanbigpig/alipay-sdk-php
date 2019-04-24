@@ -64,7 +64,7 @@ class PaymentTest extends TestCase
             // 'business_exception' => true
         ];
 
-        $alipay = Alipay::payment($config, ['aaa'=>'232']);
+        $alipay = Alipay::payment($config);
 
         $this->assertNotEmpty($alipay);
 
