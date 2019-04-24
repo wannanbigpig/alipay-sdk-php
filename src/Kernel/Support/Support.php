@@ -25,7 +25,6 @@ use WannanBigPig\Supports\Str;
 
 class Support
 {
-
     use HttpRequest;
 
     /**
@@ -175,7 +174,7 @@ class Support
         }
 
         $data = self::getSignContent($params);
-        if ("RSA2" == self::getConfig('sign_type', 'RSA2')) {
+        if ("RSA2" === self::getConfig('sign_type', 'RSA2')) {
             openssl_sign($data, $sign, $res, OPENSSL_ALGO_SHA256);
         } else {
             openssl_sign($data, $sign, $res);
@@ -207,7 +206,7 @@ class Support
         $stringToBeSigned = "";
 
         foreach ($params as $k => $v) {
-            if ($v !== '' && !is_null($v) && $k != 'sign' && '@' != substr($v, 0, 1)) {
+            if ($v !== '' && !is_null($v) && $k !== 'sign' && '@' !== substr($v, 0, 1)) {
                 $v = self::characet($v, $params['charset'] ?? 'utf-8');
 
                 $stringToBeSigned .= $k . '=' . $v . '&';
@@ -235,7 +234,7 @@ class Support
         $stringToBeSigned = "";
 
         foreach ($params as $k => $v) {
-            if ($v !== '' && !is_null($v) && $k != 'sign' && '@' != substr($v, 0, 1)) {
+            if ($v !== '' && !is_null($v) && $k !== 'sign' && '@' !== substr($v, 0, 1)) {
                 $v = self::characet($v, $params['charset'] ?? 'utf-8');
 
                 $stringToBeSigned .= $k . '=' . urlencode($v) . '&';
@@ -295,15 +294,15 @@ class Support
         }
         $sign_type = $sign_type === null ? self::getConfig('sign_type', 'RSA2') : $sign_type;
         // 调用openssl内置方法验签，返回bool值
-        if ("RSA2" == $sign_type) {
+        if ("RSA2" === $sign_type) {
             $result = (openssl_verify(
                 $data,
-                base64_decode($sign),
+                base64_decode($sign, true),
                 $res,
                 OPENSSL_ALGO_SHA256
             ) === 1);
         } else {
-            $result = (openssl_verify($data, base64_decode($sign), $res) === 1);
+            $result = (openssl_verify($data, base64_decode($sign, true), $res) === 1);
         }
 
         if ($keyFromFile && is_resource($res)) {
@@ -366,12 +365,12 @@ class Support
             )
         );
         $data = array_filter($data, function ($value) {
-            return ($value == '' || is_null($value)) ? false : true;
+            return ($value === '' || is_null($value)) ? false : true;
         });
         // 请求支付宝网关
         $resp = self::getInstance()->post($gatewayUrl, $data);
 
-        self::$respCharset = mb_detect_encoding($resp, "UTF-8, GBK, GB2312");
+        self::$respCharset = mb_detect_encoding($resp, "UTF-8, GBK, GB2312", true);
 
         // 将返回结果转换本地文件编码
         $result = iconv(self::$respCharset, self::$fileCharset . "//IGNORE", $resp);
@@ -410,7 +409,7 @@ class Support
         $format = self::getConfig('format', 'JSON');
         // 解析返回结果
         $respWellFormed = false;
-        if ("XML" == $format) {
+        if ("XML" === $format) {
             $disableLibxmlEntityLoader = libxml_disable_entity_loader(true);
             $respObject                = @simplexml_load_string($resp);
             libxml_disable_entity_loader($disableLibxmlEntityLoader);
@@ -465,7 +464,7 @@ class Support
 
         // 业务返回处理，返回码 10000 则正常返回成功数据，其他的则抛出业务异常
         // 捕获 BusinessException 异常 获取 raw 元素查看完整数据并做处理
-        if ($result[$method]['code'] != '10000' && Support::getConfig('business_exception', false)) {
+        if ($result[$method]['code'] !== '10000' && Support::getConfig('business_exception', false)) {
             throw new Exceptions\BusinessException(
                 '[' . $method
                 . '] Business Error: msg [' . $result[$method]['msg'] . ']'
@@ -494,7 +493,7 @@ class Support
      */
     public static function assemblyProgram($gatewayUrl, array $data, $httpmethod = 'POST'): Response
     {
-        if ("GET" == strtoupper($httpmethod)) {
+        if ("GET" === strtoupper($httpmethod)) {
             //value做urlencode
             $preString = self::getSignContentUrlencode($data);
 
