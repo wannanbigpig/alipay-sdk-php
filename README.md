@@ -1,17 +1,12 @@
-<h1 align="left"><a href="https://www.easywechat.com">WannanBibPig\Alipay</a></h1>
+# 简介
+
+## [WannanBibPig\Alipay](https://www.easywechat.com)
 
 📦 对接支付宝最新接口，使用灵活方便，你只需要关注传入支付数据，其他都不用管，交给我就行
 
-[![Build Status](https://travis-ci.org/wannanbigpig/alipay.svg?branch=master)](https://travis-ci.org/wannanbigpig/alipay)
-[![StyleCI](https://github.styleci.io/repos/179242516/shield?branch=master)](https://github.styleci.io/repos/179242516)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/wannanbigpig/alipay/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/wannanbigpig/alipay/?branch=master)
-[![Code Coverage](https://scrutinizer-ci.com/g/wannanbigpig/alipay/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/wannanbigpig/alipay/?branch=master)
-[![Latest Stable Version](https://poser.pugx.org/wannanbigpig/alipay/v/stable)](https://packagist.org/packages/wannanbigpig/alipay)
-[![Latest Unstable Version](https://poser.pugx.org/wannanbigpig/alipay/v/unstable)](https://packagist.org/packages/wannanbigpig/alipay)
-[![Total Downloads](https://poser.pugx.org/wannanbigpig/alipay/downloads)](https://packagist.org/packages/wannanbigpig/alipay)
-[![License](https://poser.pugx.org/wannanbigpig/alipay/license)](https://packagist.org/packages/wannanbigpig/alipay)
-[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fwannanbigpig%2Falipay.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fwannanbigpig%2Falipay?ref=badge_shield)
-# 简介
+[![Build Status](https://travis-ci.org/wannanbigpig/alipay.svg?branch=master)](https://travis-ci.org/wannanbigpig/alipay) [![StyleCI](https://github.styleci.io/repos/179242516/shield?branch=master)](https://github.styleci.io/repos/179242516) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/wannanbigpig/alipay/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/wannanbigpig/alipay/?branch=master) [![Code Coverage](https://scrutinizer-ci.com/g/wannanbigpig/alipay/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/wannanbigpig/alipay/?branch=master) [![Latest Stable Version](https://poser.pugx.org/wannanbigpig/alipay/v/stable)](https://packagist.org/packages/wannanbigpig/alipay) [![Latest Unstable Version](https://poser.pugx.org/wannanbigpig/alipay/v/unstable)](https://packagist.org/packages/wannanbigpig/alipay) [![Total Downloads](https://poser.pugx.org/wannanbigpig/alipay/downloads)](https://packagist.org/packages/wannanbigpig/alipay) [![License](https://poser.pugx.org/wannanbigpig/alipay/license)](https://packagist.org/packages/wannanbigpig/alipay) [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fwannanbigpig%2Falipay.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fwannanbigpig%2Falipay?ref=badge_shield)
+
+## 简介
 
 使用支付宝最新接口完成的扩展，简化对接支付宝接口的流程，方便在不同项目中快速上手使用。使用时只需要根据你所要对接的接口关注传递参数即可。
 
@@ -19,18 +14,18 @@
 
 欢迎 Star，欢迎 PR！
 
-## 运行环境
+### 运行环境
 
 * PHP 7.0+
 * composer
 
-## 安装
+### 安装
 
 ```text
 composer require wannanbigpig/alipay -vvv
 ```
 
-## 使用
+### 使用
 
 ```php
 use WannanBigPig\Alipay\Alipay;
@@ -97,7 +92,7 @@ class PayController
 }
 ```
 
-## 支持的方法
+### 支持的方法
 
 | method | 描述 | 支付宝API文档 |
 | :---: | :---: | :---: |
@@ -114,16 +109,17 @@ class PayController
 Alipay::payment($this->config)->{$method}([...]);
 ```
 
-## 详细文档
+### 详细文档
 
 [详细开发文档](https://docs.alipay.liuml.com/)
 
-## 代码贡献
+### 代码贡献
 
 目前只对接各类支付，资金预授权等相关接口。如果您有其它支付宝相关接口的需求，或者发现本项目中需要改进的代码，_**欢迎 Fork 并提交 PR！**_
 
-## LICENSE
+### LICENSE
 
 MIT
 
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fwannanbigpig%2Falipay.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fwannanbigpig%2Falipay?ref=badge_large)
+
