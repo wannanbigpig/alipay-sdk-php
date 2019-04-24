@@ -157,7 +157,7 @@ class PaymentTest extends TestCase
     public function testApp(Application $alipay)
     {
         $result = $alipay->app([
-            'out_trade_no' => time(),
+            'out_trade_no' => Str::getRandomInt('lml', 3),
             'total_amount' => '0.01',
             'subject'      => 'mac X pro 2080',
         ]);
