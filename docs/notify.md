@@ -80,3 +80,11 @@ $response->send();
 
 4. `handle` 返回值 `$response` 是一个 Response 对象，如果你要直接输出，使用 `$response->send()`, 在一些框架里（如 Laravel）不是输出而是返回：`return $response。`
 
+### 不调用handle方法想直接验证支付宝通知参数的签名
+
+示例：
+
+```php
+$response = $notify->verify($_POST);
+```
+
