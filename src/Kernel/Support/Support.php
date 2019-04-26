@@ -234,7 +234,7 @@ class Support
         $stringToBeSigned = "";
 
         foreach ($params as $k => $v) {
-            if ($v !== '' && !is_null($v) && $k !== 'sign' && '@' !== substr($v, 0, 1)) {
+            if ($v !== '' && !is_null($v) && '@' !== substr($v, 0, 1)) {
                 $v = self::characet($v, $params['charset'] ?? 'utf-8');
 
                 $stringToBeSigned .= $k . '=' . urlencode($v) . '&';

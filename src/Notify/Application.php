@@ -30,17 +30,33 @@ class Application
     /**
      * @var string
      */
-    public $method = '';
+    protected $method = '';
 
+    /**
+     * Application constructor.
+     */
     public function __construct()
     {
         $this->setMethod();
     }
 
     /**
+     * __call
+     *
+     * @param $name
+     * @param $arguments
+     *
+     * @return mixed
+     */
+    public function __call($name, $arguments)
+    {
+        return call_user_func([$this, $name], ...$arguments);
+    }
+
+    /**
      * setMethod
      */
-    public function setMethod()
+    protected function setMethod()
     {
         Support::$config->set('event', [
             'driver' => 'Notify',

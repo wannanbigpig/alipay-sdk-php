@@ -1,6 +1,9 @@
-<h1 align="left"><a href="https://www.easywechat.com">WannanBibPig\Alipay</a></h1>
+# 简介
+
+## [WannanBibPig\Alipay](https://alipay.docs.wannanbigpig.com/)
 
 📦 对接支付宝最新接口，使用灵活方便，你只需要关注传入支付数据，其他都不用管，交给我就行
+
 
 [![Build Status](https://travis-ci.org/wannanbigpig/alipay.svg?branch=master)](https://travis-ci.org/wannanbigpig/alipay)
 [![StyleCI](https://github.styleci.io/repos/179242516/shield?branch=master)](https://github.styleci.io/repos/179242516)
@@ -12,7 +15,8 @@
 [![License](https://poser.pugx.org/wannanbigpig/alipay/license)](https://packagist.org/packages/wannanbigpig/alipay)
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fwannanbigpig%2Falipay.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fwannanbigpig%2Falipay?ref=badge_shield)
 
-# 简介
+
+## 简介
 
 使用支付宝最新接口完成的扩展，简化对接支付宝接口的流程，方便在不同项目中快速上手使用。使用时只需要根据你所要对接的接口关注传递参数即可。
 
@@ -20,18 +24,20 @@
 
 欢迎 Star，欢迎 PR！
 
-## 运行环境
+github : [https://github.com/wannanbigpig/alipay](https://github.com/wannanbigpig/alipay)
+
+### 运行环境
 
 * PHP 7.0+
 * composer
 
-## 安装
+### 安装
 
 ```text
 composer require wannanbigpig/alipay -vvv
 ```
 
-## 使用
+### 使用
 
 ```php
 use WannanBigPig\Alipay\Alipay;
@@ -74,14 +80,13 @@ class PayController
     ];
 
     /**
-     * 当面付 统一收单交易支付接口 pos机扫码支付
-     *
+     * 当面付 统一收单交易支付接口
      */
-    public function pos()
+    public function pay()
     {
         try{
-            $result = Alipay::payment($this->config)->pos([
-                'out_trade_no' => Str::getRandomInt('lml', 3),
+            $result = Alipay::payment($this->config)->pay([
+                'out_trade_no' => WannanBigPig\Supports\Str::getRandomInt('lml', 3),
                 'total_amount' => 100,
                 'scene'        => "bar_code",
                 'auth_code'    => "287951669891795468",
@@ -98,35 +103,17 @@ class PayController
 }
 ```
 
-## 支持的方法
+### 详细文档
 
-| method | 描述 | 支付宝API文档 |
-| :---: | :---: | :---: |
-| App | App支付 | alipay.trade.app.pay \(app 支付接口 2.0\) |
-| faceInit | 刷脸支付 | zoloz.authentication.customer.smilepay.initialize \(人脸初始化唤起 zim\) |
-| pay | pos机支付 | alipay.trade.pay \(统一收单交易支付接口\) |
-| precreate | 扫码支付 | alipay.trade.precreate \(统一收单线下交易预创建\) |
-| wap | 手机网站支付 | alipay.trade.wap.pay \(手机网站支付接口 2.0\) |
-| pagePay | pc网站支付 | alipay.trade.page.pay \(统一收单下单并支付页面接口\) |
-| create | 小程序支付 | alipay.trade.create \(统一收单交易创建接口\) |
+[详细开发文档](https://alipay.docs.wannanbigpig.com/)
 
-```php
-// 支付方法调用示例
-Alipay::payment($this->config)->{$method}([...]);
-```
-
-## 详细文档
-
-[详细开发文档](https://docs.alipay.liuml.com/)
-
-## 代码贡献
+### 代码贡献
 
 目前只对接各类支付，资金预授权等相关接口。如果您有其它支付宝相关接口的需求，或者发现本项目中需要改进的代码，_**欢迎 Fork 并提交 PR！**_
 
-## LICENSE
+### LICENSE
 
 MIT
-
 
 
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fwannanbigpig%2Falipay.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fwannanbigpig%2Falipay?ref=badge_large)

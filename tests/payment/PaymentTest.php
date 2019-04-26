@@ -31,13 +31,13 @@ class PaymentTest extends TestCase
     {
         $config = [
             'payload'        => [
-                'app_id'         => '2016092600598145',
+                'app_id'     => '2016092600598145',
                 // 'format'         => 'JSON', // 默认JSON，请勿修改，目前支付宝仅支持JSON
                 // 'charset'        => 'utf-8', // 默认utf-8
                 // 'sign_type'      => 'RSA2', // 默认RSA2
                 // 'version'        => '1.0',  // 默认1.0
-                'return_url'     => 'http://liuml.com/return.php',
-                'notify_url'     => 'http://liuml.com/notify.php',
+                'return_url' => 'http://liuml.com/return.php',
+                'notify_url' => 'http://liuml.com/notify.php',
                 // 'app_auth_token' => '', // 服务商帮助子商户调用必填，自调用商户不填
             ],
             'ali_public_key' => 'MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApN8Lzs5UAIel8MJRFCgxPf0fZIjkT+qAdodHvxSeXba7Dy5DKFScG2Tre2Cvr99H3Jf516X3n1N+BxRgq3lgnG6q79rGZjRWSeOWwkDUmJ4/cVgw6G5Y+JesAbYdGKxQESXUIA0/xEQm8klt2SE7gazm4O1jduKhfy53PCImRVrLW5jXlUykyblOIXQy4gzVo7UhSeBafRBR3DhO979yztcJJc7JWXui/bHm3Axm68Da4C1Fk44OMgD4VEU0kS8aeE3nrWX/JBMhduZZx4JTSs2299uMncEI6NsNKLgovuffspcAqUO6hwU3J7ygSdVpBjbULLkiL6DSOVopZOn6FQIDAQAB',
@@ -125,23 +125,86 @@ class PaymentTest extends TestCase
      */
     public function testQuery(Application $alipay)
     {
-        // find 第二个参数不传默认pay （所有支付宝支付订单的查询）传入refund （退款订单查询）
+        // 第二个参数不传默认pay （所有支付宝支付订单的查询）传入refund （退款订单查询）
         $result = $alipay->query->trade([
-            'out_trade_no'   => 'lml20190412102647828498635',
-            'trade_no'       => '2019041222001491681000012117',
-            'out_request_no' => 'lml20190412102647828498635',
+            'out_trade_no' => 'lml20190412102647828498635',
+            // ...
         ]);
-        // pay() 支付订单查询
-        // $result = $alipay->query([
-        //     'out_trade_no'   => 'gpwKLbarfkdvC9A1SRjqFc',
-        //     'trade_no'       => '2019041122001491681000007119',
-        //     'out_request_no' => 'gpwKLbarfkdvC9A1SRjqFc',
-        // ])->refund();
-        // refund() 退款订单查询
 
         echo $result;
         $this->assertNotEmpty($result);
     }
+
+    /**
+     * testFund
+     *
+     * @param  \WannanBigPig\Alipay\Payment\Application  $alipay
+     *
+     * @depends testAlipay
+     *
+     * @throws \WannanBigPig\Alipay\Kernel\Exceptions\SignException
+     * @throws \WannanBigPig\Supports\Exceptions\BusinessException
+     * @throws \WannanBigPig\Supports\Exceptions\InvalidArgumentException
+     */
+    public function testFund(Application $alipay)
+    {
+        $result = $alipay->fund->transfer([
+            'out_biz_no'    => Str::getRandomInt('lml', 3),
+            'payee_type'    => 'ALIPAY_LOGONID',
+            'payee_account' => '13200000000',
+            'amount'        => '100',
+            // ...
+        ]);
+
+        echo $result,"\r\n";
+
+        $result = $alipay->fund->fundAuthOrderVoucherCreate([
+            'out_order_no'    => Str::getRandomInt('lml', 3),
+            'out_request_no'  => Str::getRandomInt('', 3),
+            'order_title'     => '预授权发码',
+            'amount'          => '100',
+            // ...
+        ]);
+
+        echo $result,"\r\n";
+
+        $result = $alipay->fund->fundAuthOperationCancel([
+            'auth_no'      => '2014070800002001550000014417',
+            'operation_id' => '20161012405744018102'
+            // ...
+        ]);
+
+        echo $result,"\r\n";
+
+        $result = $alipay->fund->fundAuthUnfreeze([
+            'auth_no'        => '2014070800002001550000014417',
+            'out_request_no' => '2016101200104001110081001',
+            'amount'         => '100',
+            'remark'         => '退还押金，解冻100.00元'
+            // ...
+        ]);
+
+        echo $result,"\r\n";
+
+        $result = $alipay->fund->fundAuthFreeze([
+            'auth_code' => '28763443825664394',
+            // ...
+        ]);
+
+        echo $result,"\r\n";
+
+        $result = $alipay->fund->fundAuthAppFreeze([
+            'out_order_no' => '8077735255938023',
+            // ...
+        ]);
+
+        $result->send();
+
+
+        $this->assertNotEmpty($result);
+    }
+
+
 
     /**
      * testApp
@@ -157,7 +220,7 @@ class PaymentTest extends TestCase
     public function testApp(Application $alipay)
     {
         $result = $alipay->app([
-            'out_trade_no' => time(),
+            'out_trade_no' => Str::getRandomInt('lml', 3),
             'total_amount' => '0.01',
             'subject'      => 'mac X pro 2080',
         ]);
@@ -304,7 +367,7 @@ class PaymentTest extends TestCase
             'http_method'  => 'get',
         ]);
 
-        echo $result;
+        echo $result->getContent();
         $this->assertNotEmpty($result);
     }
 

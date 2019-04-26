@@ -13,6 +13,7 @@ namespace WannanBigPig\Alipay\Notify;
 use Closure;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Throwable;
 use WannanBigPig\Alipay\Kernel\Events\SignFailed;
 use WannanBigPig\Alipay\Kernel\Support\Support;
 use WannanBigPig\Supports\AccessData;
@@ -35,30 +36,34 @@ trait Notify
     /**
      * handle
      *
-     * @param  \Closure  $closure
-     * @param  mixed     $data
+     * @param  \Closure    $closure
+     * @param  array|null  $data
      *
-     * @return mixed|\Symfony\Component\HttpFoundation\Response
-     *
-     * @throws \WannanBigPig\Supports\Exceptions\InvalidArgumentException
+     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function handle(Closure $closure, $data = null): Response
+    protected function handle(Closure $closure, $data = null): Response
     {
-        $this->setData($data);
-        $request = $this->getRequset();
-        // 签名验证
-        if (Support::notifyVerify($request->get())) {
-            $this->response = call_user_func($closure, $request, $this);
-        } else {
-            Events::dispatch(
-                SignFailed::NAME,
-                new SignFailed(
-                    Support::$config->get('event.driver'),
-                    Support::$config->get('event.method'),
-                    $this->getData(),
-                    'Notification request parameter validation signature failed'
-                )
-            );
+        try {
+            $this->setData($data);
+            $request = $this->getRequset();
+            Log::info('支付宝回调数据', $request->get());
+
+            // 签名验证
+            if (Support::notifyVerify($request->get())) {
+                $this->response = call_user_func($closure, $request, $this);
+            } else {
+                Events::dispatch(
+                    SignFailed::NAME,
+                    new SignFailed(
+                        Support::$config->get('event.driver'),
+                        Support::$config->get('event.method'),
+                        $this->getData(),
+                        'Notification request parameter validation signature failed'
+                    )
+                );
+                $this->response = $this->fail();
+            }
+        } catch (Throwable $e) {
             $this->response = $this->fail();
         }
 

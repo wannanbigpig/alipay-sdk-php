@@ -12,6 +12,7 @@ namespace WannanBigPig\Alipay\Payment;
 
 use Symfony\Component\HttpFoundation\Response;
 use WannanBigPig\Alipay\Kernel\Support\Support;
+use WannanBigPig\Alipay\Payment\Trade\Fund;
 use WannanBigPig\Alipay\Payment\Trade\Query;
 use WannanBigPig\Supports\AccessData;
 use WannanBigPig\Supports\Exceptions;
@@ -31,7 +32,11 @@ use WannanBigPig\Supports\Str;
  * @method AccessData cancel($params) 取消订单
  * @method AccessData close($params) 关闭订单
  * @method AccessData download($params) 下载对账单
- * @method Query query() 订单查询
+ * @method Query query() 查询类
+ * @method Fund fund() 资金类
+ *
+ * @property Fund fund 资金类
+ * @property Query query 查询类
  */
 class Application
 {
