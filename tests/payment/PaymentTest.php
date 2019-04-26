@@ -304,7 +304,7 @@ class PaymentTest extends TestCase
             'http_method'  => 'get',
         ]);
 
-        echo $result;
+        echo $result->getContent();
         $this->assertNotEmpty($result);
     }
 
