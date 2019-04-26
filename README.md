@@ -74,7 +74,7 @@ class PayController
     {
         try{
             $result = Alipay::payment($this->config)->pay([
-                'out_trade_no' => Str::getRandomInt('lml', 3),
+                'out_trade_no' => WannanBigPig\Supports\Str::getRandomInt('lml', 3),
                 'total_amount' => 100,
                 'scene'        => "bar_code",
                 'auth_code'    => "287951669891795468",
