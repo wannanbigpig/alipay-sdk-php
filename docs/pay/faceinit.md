@@ -29,4 +29,4 @@ echo $result;
     ...
 }
 ```
-<font color="red">ps:刷脸流程请查看 [刷脸付接入指引](https://docs.open.alipay.com/20180402104715814204/quickstart/)</font>
+<font color="red">ps:刷脸流程请查看</font> [刷脸付接入指引](https://docs.open.alipay.com/20180402104715814204/quickstart/)

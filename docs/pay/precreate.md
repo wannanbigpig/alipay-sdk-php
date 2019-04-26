@@ -6,7 +6,7 @@
 $result = $alipay->precreate([
     'out_trade_no' => Str::getRandomInt('lml', 3),
     'total_amount' => 100,
-    'subject'      => 'mac Xpro',
+    // ...
 ]);
 
 // 返回值 WannanBigPig\Supports\AccessData 实现了接口（IteratorAggregate, ArrayAccess, Serializable, Countable）

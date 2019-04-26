@@ -10,6 +10,7 @@ $result = $alipay->pay([
     'auth_code'    => "288012790952801571",
     'product_code' => "FACE_TO_FACE_PAYMENT",
     'subject'      => 'mac pro',
+    // ...
 ]);
 
 // 返回值 WannanBigPig\Supports\AccessData 实现了接口（IteratorAggregate, ArrayAccess, Serializable, Countable）
