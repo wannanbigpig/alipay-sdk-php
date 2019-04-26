@@ -1,6 +1,6 @@
 # 刷脸支付
 
-### 调用方法
+## 调用方法
 
 ```php
 $result = $alipay->faceInit([
@@ -11,14 +11,13 @@ $result = $alipay->faceInit([
 // 直接 echo 或者调用$result->toJson()方法则返回json字符串
 // echo $result['code']; // 10000
 echo $result;
-
 ```
 
-#### 传入参数说明
+### 传入参数说明
 
 所有参数请参考[zoloz.authentication.customer.smilepay.initialize\(人脸初始化唤起zim\)](https://docs.open.alipay.com/api_46/zoloz.authentication.customer.smilepay.initialize) ，查看「请求参数」一栏。
 
-#### 返回参数
+### 返回参数
 
 与支付宝返回参数一致\(经过签名验证，剔除了支付宝返回的签名，只保留支付宝接口返回的业务数据\)。
 
@@ -29,4 +28,6 @@ echo $result;
     ...
 }
 ```
-<font color="red">ps:刷脸流程请查看</font> [刷脸付接入指引](https://docs.open.alipay.com/20180402104715814204/quickstart/)
+
+ps:刷脸流程请查看 [刷脸付接入指引](https://docs.open.alipay.com/20180402104715814204/quickstart/)
+
