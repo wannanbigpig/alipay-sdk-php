@@ -156,9 +156,55 @@ class PaymentTest extends TestCase
             // ...
         ]);
 
-        echo $result;
+        echo $result,"\r\n";
+
+        $result = $alipay->fund->fundAuthOrderVoucherCreate([
+            'out_order_no'    => Str::getRandomInt('lml', 3),
+            'out_request_no'  => Str::getRandomInt('', 3),
+            'order_title'     => '预授权发码',
+            'amount'          => '100',
+            // ...
+        ]);
+
+        echo $result,"\r\n";
+
+        $result = $alipay->fund->fundAuthOperationCancel([
+            'auth_no'      => '2014070800002001550000014417',
+            'operation_id' => '20161012405744018102'
+            // ...
+        ]);
+
+        echo $result,"\r\n";
+
+        $result = $alipay->fund->fundAuthUnfreeze([
+            'auth_no'        => '2014070800002001550000014417',
+            'out_request_no' => '2016101200104001110081001',
+            'amount'         => '100',
+            'remark'         => '退还押金，解冻100.00元'
+            // ...
+        ]);
+
+        echo $result,"\r\n";
+
+        $result = $alipay->fund->fundAuthFreeze([
+            'auth_code' => '28763443825664394',
+            // ...
+        ]);
+
+        echo $result,"\r\n";
+
+        $result = $alipay->fund->fundAuthAppFreeze([
+            'out_order_no' => '8077735255938023',
+            // ...
+        ]);
+
+        $result->send();
+
+
         $this->assertNotEmpty($result);
     }
+
+
 
     /**
      * testApp

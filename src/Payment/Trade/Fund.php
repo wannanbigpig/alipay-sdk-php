@@ -10,6 +10,7 @@
 
 namespace WannanBigPig\Alipay\Payment\Trade;
 
+use Symfony\Component\HttpFoundation\Response;
 use WannanBigPig\Alipay\Kernel\Support\Support;
 use WannanBigPig\Supports\AccessData;
 
@@ -108,11 +109,11 @@ class Fund
      *
      * @param $params
      *
-     * @return string
-     *
+     * @return \Symfony\Component\HttpFoundation\Response
      * @throws \WannanBigPig\Supports\Exceptions\InvalidArgumentException
+     *
      */
-    public function fundAuthAppFreeze($params)
+    public function fundAuthAppFreeze($params):Response
     {
         return Support::executeSdk($params, 'alipay.fund.auth.order.app.freeze');
     }

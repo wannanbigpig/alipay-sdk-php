@@ -11,7 +11,7 @@
 namespace WannanBigPig\Alipay\Notify;
 
 use Closure;
-use Exception;
+use Throwable;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use WannanBigPig\Alipay\Kernel\Events\SignFailed;
@@ -63,7 +63,7 @@ trait Notify
                 );
                 $this->response = $this->fail();
             }
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->response = $this->fail();
         }
 
