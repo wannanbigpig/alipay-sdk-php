@@ -1,6 +1,6 @@
 # 异步通知
 
-### 支付结果通知
+### 通知
 
 在用户成功支付后，支付宝服务器会向该 **订单中设置的回调 URL** 发起一个 POST 请求，里面包含了所有的详细信息，具体请参考：[关于支付宝异步通知的那些事](https://openclub.alipay.com/read.php?tid=1314&fid=46&page=1)，[支付宝通知机制](https://docs.open.alipay.com/58/103594/) 
 
@@ -65,7 +65,7 @@ $response = $notify->handle(function(WannanBigPig\Supports\AccessData $request, 
 $response->send();
 ```
 
-这里需要注意的有几个点：
+### **需要注意的地方**
 
 1. 退款结果通知和支付通知等均可使用此方法，只需要里面业务处理逻辑改变就行。
 2. handle接收一个 [`Closure`](http://php.net/manual/zh/class.closure.php) 匿名函数，第二个参数为支付宝post的数据可传$\_POST, 不传则自动使用 Symfony\Component\HttpFoundation\Request 获取。
