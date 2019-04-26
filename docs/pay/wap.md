@@ -20,7 +20,7 @@ $result->send();
 
 #### 传入参数说明
 
-所有参数请参考 [alipay.trade.wap.pay\(手机网站支付接口2.0\)](https://docs.open.alipay.com/api_1/alipay.trade.wap.pay/)  ，查看「请求参数」一栏。
+所有参数请参考 [alipay.trade.wap.pay\(手机网站支付接口2.0\)](https://docs.open.alipay.com/api_1/alipay.trade.wap.pay/)，查看「请求参数」一栏。
 
 #### 返回参数
 

@@ -19,7 +19,7 @@ $result->send();
 
 #### 传入参数说明
 
-所有参数请参考 [alipay.trade.page.pay\(统一收单下单并支付页面接口\)](https://docs.open.alipay.com/api_1/alipay.trade.page.pay/)  ，查看「请求参数」一栏。
+所有参数请参考 [alipay.trade.page.pay\(统一收单下单并支付页面接口\)](https://docs.open.alipay.com/api_1/alipay.trade.page.pay/) ，查看「请求参数」一栏。
 
 #### 返回参数
 
