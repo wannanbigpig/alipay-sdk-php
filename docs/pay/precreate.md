@@ -1,6 +1,6 @@
 # 扫码支付
 
-### 调用方法
+## 调用方法
 
 ```php
 $result = $alipay->precreate([
@@ -14,14 +14,13 @@ $result = $alipay->precreate([
 // echo $result['code']; // 10000
 // echo $result->qr_code; // https://qr.alipay.com/bax4678qbyurtqubhnl0024
 echo $result;
-
 ```
 
-#### 传入参数说明
+### 传入参数说明
 
 所有参数请参考[ alipay.trade.precreate\(统一收单线下交易预创建\)](https://docs.open.alipay.com/api_1/alipay.trade.precreate/) ，查看「请求参数」一栏。
 
-#### 返回参数
+### 返回参数
 
 与支付宝返回参数一致\(经过签名验证，剔除了支付宝返回的签名，只保留支付宝接口返回的业务数据\)。
 
