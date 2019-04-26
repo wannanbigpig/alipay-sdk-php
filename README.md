@@ -1,6 +1,6 @@
 # 简介
 
-## [WannanBibPig\Alipay](https://www.easywechat.com)
+## [WannanBibPig\Alipay](https://alipay.docs.wannanbigpig.com/)
 
 📦 对接支付宝最新接口，使用灵活方便，你只需要关注传入支付数据，其他都不用管，交给我就行
 
@@ -12,7 +12,9 @@
 
 你在阅读本文之前确认你已经仔细阅读了：[**支付宝开放平台文档**](https://docs.open.alipay.com/)
 
-欢迎 Star，欢迎 PR！
+欢迎 Star，欢迎 PR！   
+
+github : https://github.com/wannanbigpig/alipay
 
 ### 运行环境
 
