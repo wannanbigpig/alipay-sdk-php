@@ -11,9 +11,9 @@
 namespace WannanBigPig\Alipay\Notify;
 
 use Closure;
-use Throwable;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Throwable;
 use WannanBigPig\Alipay\Kernel\Events\SignFailed;
 use WannanBigPig\Alipay\Kernel\Support\Support;
 use WannanBigPig\Supports\AccessData;
