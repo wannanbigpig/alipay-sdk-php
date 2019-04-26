@@ -15,7 +15,6 @@ use WannanBigPig\Supports\Exceptions;
 
 class Application
 {
-
     use Notify;
 
     /**

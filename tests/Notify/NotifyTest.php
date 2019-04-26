@@ -17,7 +17,6 @@ use WannanBigPig\Supports\AccessData;
 
 class NotifyTest extends TestCase
 {
-
     /**
      * testAlipay
      *

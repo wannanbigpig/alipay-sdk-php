@@ -12,8 +12,8 @@ namespace WannanBigPig\Alipay\Payment;
 
 use Symfony\Component\HttpFoundation\Response;
 use WannanBigPig\Alipay\Kernel\Support\Support;
-use WannanBigPig\Alipay\Payment\Trade\Query;
 use WannanBigPig\Alipay\Payment\Trade\Fund;
+use WannanBigPig\Alipay\Payment\Trade\Query;
 use WannanBigPig\Supports\AccessData;
 use WannanBigPig\Supports\Exceptions;
 use WannanBigPig\Supports\Str;
