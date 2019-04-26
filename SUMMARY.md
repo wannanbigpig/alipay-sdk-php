@@ -14,6 +14,7 @@
   * [pc网站支付](docs/pay/pagepay.md)
   * [查询](docs/pay/query.md)
   * [资金类接口](docs/pay/fund/README.md)
-    * [Untitled](docs/pay/fund/untitled.md)
+    * [单笔转账到支付宝账户](docs/pay/fund/transfer.md)
+    * [资金授权发码](docs/pay/fund/fundauthordervouchercreate.md)
 * [异步通知](docs/notify.md)
 
