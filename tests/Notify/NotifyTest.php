@@ -88,24 +88,24 @@ class NotifyTest extends TestCase
 
             // 在下面直接写业务逻辑，以支付异步通知为例
             // 使用通知里的 "外部交易号" 去自己的数据库找到订单
-            $order = Order::query(['out_tarde_no', $request->out_trade_no]);
+            // $order = Order::query(['out_tarde_no', $request->out_trade_no]);
 
-            if (!$order || $order->paid) { // 如果订单不存在 或者 订单已经支付过了
-                return $notify->success(); // 告诉支付宝，我已经处理完了，或者是本地没有这个订单，不用再次通知我
-            }
+            // if (!$order || $order->paid) { // 如果订单不存在 或者 订单已经支付过了
+            //     return $notify->success(); // 告诉支付宝，我已经处理完了，或者是本地没有这个订单，不用再次通知我
+            // }
 
             if ($request->trade_status === 'TRADE_SUCCESS') {
                 // 标记订单支付成功
-                $order->pay_status = 'TRADE_SUCCESS';
+                // $order->pay_status = 'TRADE_SUCCESS';
                 // ...
+                print_r($request->get());
             }
-
             // 在这可以调用查询订单接口去查询支付状态
             // 然后可以执行其他操作，例如取消支付订单等
             // ...
 
             // 保存订单
-            $order->save();
+            // $order->save();
 
             // 返回给支付确认收到通知消息
             return $notify->success();
