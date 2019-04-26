@@ -42,10 +42,12 @@ trait Notify
      *
      * @throws \WannanBigPig\Supports\Exceptions\InvalidArgumentException
      */
-    public function handle(Closure $closure, $data = null): Response
+    protected function handle(Closure $closure, $data = null): Response
     {
         $this->setData($data);
         $request = $this->getRequset();
+        Log::info('支付宝回调数据', $request->get());
+
         // 签名验证
         if (Support::notifyVerify($request->get())) {
             $this->response = call_user_func($closure, $request, $this);
