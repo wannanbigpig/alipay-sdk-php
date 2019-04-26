@@ -12,6 +12,6 @@
   * [小程序支付](docs/pay/create.md)
   * [手机网站支付](docs/pay/wap.md)
   * [pc网站支付](docs/pay/pagepay.md)
+  * [查询](docs/pay/query.md)
 * [异步通知](docs/notify.md)
-* [查询](docs/query.md)
 

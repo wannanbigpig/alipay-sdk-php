@@ -1,6 +1,6 @@
 # App支付
 
-### 调用方法
+## 调用示例
 
 ```php
 $result = $alipay->app([
@@ -16,11 +16,11 @@ $result->send();
 
 ```
 
-#### 传入参数说明
+### 传入参数说明
 
 所有参数请参考 [alipay.trade.app.pay\(app支付接口2.0\)](https://docs.open.alipay.com/api_1/alipay.trade.app.pay/)  ，查看「请求参数」一栏。
 
-#### 返回参数
+### 返回参数
 
 返回签名后的订单信息字符串，[详情点我](https://docs.open.alipay.com/204/105465/)
 

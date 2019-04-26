@@ -1,6 +1,6 @@
 # 异步通知
 
-### 通知
+## 通知说明
 
 在用户成功支付后，支付宝服务器会向该 **订单中设置的回调 URL** 发起一个 POST 请求，里面包含了所有的详细信息，具体请参考：[关于支付宝异步通知的那些事](https://openclub.alipay.com/read.php?tid=1314&fid=46&page=1)，[支付宝通知机制](https://docs.open.alipay.com/58/103594/) 
 
@@ -10,10 +10,12 @@
 
 在其中对自己的业务进行处理并向支付宝服务器发送一个响应。
 
-#### 配置
+## 调用示例
+
+### 配置
 
 ```php
-$notify = Alipay::notify([
+$config = [
     'ali_public_key' => 'MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApN8Lzs5UAIel8MJRFCgxPf0fZIjkT+qAdodHvxSeXba7Dy5DKFScG2Tre2Cvr99H3Jf516X3n1N+BxRgq3lgnG6q79rGZjRWSeOWwkDUmJ4/cVgw6G5Y+JesAbYdGKxQESXUIA0/xEQm8klt2SE7gazm4O1jduKhfy53PCImRVrLW5jXlUykyblOIXQy4gzVo7UhSeBafRBR3DhO979yztcJJc7JWXui/bHm3Axm68Da4C1Fk44OMgD4VEU0kS8aeE3nrWX/JBMhduZZx4JTSs2299uMncEI6NsNKLgovuffspcAqUO6hwU3J7ygSdVpBjbULLkiL6DSOVopZOn6FQIDAQAB',
     'log'            => [
         // optional
@@ -23,14 +25,15 @@ $notify = Alipay::notify([
         'max_file' => 30, // optional, 当 type 为 daily 时有效，默认 30 天
     ],
     'env'            => 'dev', // optional,设置此参数，将进入沙箱模式,默认为正式环境
-]);
+];
+
+$notify = Alipay::notify($config);
 
 ```
 
-#### 方法
+### 方法
 
 ```php
-// 方法
 $response = $notify->handle(function(WannanBigPig\Supports\AccessData $request, WannanBigPig\Alipay\Notify\Application $notify) {
     // 进入此代码块则表示签名已经验证通过，如果需要验证notify_id则调用如下方法:
     if (!$notify->notifyIdVerify($request->seller_id, $request->notify_id)) {
@@ -63,9 +66,10 @@ $response = $notify->handle(function(WannanBigPig\Supports\AccessData $request, 
     return $notify->success();
 });
 $response->send();
+
 ```
 
-### **需要注意的地方**
+#### **需要注意的地方**
 
 1. 退款结果通知和支付通知等均可使用此方法，只需要里面业务处理逻辑改变就行。
 2. handle接收一个 [`Closure`](http://php.net/manual/zh/class.closure.php) 匿名函数，第二个参数为支付宝post的数据可传$\_POST, 不传则自动使用 Symfony\Component\HttpFoundation\Request 获取。

@@ -1,6 +1,6 @@
 # 扫码支付
 
-## 调用方法
+## 调用示例
 
 ```php
 $result = $alipay->precreate([
