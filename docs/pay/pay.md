@@ -22,7 +22,7 @@ echo $result;
 
 #### 传入参数说明
 
-所有参数请参考[ ](https://docs.open.alipay.com/api_1/alipay.trade.precreate/)[alipay.trade.pay\(统一收单交易支付接口\)](https://docs.open.alipay.com/api_1/alipay.trade.pay/) ，查看「请求参数」一栏。
+所有参数请参考[alipay.trade.pay\(统一收单交易支付接口\)](https://docs.open.alipay.com/api_1/alipay.trade.pay/) ，查看「请求参数」一栏。
 
 #### 返回参数
 
