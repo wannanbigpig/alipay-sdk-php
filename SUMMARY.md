@@ -13,5 +13,7 @@
   * [手机网站支付](docs/pay/wap.md)
   * [pc网站支付](docs/pay/pagepay.md)
   * [查询](docs/pay/query.md)
+  * [资金类接口](docs/pay/fund/README.md)
+    * [Untitled](docs/pay/fund/untitled.md)
 * [异步通知](docs/notify.md)
 
