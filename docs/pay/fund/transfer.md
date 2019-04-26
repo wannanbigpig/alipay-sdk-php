@@ -14,7 +14,6 @@ $result = $alipay->fund->transfer([
 // 返回值 WannanBigPig\Supports\AccessData 实现了接口（IteratorAggregate, ArrayAccess, Serializable, Countable）
 // 直接 echo 或者调用$result->toJson()方法则返回json字符串
 // echo $result['code']; // 10000
-// echo $result->trade_no; // 2019042622001491681000038145
 echo $result;
 ```
 

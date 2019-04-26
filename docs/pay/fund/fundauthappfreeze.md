@@ -1,13 +1,10 @@
-# 资金授权发码
+# 线上资金授权冻结接口
 
 ## 调用示例
 
 ```php
-$result = $alipay->fund->fundAuthOrderVoucherCreate([
-    'out_order_no'    => Str::getRandomInt('lml', 3),
-    'out_request_no'  => Str::getRandomInt('', 3),
-    'order_title'     => '预授权发码',
-    'amount'          => '100',
+$result = $alipay->fund->fundAuthAppFreeze([
+    'out_order_no' => '8077735255938023',
     // ...
 ]);
 
@@ -19,7 +16,7 @@ echo $result;
 
 ### 传入参数说明
 
-所有参数请参考[alipay.fund.auth.order.voucher.create \(资金授权发码接口\)](https://docs.open.alipay.com/api_28/alipay.fund.auth.order.voucher.create/)，查看「请求参数」一栏。
+所有参数请参考[alipay.fund.auth.order.app.freeze\(线上资金授权冻结接口\)](https://docs.open.alipay.com/api_28/alipay.fund.auth.order.app.freeze/)，查看「请求参数」一栏。
 
 ### 返回参数
 

@@ -1,13 +1,11 @@
-# 资金授权发码
+# 资金授权撤销接口
 
 ## 调用示例
 
 ```php
-$result = $alipay->fund->fundAuthOrderVoucherCreate([
-    'out_order_no'    => Str::getRandomInt('lml', 3),
-    'out_request_no'  => Str::getRandomInt('', 3),
-    'order_title'     => '预授权发码',
-    'amount'          => '100',
+$result = $alipay->fund->fundAuthOperationCancel([
+    'auth_no'      => '2014070800002001550000014417',
+    'operation_id' => '20161012405744018102'
     // ...
 ]);
 
@@ -19,7 +17,7 @@ echo $result;
 
 ### 传入参数说明
 
-所有参数请参考[alipay.fund.auth.order.voucher.create \(资金授权发码接口\)](https://docs.open.alipay.com/api_28/alipay.fund.auth.order.voucher.create/)，查看「请求参数」一栏。
+所有参数请参考[alipay.fund.auth.operation.cancel\(资金授权撤销接口\)](https://docs.open.alipay.com/api_28/alipay.fund.auth.operation.cancel/) ，查看「请求参数」一栏。
 
 ### 返回参数
 

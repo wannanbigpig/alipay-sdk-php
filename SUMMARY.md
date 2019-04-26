@@ -16,5 +16,9 @@
   * [资金类接口](docs/pay/fund/README.md)
     * [单笔转账到支付宝账户](docs/pay/fund/transfer.md)
     * [资金授权发码](docs/pay/fund/fundauthordervouchercreate.md)
+    * [资金授权撤销接口](docs/pay/fund/fundauthoperationcancel.md)
+    * [资金授权解冻接口](docs/pay/fund/fundauthunfreeze.md)
+    * [资金授权冻结接口](docs/pay/fund/fundauthfreeze.md)
+    * [线上资金授权冻结接口](docs/pay/fund/fundauthappfreeze.md)
 * [异步通知](docs/notify.md)
 
