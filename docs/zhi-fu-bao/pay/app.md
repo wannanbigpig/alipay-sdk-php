@@ -13,12 +13,11 @@ $result = $alipay->app([
 // 返回值 Symfony\Component\HttpFoundation\Response
 // laravel 中直接 return $result;
 $result->send();
-
 ```
 
 ### 传入参数说明
 
-所有参数请参考 [alipay.trade.app.pay\(app支付接口2.0\)](https://docs.open.alipay.com/api_1/alipay.trade.app.pay/)  ，查看「请求参数」一栏。
+所有参数请参考 [alipay.trade.app.pay\(app支付接口2.0\)](https://docs.open.alipay.com/api_1/alipay.trade.app.pay/) ，查看「请求参数」一栏。
 
 ### 返回参数
 

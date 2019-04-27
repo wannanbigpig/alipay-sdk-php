@@ -11,7 +11,6 @@ $result = $alipay->fund->fundAuthAppFreeze([
 // 返回值 Symfony\Component\HttpFoundation\Response
 // laravel 中直接 return $result;
 $result->send();
-
 ```
 
 ### 传入参数说明

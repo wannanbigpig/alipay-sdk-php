@@ -2,7 +2,7 @@
 
 ## 通知说明
 
-在用户成功支付后，支付宝服务器会向该 **订单中设置的回调 URL** 发起一个 POST 请求，里面包含了所有的详细信息，具体请参考：[关于支付宝异步通知的那些事](https://openclub.alipay.com/read.php?tid=1314&fid=46&page=1)，[支付宝通知机制](https://docs.open.alipay.com/58/103594/) 
+在用户成功支付后，支付宝服务器会向该 **订单中设置的回调 URL** 发起一个 POST 请求，里面包含了所有的详细信息，具体请参考：[关于支付宝异步通知的那些事](https://openclub.alipay.com/read.php?tid=1314&fid=46&page=1)，[支付宝通知机制](https://docs.open.alipay.com/58/103594/)
 
 而对于用户的退款操作，在退款成功之后也会有一个异步回调通知。
 
@@ -28,7 +28,6 @@ $config = [
 ];
 
 $notify = Alipay::notify($config);
-
 ```
 
 ### 方法
@@ -40,25 +39,25 @@ $response = $notify->handle(function(WannanBigPig\Supports\AccessData $request, 
         // 返回给支付宝一个错误消息
         return $notify->fail();
     }
-    
+
     // 在下面直接写业务逻辑，以支付异步通知为例
     // 使用通知里的 "外部交易号" 去自己的数据库找到订单
     $order = Order::query(['out_tarde_no', $request->out_trade_no]);
-    
+
     if (!$order || $order->paid) { // 如果订单不存在 或者 订单已经支付过了
         return $notify->success(); // 告诉支付宝，我已经处理完了，或者是本地没有这个订单，不用再次通知我
     }
-    
+
     if ($request->trade_status === 'TRADE_SUCCESS') {
         // 标记订单支付成功
         $order->pay_status = 'TRADE_SUCCESS';
         // ...
     }
-    
+
     // 在这可以调用查询订单接口去查询支付状态
     // 然后可以执行其他操作，例如取消支付订单等
     // ...
-    
+
     // 保存订单
     $order->save();
 
@@ -66,7 +65,6 @@ $response = $notify->handle(function(WannanBigPig\Supports\AccessData $request, 
     return $notify->success();
 });
 $response->send();
-
 ```
 
 #### **需要注意的地方**
