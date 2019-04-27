@@ -2,7 +2,7 @@
 
 ## 通知说明
 
-在用户成功支付后，支付宝服务器会向该 **订单中设置的回调 URL** 发起一个 POST 请求，里面包含了所有的详细信息，具体请参考：[关于支付宝异步通知的那些事](https://openclub.alipay.com/read.php?tid=1314&fid=46&page=1)，[支付宝通知机制](https://docs.open.alipay.com/58/103594/)
+在用户成功支付后，支付宝服务器会向该订单中设置的回调 URL 发起一个 POST 请求，里面包含了所有的详细信息，具体请参考：[关于支付宝异步通知的那些事](https://openclub.alipay.com/read.php?tid=1314&fid=46&page=1)，[支付宝通知机制](https://docs.open.alipay.com/58/103594/)
 
 而对于用户的退款操作，在退款成功之后也会有一个异步回调通知。
 
