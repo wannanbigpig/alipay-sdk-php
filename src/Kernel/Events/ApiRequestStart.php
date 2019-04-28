@@ -10,7 +10,7 @@ class ApiRequestStart extends Event
      *
      * @var string
      */
-    const NAME = 'apiRequestStart';
+    const NAME = 'api_request_start';
 
     /**
      * request.
