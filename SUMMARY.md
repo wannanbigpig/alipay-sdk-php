@@ -15,6 +15,8 @@
   * [退款](docs/pay/refund.md)
   * [取消](docs/pay/cancel.md)
   * [关闭](docs/pay/guan-bi.md)
+  * [结算](docs/pay/settle.md)
+  * [订单信息同步](docs/pay/orderinfosync.md)
   * [查询](docs/pay/query.md)
   * [资金类接口](docs/pay/fund/README.md)
     * [单笔转账到支付宝账户](docs/pay/fund/transfer.md)
