@@ -28,5 +28,7 @@
   * [下载对账单](docs/pay/download.md)
 * [异步通知](docs/notify.md)
 * [辅助功能](docs/auxiliary/README.md)
-  * [事件系统](docs/auxiliary/event.md)
+  * [日志](docs/auxiliary/log.md)
+  * [事件](docs/auxiliary/event.md)
+  * [请求](docs/auxiliary/request.md)
 
