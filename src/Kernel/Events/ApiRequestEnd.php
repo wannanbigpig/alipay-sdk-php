@@ -35,13 +35,13 @@ class ApiRequestEnd extends Event
     /**
      * ApiRequestEnd constructor.
      *
-     * @param  string  $driver
-     * @param  string  $method
+     * @param  string|null  $driver
+     * @param  string|null  $method
      * @param  string  $uri
      * @param          $request
      * @param          $result
      */
-    public function __construct(string $driver, string $method, string $uri, $request, $result)
+    public function __construct($driver, $method, string $uri, $request, $result)
     {
         $this->request = $request;
         $this->uri = $uri;

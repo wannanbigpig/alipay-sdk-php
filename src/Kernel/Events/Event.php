@@ -4,6 +4,7 @@ namespace WannanBigPig\Alipay\Kernel\Events;
 
 class Event extends \Symfony\Component\EventDispatcher\Event
 {
+
     /**
      * Driver.
      *
@@ -21,10 +22,10 @@ class Event extends \Symfony\Component\EventDispatcher\Event
     /**
      * Event constructor.
      *
-     * @param  string  $driver
-     * @param  string  $method
+     * @param  string|null  $driver
+     * @param  string|null  $method
      */
-    public function __construct(string $driver, string $method)
+    public function __construct($driver, $method)
     {
         $this->driver = $driver;
         $this->method = $method;

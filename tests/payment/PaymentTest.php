@@ -347,6 +347,34 @@ class PaymentTest extends TestCase
     }
 
     /**
+     * testPay2
+     *
+     * @param  \WannanBigPig\Alipay\Payment\Application  $alipay
+     *
+     * @throws \WannanBigPig\Alipay\Kernel\Exceptions\SignException
+     * @throws \WannanBigPig\Supports\Exceptions\BusinessException
+     * @throws \WannanBigPig\Supports\Exceptions\InvalidArgumentException
+     *
+     * @depends testAlipay
+     *
+     * @author   liuml  <liumenglei0211@163.com>
+     * @DateTime 2019-04-28  14:02
+     */
+    public function testPay2(Application $alipay)
+    {
+        $result = $alipay->execute('alipay.trade.pay', [
+            'out_trade_no' => Str::getRandomInt('lml', 3),
+            'total_amount' => 100,
+            'scene'        => "bar_code",
+            'auth_code'    => "288012790952801571",
+            'product_code' => "FACE_TO_FACE_PAYMENT",
+            'subject'      => 'mac Xpro妮可妮可妮啥的解释道ß',
+        ]);
+        echo $result;
+        $this->assertNotEmpty($result);
+    }
+
+    /**
      * testPrecreate
      * 预创建订单，生成二维码，被扫
      *

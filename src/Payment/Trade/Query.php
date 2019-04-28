@@ -17,6 +17,19 @@ use WannanBigPig\Supports\AccessData;
 class Query
 {
     /**
+     * @var string
+     */
+    protected $method = '';
+
+    /**
+     * Query constructor.
+     */
+    public function __construct()
+    {
+        $this->method = Support::$config->get('event.method');
+    }
+
+    /**
      * alipay.trade.query (统一收单线下交易查询)
      * 该接口提供所有支付宝支付订单的查询，商户可以通过该接口主动查询订单状态，完成下一步的业务逻辑。
      * 需要调用查询接口的情况： 当商户后台、网络、服务器等出现异常，商户系统最终未接收到支付通知；
@@ -33,6 +46,7 @@ class Query
      */
     public function trade($params): AccessData
     {
+        Support::$config->set('event.method', $this->method.'->trade');
         return Support::executeApi($params, 'alipay.trade.query');
     }
 
@@ -52,6 +66,7 @@ class Query
      */
     public function refund($params): AccessData
     {
+        Support::$config->set('event.method', $this->method.'->refund');
         return Support::executeApi($params, 'alipay.trade.fastpay.refund.query');
     }
 
@@ -69,6 +84,7 @@ class Query
      */
     public function faceFtoken($params): AccessData
     {
+        Support::$config->set('event.method', $this->method.'->faceFtoken');
         return Support::executeApi($params, 'zoloz.authentication.customer.ftoken.query');
     }
 
@@ -86,6 +102,7 @@ class Query
      */
     public function transOrder($params): AccessData
     {
+        Support::$config->set('event.method', $this->method.'->transOrder');
         return Support::executeApi($params, 'alipay.fund.trans.order.query');
     }
 
@@ -103,6 +120,7 @@ class Query
      */
     public function fundAuthOperationQuery($params): AccessData
     {
+        Support::$config->set('event.method', $this->method.'->fundAuthOperationQuery');
         return Support::executeApi($params, 'alipay.fund.auth.operation.detail.query');
     }
 }

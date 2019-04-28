@@ -4,6 +4,7 @@ namespace WannanBigPig\Alipay\Kernel\Events;
 
 class ApiRequestStart extends Event
 {
+
     /**
      * NAME
      *
@@ -28,12 +29,12 @@ class ApiRequestStart extends Event
     /**
      * ApiRequestStart constructor.
      *
-     * @param  string  $driver
-     * @param $method
-     * @param  string  $uri
-     * @param $request
+     * @param  string|null  $driver
+     * @param  string|null  $method
+     * @param  string       $uri
+     * @param               $request
      */
-    public function __construct(string $driver, $method, string $uri, $request)
+    public function __construct($driver, $method, string $uri, $request)
     {
         $this->uri     = $uri;
         $this->request = $request;

@@ -25,6 +25,7 @@ use WannanBigPig\Supports\Str;
 
 class Support
 {
+
     use HttpRequest;
 
     /**
@@ -296,11 +297,11 @@ class Support
         // 调用openssl内置方法验签，返回bool值
         if ("RSA2" === $sign_type) {
             $result = (openssl_verify(
-                $data,
-                base64_decode($sign, true),
-                $res,
-                OPENSSL_ALGO_SHA256
-            ) === 1);
+                    $data,
+                    base64_decode($sign, true),
+                    $res,
+                    OPENSSL_ALGO_SHA256
+                ) === 1);
         } else {
             $result = (openssl_verify($data, base64_decode($sign, true), $res) === 1);
         }
@@ -358,8 +359,8 @@ class Support
         Events::dispatch(
             ApiRequestStart::NAME,
             new ApiRequestStart(
-                self::$config->get('event.driver'),
-                self::$config->get('event.method'),
+                self::$config->get('event.driver', ''),
+                self::$config->get('event.method', ''),
                 $gatewayUrl,
                 $data
             )
@@ -378,10 +379,10 @@ class Support
         Events::dispatch(
             ApiRequestEnd::NAME,
             new ApiRequestEnd(
-                self::$config->get('event.driver'),
-                self::$config->get('event.method'),
+                self::$config->get('event.driver', ''),
+                self::$config->get('event.method', ''),
                 $gatewayUrl,
-                $data,
+                [],
                 $result
             )
         );

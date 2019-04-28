@@ -16,6 +16,18 @@ use WannanBigPig\Supports\AccessData;
 
 class Fund
 {
+    /**
+     * @var string
+     */
+    protected $method = '';
+
+    /**
+     * Query constructor.
+     */
+    public function __construct()
+    {
+        $this->method = Support::$config->get('event.method');
+    }
 
     /**
      * alipay.fund.trans.toaccount.transfer (单笔转账到支付宝账户接口)
@@ -32,6 +44,7 @@ class Fund
      */
     public function transfer($params): AccessData
     {
+        Support::$config->set('event.method', $this->method.'->transfer');
         return Support::executeApi($params, 'alipay.fund.trans.toaccount.transfer');
     }
 
@@ -49,6 +62,7 @@ class Fund
      */
     public function fundAuthOrderVoucherCreate($params): AccessData
     {
+        Support::$config->set('event.method', $this->method.'->fundAuthOrderVoucherCreate');
         return Support::executeApi($params, 'alipay.fund.auth.order.voucher.create');
     }
 
@@ -66,6 +80,7 @@ class Fund
      */
     public function fundAuthOperationCancel($params)
     {
+        Support::$config->set('event.method', $this->method.'->fundAuthOperationCancel');
         return Support::executeApi($params, 'alipay.fund.auth.order.voucher.create');
     }
 
@@ -83,6 +98,7 @@ class Fund
      */
     public function fundAuthUnfreeze($params)
     {
+        Support::$config->set('event.method', $this->method.'->fundAuthUnfreeze');
         return Support::executeApi($params, 'alipay.fund.auth.order.unfreeze');
     }
 
@@ -100,6 +116,7 @@ class Fund
      */
     public function fundAuthFreeze($params)
     {
+        Support::$config->set('event.method', $this->method.'->fundAuthFreeze');
         return Support::executeApi($params, 'alipay.fund.auth.order.freeze');
     }
 
@@ -115,6 +132,7 @@ class Fund
      */
     public function fundAuthAppFreeze($params):Response
     {
+        Support::$config->set('event.method', $this->method.'->fundAuthAppFreeze');
         return Support::executeSdk($params, 'alipay.fund.auth.order.app.freeze');
     }
 }

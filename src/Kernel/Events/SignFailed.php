@@ -29,12 +29,12 @@ class SignFailed extends Event
     /**
      * SignFailed constructor.
      *
-     * @param  string  $driver
-     * @param  string  $method
-     * @param  array   $result
-     * @param  string  $error
+     * @param  string|null  $driver
+     * @param  string|null  $method
+     * @param  array        $result
+     * @param  string       $error
      */
-    public function __construct(string $driver, string $method, array $result, string $error = null)
+    public function __construct($driver, $method, array $result, string $error = null)
     {
         $this->result = $result;
         $this->error  = $error;

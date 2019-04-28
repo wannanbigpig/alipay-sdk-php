@@ -44,9 +44,12 @@ class Application
 {
 
     /**
-     * @var string
+     * Application constructor.
      */
-    public $method = '';
+    public function __construct()
+    {
+        Support::$config->set('event.driver', 'Payment');
+    }
 
     /**
      * __get
@@ -98,7 +101,7 @@ class Application
         $gateway = __NAMESPACE__ . '\\Trade\\' . $method;
 
         if (class_exists($gateway)) {
-            $this->setMethod();
+            Support::$config->set('event.method', $name);
             return $this->make($gateway);
         }
 
@@ -172,8 +175,7 @@ class Application
         $gateway = __NAMESPACE__ . '\\Trade\\' . $method;
 
         if (class_exists($gateway)) {
-            $this->setMethod($method);
-
+            Support::$config->set('event.method', $method);
             return $this->make($gateway, $params);
         }
 
@@ -200,22 +202,6 @@ class Application
         }
 
         return $app;
-    }
-
-    /**
-     * setMethod
-     *
-     * @param  string  $method
-     *
-     * @author   liuml  <liumenglei0211@163.com>
-     * @DateTime 2019-04-28  12:09
-     */
-    public function setMethod($method = '')
-    {
-        Support::$config->set('event', [
-            'driver' => 'Payment',
-            'method' => $method ? : $this->method,
-        ]);
     }
 
     /**
