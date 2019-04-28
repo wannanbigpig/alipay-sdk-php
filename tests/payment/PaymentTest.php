@@ -94,6 +94,51 @@ class PaymentTest extends TestCase
     }
 
     /**
+     * testSettle
+     * 统一收单交易结算
+     *
+     * @depends testAlipay
+     *
+     * @param  \WannanBigPig\Alipay\Payment\Application  $alipay
+     */
+    public function testSettle(Application $alipay)
+    {
+        $result = $alipay->settle([
+            'out_trade_no'       => 'gpwKLbarfkdvC9A1SRjqFc',
+            'trade_no'           => '2019041122001491681000007119',
+            'royalty_parameters' => [
+                [
+                    'trans_out'         => '2088101126765726',
+                    'trans_in'          => '2088101126708402',
+                    'amount'            => '0.01',
+                    'amount_percentage' => '100',
+                    'desc'              => '分账给2088101126708402',
+                ],
+            ],
+        ]);
+        echo $result;
+        $this->assertNotEmpty($result);
+    }
+
+    /**
+     * testOrderInfoSync
+     *
+     * @depends testAlipay
+     *
+     * @param  \WannanBigPig\Alipay\Payment\Application  $alipay
+     */
+    public function testOrderInfoSync(Application $alipay)
+    {
+        $result = $alipay->orderInfoSync([
+            'trade_no'       => '2019041122001491681000007119',
+            'out_request_no' => 'gpwKLbarfkdvC9A1SRjqFc',
+            'biz_type'       => 'CREDIT_AUTH',
+        ]);
+        echo $result;
+        $this->assertNotEmpty($result);
+    }
+
+    /**
      * testClose
      * 关闭订单
      *
@@ -117,11 +162,14 @@ class PaymentTest extends TestCase
 
     /**
      * testQuery
-     * 订单查询（支付，退款, 预授权...）
+     *
+     * @param  \WannanBigPig\Alipay\Payment\Application  $alipay
      *
      * @depends testAlipay
      *
-     * @param  \WannanBigPig\Alipay\Payment\Application  $alipay
+     * @throws \WannanBigPig\Alipay\Kernel\Exceptions\SignException
+     * @throws \WannanBigPig\Supports\Exceptions\BusinessException
+     * @throws \WannanBigPig\Supports\Exceptions\InvalidArgumentException
      */
     public function testQuery(Application $alipay)
     {
@@ -156,17 +204,17 @@ class PaymentTest extends TestCase
             // ...
         ]);
 
-        echo $result,"\r\n";
+        echo $result, "\r\n";
 
         $result = $alipay->fund->fundAuthOrderVoucherCreate([
-            'out_order_no'    => Str::getRandomInt('lml', 3),
-            'out_request_no'  => Str::getRandomInt('', 3),
-            'order_title'     => '预授权发码',
-            'amount'          => '100',
+            'out_order_no'   => Str::getRandomInt('lml', 3),
+            'out_request_no' => Str::getRandomInt('', 3),
+            'order_title'    => '预授权发码',
+            'amount'         => '100',
             // ...
         ]);
 
-        echo $result,"\r\n";
+        echo $result, "\r\n";
 
         $result = $alipay->fund->fundAuthOperationCancel([
             'auth_no'      => '2014070800002001550000014417',
@@ -174,7 +222,7 @@ class PaymentTest extends TestCase
             // ...
         ]);
 
-        echo $result,"\r\n";
+        echo $result, "\r\n";
 
         $result = $alipay->fund->fundAuthUnfreeze([
             'auth_no'        => '2014070800002001550000014417',
@@ -184,14 +232,14 @@ class PaymentTest extends TestCase
             // ...
         ]);
 
-        echo $result,"\r\n";
+        echo $result, "\r\n";
 
         $result = $alipay->fund->fundAuthFreeze([
             'auth_code' => '28763443825664394',
             // ...
         ]);
 
-        echo $result,"\r\n";
+        echo $result, "\r\n";
 
         $result = $alipay->fund->fundAuthAppFreeze([
             'out_order_no' => '8077735255938023',
@@ -203,7 +251,6 @@ class PaymentTest extends TestCase
 
         $this->assertNotEmpty($result);
     }
-
 
 
     /**

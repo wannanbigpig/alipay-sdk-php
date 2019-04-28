@@ -32,6 +32,8 @@ use WannanBigPig\Supports\Str;
  * @method AccessData cancel($params) 取消订单
  * @method AccessData close($params) 关闭订单
  * @method AccessData download($params) 下载对账单
+ * @method AccessData settle($params) 结算
+ * @method AccessData orderInfoSync($params) 订单信息同步
  * @method Query query() 查询类
  * @method Fund fund() 资金类
  *
