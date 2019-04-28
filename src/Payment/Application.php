@@ -37,7 +37,7 @@ use WannanBigPig\Supports\Str;
  * @method Query query() 查询类
  * @method Fund fund() 资金类
  *
- * @property Fund fund 资金类
+ * @property Fund  fund  资金类
  * @property Query query 查询类
  */
 class Application
@@ -56,6 +56,9 @@ class Application
      * @return mixed
      *
      * @throws \WannanBigPig\Supports\Exceptions\ApplicationException
+     *
+     * @author   liuml  <liumenglei0211@163.com>
+     * @DateTime 2019-04-28  12:10
      */
     public function __get($name)
     {
@@ -67,6 +70,9 @@ class Application
      *
      * @param $name
      * @param $value
+     *
+     * @author   liuml  <liumenglei0211@163.com>
+     * @DateTime 2019-04-28  12:10
      */
     public function __set($name, $value)
     {
@@ -81,6 +87,9 @@ class Application
      * @return mixed
      *
      * @throws \WannanBigPig\Supports\Exceptions\ApplicationException
+     *
+     * @author   liuml  <liumenglei0211@163.com>
+     * @DateTime 2019-04-28  12:10
      */
     public function getVariable($name)
     {
@@ -102,6 +111,9 @@ class Application
      * @param $name
      *
      * @return array|mixed|null
+     *
+     * @author   liuml  <liumenglei0211@163.com>
+     * @DateTime 2019-04-28  12:10
      */
     public function get($name)
     {
@@ -113,6 +125,9 @@ class Application
      *
      * @param $name
      * @param $value
+     *
+     * @author   liuml  <liumenglei0211@163.com>
+     * @DateTime 2019-04-28  12:09
      */
     public function set($name, $value)
     {
@@ -127,10 +142,10 @@ class Application
      *
      * @return mixed
      *
-     * @throws Exceptions\ApplicationException
+     * @throws \WannanBigPig\Supports\Exceptions\ApplicationException
      *
      * @author   liuml  <liumenglei0211@163.com>
-     * @DateTime 2019-04-12  11:14
+     * @DateTime 2019-04-28  12:09
      */
     public function __call($name, $arguments)
     {
@@ -145,7 +160,10 @@ class Application
      *
      * @return mixed
      *
-     * @throws Exceptions\ApplicationException
+     * @throws \WannanBigPig\Supports\Exceptions\ApplicationException
+     *
+     * @author   liuml  <liumenglei0211@163.com>
+     * @DateTime 2019-04-28  12:09
      */
     public function alipayMethod($method, $params = [])
     {
@@ -169,6 +187,9 @@ class Application
      * @param  array   $params
      *
      * @return mixed
+     *
+     * @author   liuml  <liumenglei0211@163.com>
+     * @DateTime 2019-04-28  12:09
      */
     public function make(string $gateway, $params = [])
     {
@@ -185,6 +206,9 @@ class Application
      * setMethod
      *
      * @param  string  $method
+     *
+     * @author   liuml  <liumenglei0211@163.com>
+     * @DateTime 2019-04-28  12:09
      */
     public function setMethod($method = '')
     {
@@ -197,14 +221,73 @@ class Application
     /**
      * verify
      *
-     * @param  mixed  $data
+     * @param  array|null  $data
      *
      * @return bool
      *
-     * @throws Exceptions\InvalidArgumentException
+     * @throws \WannanBigPig\Supports\Exceptions\InvalidArgumentException
+     *
+     * @author   liuml  <liumenglei0211@163.com>
+     * @DateTime 2019-04-28  12:09
      */
     public function verify($data = null)
     {
         return Support::notifyVerify($data);
+    }
+
+    /**
+     * execute
+     *
+     * @param $method
+     * @param $params
+     *
+     * @return \WannanBigPig\Supports\AccessData
+     *
+     * @throws \WannanBigPig\Alipay\Kernel\Exceptions\SignException
+     * @throws \WannanBigPig\Supports\Exceptions\BusinessException
+     * @throws \WannanBigPig\Supports\Exceptions\InvalidArgumentException
+     *
+     * @author   liuml  <liumenglei0211@163.com>
+     * @DateTime 2019-04-28  12:08
+     */
+    public function execute($method, $params)
+    {
+        return Support::executeApi($params, $method);
+    }
+
+    /**
+     * sdkExecute
+     *
+     * @param $method
+     * @param $params
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     *
+     * @throws \WannanBigPig\Supports\Exceptions\InvalidArgumentException
+     *
+     * @author   liuml  <liumenglei0211@163.com>
+     * @DateTime 2019-04-28  12:08
+     */
+    public function sdkExecute($method, $params)
+    {
+        return Support::executeSdk($params, $method);
+    }
+
+    /**
+     * pegeExecute
+     *
+     * @param $method
+     * @param $params
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     *
+     * @throws \WannanBigPig\Supports\Exceptions\InvalidArgumentException
+     *
+     * @author   liuml  <liumenglei0211@163.com>
+     * @DateTime 2019-04-28  12:09
+     */
+    public function pegeExecute($method, $params)
+    {
+        return Support::executePage($params, $method);
     }
 }
