@@ -180,8 +180,6 @@ class Alipay
      */
     protected function registerEventService()
     {
-        Events::setDispatcher(Events::createDispatcher());
-
         Events::addSubscriber(new KernelLogSubscriber());
     }
 }

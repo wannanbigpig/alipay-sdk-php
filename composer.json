@@ -23,7 +23,7 @@
         "ext-openssl": "*",
         "ext-simplexml":"*",
         "ext-libxml":"*",
-        "wannanbigpig/supports": "dev-master",
+        "wannanbigpig/supports": "1.*",
         "ext-iconv": "*"
     },
     "require-dev": {

@@ -58,12 +58,21 @@ trait Notify
                         Support::$config->get('event.driver'),
                         Support::$config->get('event.method'),
                         $this->getData(),
-                        'Notification request parameter validation signature failed'
+                        '支付宝异步通知请求参数验签失败'
                     )
                 );
                 $this->response = $this->fail();
             }
         } catch (Throwable $e) {
+            Events::dispatch(
+                SignFailed::NAME,
+                new SignFailed(
+                    Support::$config->get('event.driver'),
+                    Support::$config->get('event.method'),
+                    $this->getData(),
+                    $e->getMessage()
+                )
+            );
             $this->response = $this->fail();
         }
 

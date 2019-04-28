@@ -12,8 +12,11 @@ namespace WannanBigPig\Alipay\Tests\Notify;
 
 use PHPUnit\Framework\TestCase;
 use WannanBigPig\Alipay\Alipay;
+use WannanBigPig\Alipay\Kernel\Events\SignFailed;
 use WannanBigPig\Alipay\Notify\Application;
+use WannanBigPig\Alipay\Tests\Event\Listener;
 use WannanBigPig\Supports\AccessData;
+use WannanBigPig\Supports\Events;
 
 class NotifyTest extends TestCase
 {
@@ -27,6 +30,7 @@ class NotifyTest extends TestCase
      */
     public function testAlipay(): Application
     {
+        Events::addListener(SignFailed::NAME, [new Listener(), 'sendDingding']);
         $notify = Alipay::notify([
             'ali_public_key' => 'MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApN8Lzs5UAIel8MJRFCgxPf0fZIjkT+qAdodHvxSeXba7Dy5DKFScG2Tre2Cvr99H3Jf516X3n1N+BxRgq3lgnG6q79rGZjRWSeOWwkDUmJ4/cVgw6G5Y+JesAbYdGKxQESXUIA0/xEQm8klt2SE7gazm4O1jduKhfy53PCImRVrLW5jXlUykyblOIXQy4gzVo7UhSeBafRBR3DhO979yztcJJc7JWXui/bHm3Axm68Da4C1Fk44OMgD4VEU0kS8aeE3nrWX/JBMhduZZx4JTSs2299uMncEI6NsNKLgovuffspcAqUO6hwU3J7ygSdVpBjbULLkiL6DSOVopZOn6FQIDAQAB',
             'log'            => [
@@ -40,7 +44,6 @@ class NotifyTest extends TestCase
         ]);
 
         $this->assertNotEmpty($notify);
-
         return $notify;
     }
 
@@ -49,12 +52,14 @@ class NotifyTest extends TestCase
      *
      * @param  \WannanBigPig\Alipay\Notify\Application  $notify
      *
-     * @depends testAlipay
+     * @depends  testAlipay
      *
-     * @throws \WannanBigPig\Supports\Exceptions\InvalidArgumentException
+     * @author   liuml  <liumenglei0211@163.com>
+     * @DateTime 2019-04-28  17:41
      */
     public function testNotify(Application $notify)
     {
+
         $this->assertTrue(true);
         $response = $notify->handle(function (AccessData $request, Application $notify) {
             // 进入此代码块则表示签名已经验证通过，如果需要验证notify_id则调用如下方法:
@@ -141,6 +146,7 @@ class NotifyTest extends TestCase
             'sign_type'      => 'RSA2',
             'seller_id'      => '2088102177302492',
         ]);
+        var_dump($res);
         $this->assertTrue($res);
     }
 }
