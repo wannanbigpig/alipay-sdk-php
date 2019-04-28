@@ -25,7 +25,6 @@ use WannanBigPig\Supports\Str;
 
 class Support
 {
-
     use HttpRequest;
 
     /**
