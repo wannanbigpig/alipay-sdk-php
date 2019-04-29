@@ -20,16 +20,16 @@
 
 ```php
 use WannanBigPig\Supports\Logs\Log;
-
+// 初始化日志，如果已经调用过Alipay::{method}($config)初始化，这一步可以省略
 $logger = Log::createLogger(
-    Support::$config->get('log.file'),
+    './newlog.log',
     'wannanbigpig.alipay',
-    Support::$config->get('log.level', 'warning'),
-    Support::$config->get('log.type', 'daily'),
-    Support::$config->get('log.max_file', 30)
+    'debug',
+    'daily',
+    30
 );
 Log::setLogger($logger);
-
+// 写入日志
 Log::info('这是一个日志');
 ```
 
