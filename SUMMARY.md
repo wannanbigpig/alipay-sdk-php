@@ -14,7 +14,7 @@
   * [pc网站支付](docs/pay/pagepay.md)
   * [退款](docs/pay/refund.md)
   * [取消订单](docs/pay/cancel.md)
-  * [关闭订单](docs/pay/guan-bi.md)
+  * [关闭订单](docs/pay/close.md)
   * [结算](docs/pay/settle.md)
   * [订单信息同步](docs/pay/orderinfosync.md)
   * [查询](docs/pay/query.md)
