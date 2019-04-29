@@ -31,4 +31,5 @@
   * [日志](docs/auxiliary/log.md)
   * [事件](docs/auxiliary/event.md)
   * [请求](docs/auxiliary/request.md)
+* [通用方法](docs/currency.md)
 
