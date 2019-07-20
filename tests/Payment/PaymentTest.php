@@ -8,7 +8,7 @@
  * DateTime: 2019-04-10  17:38
  */
 
-namespace WannanBigPig\Alipay\Tests\payment;
+namespace WannanBigPig\Alipay\Tests\Payment;
 
 use PHPUnit\Framework\TestCase;
 use WannanBigPig\Alipay\Alipay;

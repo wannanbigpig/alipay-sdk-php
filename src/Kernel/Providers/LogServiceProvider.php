@@ -18,9 +18,7 @@ use WannanBigPig\Supports\Logs\Log;
  * Class LogServiceProvider
  *
  * @author   liuml  <liumenglei0211@163.com>
- * @DateTime 2019-07-17  16:07
- *
- * @package  WannanBigPig\Alipay\Kernel\Providers
+ * @DateTime 2019-07-18  17:00
  */
 class LogServiceProvider implements ServiceProviderInterface
 {
@@ -33,6 +31,7 @@ class LogServiceProvider implements ServiceProviderInterface
     {
         $pimple['logger'] = $pimple['log'] = function ($app) {
             $config = $this->logConfig($app);
+
             return new Log($config);
         };
     }
@@ -52,7 +51,7 @@ class LogServiceProvider implements ServiceProviderInterface
 
         return [
             'driver' => 'single',
-            'level' => 'info',
+            'level' => 'notice',
             'format' => "%datetime% > %channel% [ %level_name% ] > %message% %context% %extra%\n",
             'path' => '/tmp/wannanbigpig.alipay.log',
         ];

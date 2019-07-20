@@ -14,9 +14,10 @@ use WannanBigPig\Alipay\Payment\Kernel\BaseClient;
 
 class Client extends BaseClient
 {
-    public function pay()
+    public function pay(array $params)
     {
-        $this->app['logger']->info('记录日志');
-        return $this->app['config']->get('appid');
+        return $this->request('alipay.trade.pay', [
+            'biz_content' => $params,
+        ]);
     }
 }

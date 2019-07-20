@@ -18,8 +18,6 @@ use Pimple\ServiceProviderInterface;
  *
  * @author   liuml  <liumenglei0211@163.com>
  * @DateTime 2019-07-17  16:07
- *
- * @package  WannanBigPig\Alipay\Kernel\Providers
  */
 class AppServiceProvider implements ServiceProviderInterface
 {
@@ -30,10 +28,11 @@ class AppServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $pimple)
     {
-        foreach ($pimple['providers'] as $key => $value) {
+        foreach ($pimple['app_client_providers'] as $key => $value) {
             $pimple[$key] = function ($app) use ($value) {
                 return new $value($app);
             };
         }
+        $pimple->offsetUnset('app_client_providers');
     }
 }

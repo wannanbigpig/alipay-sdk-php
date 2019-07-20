@@ -16,14 +16,15 @@ use WannanBigPig\Alipay\Kernel\Providers\AppServiceProvider;
 use WannanBigPig\Alipay\Kernel\Providers\ConfigServiceProvider;
 use WannanBigPig\Alipay\Kernel\Providers\HttpClientServiceProvider;
 use WannanBigPig\Alipay\Kernel\Providers\LogServiceProvider;
+use WannanBigPig\Supports\Exceptions\RuntimeException;
 
 /**
- * Class Application
+ * Class ServiceContainer
  *
  * @author   liuml  <liumenglei0211@163.com>
- * @DateTime 2019-07-15  11:33
+ * @DateTime 2019-07-18  16:13
  *
- * @package  WannanBigPig\Alipay\Kernel
+ * @property \WannanBigPig\Supports\Config $config
  */
 class ServiceContainer extends Container implements App
 {
@@ -67,9 +68,26 @@ class ServiceContainer extends Container implements App
      */
     public function __construct(array $config)
     {
-        parent::__construct(['providers' => $this->providers]);
+        parent::__construct(['app_client_providers' => $this->providers]);
         $this->registerProviders($this->getProviders());
         $this->init($config);
+    }
+
+    /**
+     * __get.
+     *
+     * @param $name
+     *
+     * @return mixed
+     *
+     * @throws \WannanBigPig\Supports\Exceptions\RuntimeException
+     */
+    public function __get($name)
+    {
+        if (isset($this[$name])) {
+            return $this[$name];
+        }
+        throw new RuntimeException(sprintf('Identifier "%s" is not defined', $name));
     }
 
     /**
@@ -93,11 +111,49 @@ class ServiceContainer extends Container implements App
             'http' => [
                 'timeout' => 30.0,
                 'base_uri' => $this->getGateway(),
-                'connect_timeout' => 6.0
+                'connect_timeout' => 6.0,
+                'log_template' => "\n>>>>>>>>request\n--------\n{request}\n--------\n>>>>>>>>response\n--------\n{response}\n--------\n>>>>>>>>error\n--------\n{error}\n--------\n"
             ],
         ];
 
         return array_replace_recursive($base, $this->defaultConfig, $this->userConfig);
+    }
+
+    /**
+     * Get the common request parameters of Alipay interface.
+     *
+     * @param $endpoint
+     *
+     * @return array
+     */
+    public function apiCommonConfig(string $endpoint): array
+    {
+        return [
+            'app_id' => $this->config['app_id'],
+            'method' => $endpoint,
+            'format' => 'JSON',
+            'charset' => $this->config->get('charset', 'utf-8'),
+            'sign_type' => 'RSA2',
+            'sign' => '',
+            'timestamp' => date('Y-m-d H:i:s'),
+            'notify_url' => $this->config->get('notify_url', ''),
+            'version' => $this->config->get('version', '1.0'),
+            'app_auth_token' => $this->config->get('app_auth_token', ''),
+        ];
+    }
+
+    /**
+     * Set version.
+     *
+     * @param string $version
+     *
+     * @return $this
+     */
+    public function setVersion(string $version)
+    {
+        $this->config->set('version', $version);
+
+        return $this;
     }
 
     /**
@@ -117,7 +173,11 @@ class ServiceContainer extends Container implements App
      */
     public function getGateway()
     {
-        return $this->gateway[$this->getEnv()] ?? $this->gateway[self::NORMAL_ENV];
+        if (isset($this->gateway[$this->getEnv()])) {
+            return $this->gateway[$this->getEnv()];
+        }
+
+        return $this->gateway[self::NORMAL_ENV];
     }
 
     /**

@@ -16,11 +16,9 @@ use WannanBigPig\Alipay\Kernel\ServiceContainer;
  * Class Application
  *
  * @author   liuml  <liumenglei0211@163.com>
- * @DateTime 2019-07-15  11:34
+ * @DateTime 2019-07-18  16:13
  *
  * @method mixed pay()
- *
- * @package  WannanBigPig\Alipay\Payment
  */
 class Application extends ServiceContainer
 {

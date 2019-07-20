@@ -19,8 +19,6 @@ use Pimple\ServiceProviderInterface;
  *
  * @author   liuml  <liumenglei0211@163.com>
  * @DateTime 2019-07-15  15:18
- *
- * @package  WannanBigPig\Alipay\Kernel\Providers
  */
 class HttpClientServiceProvider implements ServiceProviderInterface
 {
