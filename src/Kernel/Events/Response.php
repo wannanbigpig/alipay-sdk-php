@@ -10,6 +10,12 @@
 
 namespace WannanBigPig\Alipay\Kernel\Events;
 
+/**
+ * Class Response
+ *
+ * @author   liuml  <liumenglei0211@163.com>
+ * @DateTime 2019-07-21  02:01
+ */
 class Response extends BaseEvent
 {
 

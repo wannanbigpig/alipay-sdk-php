@@ -12,6 +12,12 @@ namespace WannanBigPig\Alipay\Kernel\Events;
 
 use Symfony\Contracts\EventDispatcher\Event;
 
+/**
+ * Class BaseEvent
+ *
+ * @author   liuml  <liumenglei0211@163.com>
+ * @DateTime 2019-07-21  02:01
+ */
 class BaseEvent extends Event
 {
 

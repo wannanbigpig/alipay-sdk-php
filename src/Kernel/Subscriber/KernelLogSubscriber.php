@@ -12,6 +12,12 @@ namespace WannanBigPig\Alipay\Kernel\Subscriber;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
+/**
+ * Class KernelLogSubscriber
+ *
+ * @author   liuml  <liumenglei0211@163.com>
+ * @DateTime 2019-07-21  02:01
+ */
 class KernelLogSubscriber implements EventSubscriberInterface
 {
     /**
