@@ -112,7 +112,7 @@ class ServiceContainer extends Container implements App
                 'timeout' => 30.0,
                 'base_uri' => $this->getGateway(),
                 'connect_timeout' => 6.0,
-                'log_template' => "\n>>>>>>>>request\n--------\n{request}\n--------\n>>>>>>>>response\n--------\n{response}\n--------\n>>>>>>>>error\n--------\n{error}\n--------\n"
+                'log_template' => "\n>>>>>>>>request\n--------\n{request}\n--------\n>>>>>>>>response\n--------\n{response}\n--------\n>>>>>>>>error\n--------\n{error}\n--------\n",
             ],
         ];
 
@@ -128,12 +128,14 @@ class ServiceContainer extends Container implements App
      */
     public function apiCommonConfig(string $endpoint): array
     {
+        $this->config->set('api_method', $endpoint);
+
         return [
             'app_id' => $this->config['app_id'],
             'method' => $endpoint,
             'format' => 'JSON',
             'charset' => $this->config->get('charset', 'utf-8'),
-            'sign_type' => 'RSA2',
+            'sign_type' => $this->config->get('sign_type', 'RSA2'),
             'sign' => '',
             'timestamp' => date('Y-m-d H:i:s'),
             'notify_url' => $this->config->get('notify_url', ''),

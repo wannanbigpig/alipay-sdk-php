@@ -53,6 +53,7 @@ class Support
      * @return array|object|\Psr\Http\Message\ResponseInterface|\WannanBigPig\Supports\Collection|\WannanBigPig\Supports\Http\Response
      *
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \WannanBigPig\Alipay\Kernel\Exceptions\InvalidSignException
      * @throws \WannanBigPig\Supports\Exceptions\InvalidArgumentException
      */
     public function request($endpoint, $params = [], $method = 'POST', array $options = [], $returnResponse = false)
@@ -65,7 +66,7 @@ class Support
         });
         $params = $this->json($params);
         // Set the signature
-        $sysParams['sign'] = $this->generateSign(array_merge($sysParams, $params));
+        $sysParams['sign'] = $this->generateSign(array_merge($sysParams, $params), $sysParams['sign_type']);
         // Set log middleware to record data, Log request and response data to the log file info level
         $this->pushMiddleware($this->logMiddleware(), 'log');
         // Set http parameter options
@@ -79,9 +80,13 @@ class Support
 
         $response = $this->performRequest($method, '?'.http_build_query($sysParams), $options);
 
-        $result = $returnResponse ? $response : $this->castResponseToType($response, new Response(), $this->app->config->get('response_type'));
+        $this->checkResponseSign($this->castResponseToType($response, new Response()));
 
-        return $result;
+        return $returnResponse ? $response : $this->castResponseToType(
+            $response,
+            new Response(),
+            $this->app->config->get('response_type')
+        );
     }
 
     /**

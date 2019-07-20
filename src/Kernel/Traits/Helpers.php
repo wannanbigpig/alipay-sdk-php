@@ -11,6 +11,7 @@
 namespace WannanBigPig\Alipay\Kernel\Traits;
 
 use Exception;
+use WannanBigPig\Alipay\Kernel\Exceptions\InvalidSignException;
 use WannanBigPig\Supports\Exceptions\InvalidArgumentException;
 
 /**
@@ -129,67 +130,102 @@ trait Helpers
     }
 
     /**
-     * 验签
-     *
-     * @param $request
-     * @param $signData
-     * @param $resp
-     * @param $respObject
-     *
-     * @throws Exception
-     */
-    public function checkResponseSign($request, $signData, $resp, $respObject)
-    {
-
-        if (!$this->checkEmpty($this->alipayPublicKey) || !$this->checkEmpty($this->alipayrsaPublicKey)) {
-            if ($signData == null || $this->checkEmpty($signData->sign) || $this->checkEmpty($signData->signSourceData)) {
-                throw new Exception(" check sign Fail! The reason : signData is Empty");
-            }
-
-            // 获取结果sub_code
-            $responseSubCode = $this->parserResponseSubCode($request, $resp, $respObject, $this->format);
-
-            if (!$this->checkEmpty($responseSubCode) || ($this->checkEmpty($responseSubCode) && !$this->checkEmpty($signData->sign))) {
-                $checkResult = $this->verify($signData->signSourceData, $signData->sign, $this->alipayPublicKey, $this->signType);
-
-                if (!$checkResult) {
-                    if (strpos($signData->signSourceData, "\\/") > 0) {
-                        $signData->signSourceData = str_replace("\\/", "/", $signData->signSourceData);
-
-                        $checkResult = $this->verify($signData->signSourceData, $signData->sign, $this->alipayPublicKey, $this->signType);
-
-                        if (!$checkResult) {
-                            throw new Exception("check sign Fail! [sign=".$signData->sign.", signSourceData=".$signData->signSourceData."]");
-                        }
-                    } else {
-                        throw new Exception("check sign Fail! [sign=".$signData->sign.", signSourceData=".$signData->signSourceData."]");
-                    }
-                }
-            }
-        }
-    }
-
-    /**
      * parserSignSource.
      *
-     * @param $apiName
-     * @param $response
+     * @param array $response
      *
-     * @return array|null
+     * @return array|mixed
      */
-    public function parserSignSource($apiName, $response)
+    public function parserSignSource(array $response)
     {
         $response_suffix = $this->app['config']->get('RESPONSE_SUFFIX', '_response');
         $error_respones = $this->app['config']->get('RESPONSE_SUFFIX', 'error_response');
 
-        $rootNodeName = str_replace(".", "_", $apiName).$response_suffix;
+        $rootNodeName = str_replace(".", "_", $this->app['config']['api_method']).$response_suffix;
 
-        if (isset($response[$response_suffix])) {
-            return $response[$response_suffix];
+        if (isset($response[$rootNodeName])) {
+            return $response[$rootNodeName];
         } elseif (isset($response[$error_respones])) {
             return $response[$error_respones];
         } else {
-            return null;
+            return $response;
         }
+    }
+
+    /**
+     * verify sign.
+     *
+     * @param string $data
+     * @param        $sign
+     * @param string $signType
+     *
+     * @return bool
+     *
+     * @throws \WannanBigPig\Supports\Exceptions\InvalidArgumentException
+     */
+    public function verify(string $data, $sign, $signType = 'RSA2')
+    {
+        $alipayPublicKeyPath = $this->app['config']->get('alipay_public_Key_path');
+        if ($this->checkEmpty($alipayPublicKeyPath)) {
+            $pubKey = $this->app['config']->get('alipay_public_Key');
+            $res = "-----BEGIN PUBLIC KEY-----\n".
+                wordwrap($pubKey, 64, "\n", true).
+                "\n-----END PUBLIC KEY-----";
+        } else {
+            //读取公钥文件
+            $pubKey = file_get_contents($alipayPublicKeyPath);
+            //转换为openssl格式密钥
+            $res = openssl_get_publickey($pubKey);
+        }
+
+        if ($res === false) {
+            throw new InvalidArgumentException('Invalid alipay_public_Key configuration');
+        }
+
+        //调用openssl内置方法验签，返回bool值
+        if ("RSA2" == $signType) {
+            $result = (openssl_verify($data, base64_decode($sign), $res, OPENSSL_ALGO_SHA256) === 1);
+        } else {
+            $result = (openssl_verify($data, base64_decode($sign), $res) === 1);
+        }
+
+        if (!$this->checkEmpty($alipayPublicKeyPath)) {
+            //释放资源
+            openssl_free_key($res);
+        }
+
+        return $result;
+    }
+
+    /**
+     * checkResponseSign.
+     *
+     * @param $response
+     *
+     * @return bool
+     *
+     * @throws \WannanBigPig\Alipay\Kernel\Exceptions\InvalidSignException
+     * @throws \WannanBigPig\Supports\Exceptions\InvalidArgumentException
+     */
+    public function checkResponseSign($response)
+    {
+        $result = true;
+
+        if (isset($response['sign'])) {
+            $result = $this->verify(
+                \GuzzleHttp\json_encode($this->parserSignSource($response), JSON_UNESCAPED_UNICODE),
+                $response['sign'],
+                $this->app['config']->get('sign_type', 'RSA2')
+            );
+        }
+
+        if (!$result) {
+            throw new InvalidSignException(sprintf(
+                '"%s" method responds to parameter validation signature error',
+                $this->app['config']['api_method']
+            ));
+        }
+
+        return $result;
     }
 }
