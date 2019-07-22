@@ -18,6 +18,8 @@ use WannanBigPig\Alipay\Kernel\ServiceContainer;
  * @author   liuml  <liumenglei0211@163.com>
  * @DateTime 2019-07-18  16:13
  *
+ * @property Pay\Client $pay
+ *
  * @method mixed pay()
  */
 class Application extends ServiceContainer
@@ -28,8 +30,7 @@ class Application extends ServiceContainer
      */
     protected $providers = [
         'base' => Base\Client::class,
-        'app' => App\Client::class,
-        'page' => Page\Client::class,
+        'pay' => Pay\Client::class,
     ];
 
     /**

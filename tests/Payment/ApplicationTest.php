@@ -35,6 +35,7 @@ class ApplicationTest extends TestCase
             'alipay_public_Key_path' => STORAGE_ROOT.'alipay_public_key.pem',
             // 'alipay_public_Key' => file_get_contents(STORAGE_ROOT.'alipay_public_Key.txt'), // 直接配置此处则私钥文件路径则不用填写
             'charset' => 'UTF-8',
+            'return_url' => 'http://www.wannanbigpig.com/',
             'env' => 'dev',
         ];
 

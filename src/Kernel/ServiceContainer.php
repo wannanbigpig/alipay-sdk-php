@@ -128,7 +128,7 @@ class ServiceContainer extends Container implements App
     {
         $this->config->set('api_method', $endpoint);
 
-        return [
+        return array_merge([
             'app_id' => $this->config['app_id'],
             'method' => $endpoint,
             'format' => 'JSON',
@@ -137,9 +137,24 @@ class ServiceContainer extends Container implements App
             'sign' => '',
             'timestamp' => date('Y-m-d H:i:s'),
             'notify_url' => $this->config->get('notify_url', ''),
-            'version' => $this->config->get($endpoint.'version', '1.0'),
+            'version' => '1.0',
             'app_auth_token' => $this->config->get('app_auth_token', ''),
-        ];
+        ], $this->config->get($endpoint.'config', []));
+    }
+
+    /**
+     * setEndpointConfig.
+     *
+     * @param string $endpoint
+     * @param array  $config
+     *
+     * @return $this
+     */
+    public function setEndpointConfig(string $endpoint, array $config)
+    {
+        $this->config->set($endpoint.'config', $config);
+
+        return $this;
     }
 
     /**
