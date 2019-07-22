@@ -139,7 +139,7 @@ class ServiceContainer extends Container implements App
             'sign' => '',
             'timestamp' => date('Y-m-d H:i:s'),
             'notify_url' => $this->config->get('notify_url', ''),
-            'version' => $this->config->get('version', '1.0'),
+            'version' => $this->config->get($endpoint.'version', '1.0'),
             'app_auth_token' => $this->config->get('app_auth_token', ''),
         ];
     }
@@ -180,6 +180,20 @@ class ServiceContainer extends Container implements App
         }
 
         return $this->gateway[self::NORMAL_ENV];
+    }
+
+    /**
+     * setAppAuthToken.
+     *
+     * @param $appAuthToken
+     *
+     * @return $this
+     */
+    public function setAppAuthToken($appAuthToken)
+    {
+        $this->config->set('app_auth_token', $appAuthToken);
+
+        return $this;
     }
 
     /**

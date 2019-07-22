@@ -82,11 +82,13 @@ class Support
 
         $this->checkResponseSign($this->castResponseToType($response, new Response()));
 
-        return $returnResponse ? $response : $this->castResponseToType(
-            $response,
-            new Response(),
-            $this->app->config->get('response_type')
-        );
+        return $returnResponse
+            ? $response
+            : $this->castResponseToType(
+                $response,
+                new Response(),
+                $this->app->config->get('response_type')
+            );
     }
 
     /**
@@ -108,12 +110,15 @@ class Support
      *
      * @return array
      */
-    protected function json(array $data)
+    protected function json(array $data): array
     {
-        if (isset($data['biz_content'])) {
-            $data['biz_content'] = \GuzzleHttp\json_encode($data['biz_content'], JSON_UNESCAPED_UNICODE);
+        $array = [];
+        if (isset($data['biz_content']) && is_array($data['biz_content'])) {
+            $array['biz_content'] = \GuzzleHttp\json_encode($data['biz_content'], JSON_UNESCAPED_UNICODE);
+        } else {
+            return $data;
         }
 
-        return $data;
+        return $array;
     }
 }

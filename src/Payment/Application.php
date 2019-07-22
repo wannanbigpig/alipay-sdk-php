@@ -27,8 +27,9 @@ class Application extends ServiceContainer
      * @var array
      */
     protected $providers = [
-        // Base services
         'base' => Base\Client::class,
+        'app' => App\Client::class,
+        'page' => Page\Client::class,
     ];
 
     /**
