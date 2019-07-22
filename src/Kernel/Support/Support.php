@@ -18,6 +18,12 @@ use WannanBigPig\Alipay\Kernel\Traits\Helpers;
 use WannanBigPig\Supports\Traits\HttpRequest;
 use WannanBigPig\Supports\Traits\ResponseCastable;
 
+/**
+ * Class Support
+ *
+ * @author   liuml  <liumenglei0211@163.com>
+ * @DateTime 2019-07-22  11:10
+ */
 class Support
 {
     use Helpers, ResponseCastable, HttpRequest {

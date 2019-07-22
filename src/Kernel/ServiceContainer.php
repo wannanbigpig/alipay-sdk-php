@@ -23,8 +23,6 @@ use WannanBigPig\Supports\Exceptions\RuntimeException;
  *
  * @author   liuml  <liumenglei0211@163.com>
  * @DateTime 2019-07-18  16:13
- *
- * @property \WannanBigPig\Supports\Config $config
  */
 class ServiceContainer extends Container implements App
 {
