@@ -3,4 +3,4 @@ composer.lock
 .DS_Store
 .idea
 /logs
-/tests/MyTest.php
+/tests/DevTest.php

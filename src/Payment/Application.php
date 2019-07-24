@@ -21,9 +21,16 @@ use WannanBigPig\Alipay\Payment\Notify\Handle;
  * @DateTime 2019-07-18  16:13
  *
  * @property Pay\Client $pay
+ * @property Refund\Client $refund
  *
  * @method mixed pay(array $params)
  * @method mixed create(array $params)
+ * @method mixed preCreate(array $params)
+ * @method mixed close(string $tradeNo, string $outTradeNo = null, string $operatorId = null)
+ * @method mixed refund(string $tradeNo, $amount, string $outTradeNo = null, array $params = [])
+ * @method mixed query(string $tradeNo, string $outTradeNo = null, string $orgPid = null)
+ * @method mixed cancel(string $tradeNo, string $outTradeNo = null)
+ * @method mixed orderSettle(string $outRequestNo, string $tradeNo, array $royaltyParameters, string $operatorId = null)
  */
 class Application extends ServiceContainer
 {
@@ -34,6 +41,7 @@ class Application extends ServiceContainer
     protected $providers = [
         'base' => Base\Client::class,
         'pay' => Pay\Client::class,
+        'refund' => Refund\Client::class,
     ];
 
     /**

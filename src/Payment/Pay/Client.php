@@ -74,10 +74,10 @@ class Client extends BaseClient
     public function pc(array $params, string $httpMethod = 'POST')
     {
         $method = 'alipay.trade.page.pay';
-        $params = array_merge($params, [
+        $params = array_merge([
             'timeout_express' => $params['timeout_express'] ?? '1c',
             'product_code' => 'FAST_INSTANT_TRADE_PAY',
-        ]);
+        ], $params);
         $this->app->setEndpointConfig($method, ['return_url' => $this->app['config']->get('return_url')]);
 
         return $this->pageExecute($method, [

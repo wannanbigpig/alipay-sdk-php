@@ -149,9 +149,16 @@ trait Helpers
             return true;
         }
 
-        if (trim($value) === "") {
-            return true;
+        if (is_string($value)) {
+            if (trim($value) === "") {
+                return true;
+            }
+        } elseif (is_array($value)) {
+            if (count($value) < 1) {
+                return true;
+            }
         }
+
 
         return false;
     }
