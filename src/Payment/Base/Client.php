@@ -28,7 +28,26 @@ class Client extends BaseClient
     public function pay(array $params)
     {
         $params['scene'] = $params['scene'] ?? 'bar_code';
+
         return $this->request('alipay.trade.pay', [
+            'biz_content' => $params,
+        ]);
+    }
+
+    /**
+     * alipay.trade.create(统一收单交易创建接口).
+     *
+     * @param array $params
+     *
+     * @return array|object|\Psr\Http\Message\ResponseInterface|\WannanBigPig\Supports\Collection|\WannanBigPig\Supports\Http\Response
+     *
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \WannanBigPig\Alipay\Kernel\Exceptions\InvalidSignException
+     * @throws \WannanBigPig\Supports\Exceptions\InvalidArgumentException
+     */
+    public function create(array $params)
+    {
+        return $this->request('alipay.trade.create', [
             'biz_content' => $params,
         ]);
     }

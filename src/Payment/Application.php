@@ -10,7 +10,9 @@
 
 namespace WannanBigPig\Alipay\Payment;
 
+use Closure;
 use WannanBigPig\Alipay\Kernel\ServiceContainer;
+use WannanBigPig\Alipay\Payment\Notify\Handle;
 
 /**
  * Class Application
@@ -20,7 +22,8 @@ use WannanBigPig\Alipay\Kernel\ServiceContainer;
  *
  * @property Pay\Client $pay
  *
- * @method mixed pay()
+ * @method mixed pay(array $params)
+ * @method mixed create(array $params)
  */
 class Application extends ServiceContainer
 {
@@ -42,5 +45,17 @@ class Application extends ServiceContainer
     public function __call($name, $arguments)
     {
         return call_user_func_array([$this['base'], $name], $arguments);
+    }
+
+    /**
+     * handleNotify.
+     *
+     * @param \Closure $closure
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function handleNotify(Closure $closure)
+    {
+        return (new Handle($this))->run($closure);
     }
 }

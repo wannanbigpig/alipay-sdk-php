@@ -22,11 +22,28 @@ use WannanBigPig\Supports\Exceptions\InvalidArgumentException;
  */
 trait Helpers
 {
+    /**
+     * generateSign.
+     *
+     * @param        $data
+     * @param string $signType
+     *
+     * @return string
+     *
+     * @throws \WannanBigPig\Supports\Exceptions\InvalidArgumentException
+     */
     public function generateSign($data, $signType = 'RSA2')
     {
         return $this->sign($this->getSignContent($data), $signType);
     }
 
+    /**
+     * getSignContent.
+     *
+     * @param $params
+     *
+     * @return string
+     */
     public function getSignContent($params)
     {
         ksort($params);
@@ -78,6 +95,16 @@ trait Helpers
         return $stringToBeSigned;
     }
 
+    /**
+     * sign.
+     *
+     * @param        $data
+     * @param string $signType
+     *
+     * @return string
+     *
+     * @throws \WannanBigPig\Supports\Exceptions\InvalidArgumentException
+     */
     protected function sign($data, $signType = "RSA2")
     {
         $rsaPrivateKeyFilePath = $this->app['config']->get('private_key_path');

@@ -16,6 +16,7 @@ use WannanBigPig\Alipay\Kernel\Providers\AppServiceProvider;
 use WannanBigPig\Alipay\Kernel\Providers\ConfigServiceProvider;
 use WannanBigPig\Alipay\Kernel\Providers\HttpClientServiceProvider;
 use WannanBigPig\Alipay\Kernel\Providers\LogServiceProvider;
+use WannanBigPig\Alipay\Kernel\Providers\RequestServiceProvider;
 use WannanBigPig\Supports\Exceptions\RuntimeException;
 
 /**
@@ -220,6 +221,7 @@ class ServiceContainer extends Container implements App
             ConfigServiceProvider::class,
             HttpClientServiceProvider::class,
             LogServiceProvider::class,
+            RequestServiceProvider::class,
             AppServiceProvider::class,
         ]);
     }

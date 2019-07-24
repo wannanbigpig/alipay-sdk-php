@@ -34,4 +34,17 @@ class ClientTest extends ApplicationTest
         $client->expects()->pay($params)->andReturn('foo');
         $this->assertSame('foo', $client->pay($params));
     }
+
+    public function testCreate(){
+        $client = $this->mockApiClient(Client::class, ['create'], $this->appClient())->makePartial();
+        $params = [
+            'out_trade_no' => Str::getRandomInt(),
+            'total_amount' => 100,
+            'buyer_id' => '2088102177891684',
+            'subject' => 'mac X pro 2080',
+            'body' => 'mac X pro 2080',
+        ];
+        $client->expects()->create($params)->andReturn('foo');
+        $this->assertSame('foo', $client->create($params));
+    }
 }

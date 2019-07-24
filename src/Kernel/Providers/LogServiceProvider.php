@@ -45,15 +45,16 @@ class LogServiceProvider implements ServiceProviderInterface
      */
     public function logConfig($app)
     {
+        $logConfig = [];
         if (!empty($app['config']->get('log'))) {
-            return $app['config']->get('log');
+            $logConfig = $app['config']->get('log');
         }
 
-        return [
+        return array_merge([
             'driver' => 'single',
             'level' => 'notice',
             'format' => "%datetime% > %channel% [ %level_name% ] > %message% %context% %extra%\n",
             'path' => '/tmp/wannanbigpig.alipay.log',
-        ];
+        ], $logConfig);
     }
 }
