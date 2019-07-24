@@ -26,6 +26,8 @@ class Client extends BaseClient
      * @param array $params
      *
      * @return string
+     *
+     * @throws \WannanBigPig\Supports\Exceptions\InvalidArgumentException
      */
     public function app(array $params)
     {
@@ -45,6 +47,8 @@ class Client extends BaseClient
      * @param string $httpMethod
      *
      * @return string
+     *
+     * @throws \WannanBigPig\Supports\Exceptions\InvalidArgumentException
      */
     public function wap(array $params, string $httpMethod = 'POST')
     {
@@ -64,6 +68,8 @@ class Client extends BaseClient
      * @param string $httpMethod
      *
      * @return string
+     *
+     * @throws \WannanBigPig\Supports\Exceptions\InvalidArgumentException
      */
     public function pc(array $params, string $httpMethod = 'POST')
     {

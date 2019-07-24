@@ -12,17 +12,25 @@ namespace WannanBigPig\Alipay\Payment\Kernel;
 
 use WannanBigPig\Alipay\Kernel\Support\Support;
 
+/**
+ * Class BaseClient
+ *
+ * @author   liuml  <liumenglei0211@163.com>
+ * @DateTime 2019-07-24  14:25
+ */
 class BaseClient extends Support
 {
     /**
      * sdkExecute.
      *
-     * @param       $endpoint
-     * @param array $params
+     * @param string $endpoint
+     * @param array  $params
      *
      * @return string
+     *
+     * @throws \WannanBigPig\Supports\Exceptions\InvalidArgumentException
      */
-    public function sdkExecute($endpoint, $params = [])
+    public function sdkExecute(string $endpoint, array $params = [])
     {
         // Get api system parameters
         $sysParams = $this->app->apiCommonConfig($endpoint);
@@ -42,13 +50,15 @@ class BaseClient extends Support
     /**
      * pageExecute.
      *
-     * @param        $endpoint
+     * @param string $endpoint
      * @param array  $params
      * @param string $httpMethod
      *
      * @return string
+     *
+     * @throws \WannanBigPig\Supports\Exceptions\InvalidArgumentException
      */
-    public function pageExecute($endpoint, $params = [], $httpMethod = "POST")
+    public function pageExecute(string $endpoint, array $params = [], string $httpMethod = "POST")
     {
 
         // Get api system parameters
@@ -62,7 +72,6 @@ class BaseClient extends Support
         $params['sign'] = $this->generateSign($params, $sysParams['sign_type']);
 
         if ("GET" == strtoupper($httpMethod)) {
-
             //value做urlencode
             $preString = $this->getSignContentUrlencode($params);
             //拼接GET请求串
@@ -78,20 +87,20 @@ class BaseClient extends Support
     /**
      * buildRequestForm.
      *
-     * @param $para_temp
+     * @param array $paraTemp
      *
      * @return string
      */
-    protected function buildRequestForm($para_temp)
+    protected function buildRequestForm(array $paraTemp)
     {
 
-        $sHtml = "<form id='alipaysubmit' name='alipaysubmit' action='".$this->app->getGateway()."?charset=".trim($para_temp['charset'])."' method='POST'>";
+        $sHtml = "<form id='alipaysubmit' name='alipaysubmit' action='".
+            $this->app->getGateway()."?charset=".trim($paraTemp['charset']).
+            "' method='POST'>";
 
-        foreach ($para_temp as $key => $val) {
+        foreach ($paraTemp as $key => $val) {
             if (false === $this->checkEmpty($val)) {
-                //$val = $this->characet($val, $this->postCharset);
                 $val = str_replace("'", "&apos;", $val);
-                //$val = str_replace("\"","&quot;",$val);
                 $sHtml .= "<input type='hidden' name='".$key."' value='".$val."'/>";
             }
         }
