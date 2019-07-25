@@ -137,7 +137,6 @@ class ServiceContainer extends Container implements App
             'sign_type' => $this->config->get('sign_type', 'RSA2'),
             'sign' => '',
             'timestamp' => date('Y-m-d H:i:s'),
-            'notify_url' => $this->config->get('notify_url', ''),
             'version' => '1.0',
             'app_auth_token' => $this->config->get('app_auth_token', ''),
         ], $this->config->get($endpoint.'config', []));

@@ -22,7 +22,11 @@ use WannanBigPig\Supports\Str;
  */
 class ClientTest extends ApplicationTest
 {
-    public function testPay(){
+    /**
+     * testPay.
+     */
+    public function testPay()
+    {
         $client = $this->mockApiClient(Client::class, ['pay'], $this->appClient())->makePartial();
         $params = [
             'out_trade_no' => Str::getRandomInt(),
@@ -35,7 +39,11 @@ class ClientTest extends ApplicationTest
         $this->assertSame('foo', $client->pay($params));
     }
 
-    public function testCreate(){
+    /**
+     * testCreate.
+     */
+    public function testCreate()
+    {
         $client = $this->mockApiClient(Client::class, ['create'], $this->appClient())->makePartial();
         $params = [
             'out_trade_no' => Str::getRandomInt(),
@@ -46,5 +54,77 @@ class ClientTest extends ApplicationTest
         ];
         $client->expects()->create($params)->andReturn('foo');
         $this->assertSame('foo', $client->create($params));
+    }
+
+    /**
+     * testPreCreate.
+     */
+    public function testPreCreate()
+    {
+        $client = $this->mockApiClient(Client::class, ['preCreate'], $this->appClient())->makePartial();
+        $params = [
+            'out_trade_no' => Str::getRandomInt(),
+            'total_amount' => 100,
+            'subject' => 'mac X pro 2080',
+            'body' => 'mac X pro 2080',
+        ];
+        $client->expects()->preCreate($params)->andReturn('foo');
+        $this->assertSame('foo', $client->preCreate($params));
+    }
+
+    /**
+     * testClose.
+     */
+    public function testClose()
+    {
+        $client = $this->mockApiClient(Client::class, ['close'], $this->appClient())->makePartial();
+        $client->expects()->close('2019072422001491681000170710')->andReturn('foo');
+        $this->assertSame('foo', $client->close('2019072422001491681000170710'));
+    }
+
+    /**
+     * testRefund.
+     */
+    public function testRefund()
+    {
+        $client = $this->mockApiClient(Client::class, ['refund'], $this->appClient())->makePartial();
+        $client->expects()->refund('2019072422001491681000170710', '100')->andReturn('foo');
+        $this->assertSame('foo', $client->refund('2019072422001491681000170710', '100'));
+    }
+
+    /**
+     * testQuery.
+     */
+    public function testQuery()
+    {
+        $client = $this->mockApiClient(Client::class, ['query'], $this->appClient())->makePartial();
+        $client->expects()->query('2019072422001491681000170710')->andReturn('foo');
+        $this->assertSame('foo', $client->query('2019072422001491681000170710'));
+    }
+
+    /**
+     * testCancel.
+     */
+    public function testCancel()
+    {
+        $client = $this->mockApiClient(Client::class, ['cancel'], $this->appClient())->makePartial();
+        $client->expects()->cancel('2019072422001491681000170710')->andReturn('foo');
+        $this->assertSame('foo', $client->cancel('2019072422001491681000170710'));
+    }
+
+    /**
+     * testOrderSettle.
+     */
+    public function testOrderSettle()
+    {
+        $client = $this->mockApiClient(Client::class, ['orderSettle'], $this->appClient())->makePartial();
+        $client->expects()->orderSettle('1234567890', '2019072422001491681000170710', [
+            'trans_in' => '2088102177891684',
+            'amount' => '70',
+        ])->andReturn('foo');
+        $this->assertSame('foo', $client->orderSettle('1234567890', '2019072422001491681000170710', [
+            'trans_in' => '2088102177891684',
+            'amount' => '70',
+        ]));
     }
 }

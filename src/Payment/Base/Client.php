@@ -33,9 +33,13 @@ class Client extends BaseClient
      */
     public function pay(array $params)
     {
+        $method = 'alipay.trade.pay';
         $params['scene'] = $params['scene'] ?? 'bar_code';
+        $this->app->setEndpointConfig($method, [
+            'notify_url' => $this->app['config']->get('notify_url'),
+        ]);
 
-        return $this->request('alipay.trade.pay', [
+        return $this->request($method, [
             'biz_content' => $params,
         ]);
     }
@@ -53,7 +57,12 @@ class Client extends BaseClient
      */
     public function create(array $params)
     {
-        return $this->request('alipay.trade.create', [
+        $method = 'alipay.trade.create';
+        $this->app->setEndpointConfig($method, [
+            'notify_url' => $this->app['config']->get('notify_url'),
+        ]);
+
+        return $this->request($method, [
             'biz_content' => $params,
         ]);
     }
@@ -71,7 +80,12 @@ class Client extends BaseClient
      */
     public function preCreate(array $params)
     {
-        return $this->request('alipay.trade.precreate', [
+        $method = 'alipay.trade.precreate';
+        $this->app->setEndpointConfig($method, [
+            'notify_url' => $this->app['config']->get('notify_url'),
+        ]);
+
+        return $this->request($method, [
             'biz_content' => $params,
         ]);
     }
@@ -92,6 +106,7 @@ class Client extends BaseClient
      */
     public function close(string $tradeNo, string $outTradeNo = null, string $operatorId = null)
     {
+        $method = 'alipay.trade.close';
         $params = array_filter([
             'trade_no' => $tradeNo,
             'out_trade_no' => $outTradeNo,
@@ -99,8 +114,11 @@ class Client extends BaseClient
         ], function ($value) {
             return !($this->checkEmpty($value));
         });
+        $this->app->setEndpointConfig($method, [
+            'notify_url' => $this->app['config']->get('notify_url'),
+        ]);
 
-        return $this->request('alipay.trade.close', [
+        return $this->request($method, [
             'biz_content' => $params,
         ]);
     }

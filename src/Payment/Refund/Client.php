@@ -55,6 +55,7 @@ class Client extends BaseClient
      *
      * @param string      $tradeNo
      * @param             $amount
+     * @param string      $outRequestNo
      * @param string|null $outTradeNo
      * @param array       $params
      * @param string      $httpMethod
@@ -63,17 +64,22 @@ class Client extends BaseClient
      *
      * @throws \WannanBigPig\Supports\Exceptions\InvalidArgumentException
      */
-    public function page(string $tradeNo, $amount, string $outTradeNo = null, array $params = [], string $httpMethod = 'POST')
+    public function page(string $tradeNo, $amount, string $outRequestNo, string $outTradeNo = null, array $params = [], string $httpMethod = 'POST')
     {
+        $method = 'alipay.trade.page.refund';
         $params = array_merge(array_filter([
             'trade_no' => $tradeNo,
             'out_trade_no' => $outTradeNo,
             'refund_amount' => $amount,
+            'out_request_no' => $outRequestNo,
         ], function ($value) {
             return !($this->checkEmpty($value));
         }), $params);
+        $this->app->setEndpointConfig($method, [
+            'return_url' => $this->app['config']->get('return_url'),
+        ]);
 
-        return $this->pageExecute('alipay.trade.refund', [
+        return $this->pageExecute($method, [
             'biz_content' => $params,
         ], $httpMethod);
     }

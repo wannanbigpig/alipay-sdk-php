@@ -30,7 +30,7 @@ class ApplicationTest extends TestCase
     public function appClient()
     {
         $config = [
-            'app_id' => '2016092600598145',
+            'app_id' => '8888888888888888',
             'private_key_path' => STORAGE_ROOT.'private_key.pem',
             // 'private_key' => file_get_contents(STORAGE_ROOT.'private_key.txt'), // 直接配置此处则私钥文件路径则不用填写
             'alipay_public_Key_path' => STORAGE_ROOT.'alipay_public_key.pem',
@@ -46,7 +46,7 @@ class ApplicationTest extends TestCase
     public function testClient()
     {
         $config = [
-            'app_id' => '2016092600598145',
+            'app_id' => '8888888888888888',
             'private_key_path' => STORAGE_ROOT.'private_key.pem',
             // 'private_key' => file_get_contents(STORAGE_ROOT.'private_key.txt'), // 直接配置此处则私钥文件路径则不用填写
             'alipay_public_Key_path' => STORAGE_ROOT.'alipay_public_key.pem',

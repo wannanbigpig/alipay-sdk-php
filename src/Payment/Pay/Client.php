@@ -33,7 +33,10 @@ class Client extends BaseClient
     {
         $method = 'alipay.trade.app.pay';
         $params['timeout_express'] = $params['timeout_express'] ?? '1c';
-        $this->app->setEndpointConfig($method, ['return_url' => $this->app['config']->get('return_url')]);
+        $this->app->setEndpointConfig($method, [
+            'return_url' => $this->app['config']->get('return_url'),
+            'notify_url' => $this->app['config']->get('notify_url'),
+        ]);
 
         return $this->sdkExecute($method, [
             'biz_content' => $params,
@@ -54,7 +57,10 @@ class Client extends BaseClient
     {
         $method = 'alipay.trade.wap.pay';
         $params['timeout_express'] = $params['timeout_express'] ?? '1c';
-        $this->app->setEndpointConfig($method, ['return_url' => $this->app['config']->get('return_url')]);
+        $this->app->setEndpointConfig($method, [
+            'return_url' => $this->app['config']->get('return_url'),
+            'notify_url' => $this->app['config']->get('notify_url'),
+        ]);
 
         return $this->pageExecute($method, [
             'biz_content' => $params,
@@ -78,7 +84,10 @@ class Client extends BaseClient
             'timeout_express' => $params['timeout_express'] ?? '1c',
             'product_code' => 'FAST_INSTANT_TRADE_PAY',
         ], $params);
-        $this->app->setEndpointConfig($method, ['return_url' => $this->app['config']->get('return_url')]);
+        $this->app->setEndpointConfig($method, [
+            'return_url' => $this->app['config']->get('return_url'),
+            'notify_url' => $this->app['config']->get('notify_url'),
+        ]);
 
         return $this->pageExecute($method, [
             'biz_content' => $params,

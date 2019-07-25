@@ -37,8 +37,8 @@ class ClientTest extends ApplicationTest
     }
 
     /**
-     * testWap.
-     */
+ * testWap.
+ */
     public function testWap()
     {
         $app = $this->appClient();
