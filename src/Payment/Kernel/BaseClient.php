@@ -71,7 +71,7 @@ class BaseClient extends Support
         // Set the signature
         $params['sign'] = $this->generateSign($params, $sysParams['sign_type']);
 
-        if ("GET" == strtoupper($httpMethod)) {
+        if ("GET" === strtoupper($httpMethod)) {
             //value做urlencode
             $preString = $this->getSignContentUrlencode($params);
             //拼接GET请求串
@@ -93,7 +93,6 @@ class BaseClient extends Support
      */
     protected function buildRequestForm(array $paraTemp)
     {
-
         $sHtml = "<form id='alipaysubmit' name='alipaysubmit' action='".
             $this->app->getGateway()."?charset=".trim($paraTemp['charset']).
             "' method='POST'>";

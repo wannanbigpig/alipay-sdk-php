@@ -18,5 +18,4 @@ namespace WannanBigPig\Alipay\Kernel\Events;
  */
 class Response extends BaseEvent
 {
-
 }
