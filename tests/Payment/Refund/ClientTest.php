@@ -39,7 +39,7 @@ class ClientTest extends ApplicationTest
     public function testPage()
     {
         $app = $this->appClient();
-        $res = $app->refund->page('1111111111111','100','11111');
+        $res = $app->refund->page('1111111111111', '100', '11111');
         $this->assertInternalType('string', $res);
     }
 }

@@ -8,7 +8,7 @@
  * with this source code in the file LICENSE.
  */
 
-namespace WannanBigPig\Alipay\Tests\Payment\Refund;
+namespace WannanBigPig\Alipay\Tests\Payment\Bill;
 
 use WannanBigPig\Alipay\Payment\Bill\Client;
 use WannanBigPig\Alipay\Tests\Payment\ApplicationTest;
