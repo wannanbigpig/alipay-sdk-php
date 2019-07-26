@@ -20,9 +20,9 @@ use WannanBigPig\Alipay\Payment\Notify\Handle;
  * @author   liuml  <liumenglei0211@163.com>
  * @DateTime 2019-07-18  16:13
  *
- * @property Pay\Client $pay
+ * @property Pay\Client    $pay
  * @property Refund\Client $refund
- * @property Bill\Client $bill
+ * @property Bill\Client   $bill
  *
  * @method mixed pay(array $params)
  * @method mixed create(array $params)
