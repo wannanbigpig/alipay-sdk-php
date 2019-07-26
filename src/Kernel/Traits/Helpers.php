@@ -207,9 +207,9 @@ trait Helpers
                 wordwrap($pubKey, 64, "\n", true).
                 "\n-----END PUBLIC KEY-----";
         } else {
-            //读取公钥文件
+            // Read public key file
             $pubKey = file_get_contents($alipayPublicKeyPath);
-            //转换为openssl格式密钥
+            // Convert to openssl format key
             $res = openssl_get_publickey($pubKey);
         }
 
@@ -217,7 +217,7 @@ trait Helpers
             throw new InvalidArgumentException('Invalid alipay_public_Key configuration');
         }
 
-        //调用openssl内置方法验签，返回bool值
+        // Call openssl built-in method checksum, return bool value
         if ("RSA2" === $signType) {
             $result = (openssl_verify($data, base64_decode($sign, true), $res, OPENSSL_ALGO_SHA256) === 1);
         } else {
@@ -225,7 +225,7 @@ trait Helpers
         }
 
         if (!$this->checkEmpty($alipayPublicKeyPath)) {
-            //释放资源
+            // Release resources
             openssl_free_key($res);
         }
 
