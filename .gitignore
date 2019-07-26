@@ -2,6 +2,5 @@
 composer.lock
 .DS_Store
 .idea
-/tests/certificate
-/tests/reports
 /logs
+/tests/DevTest.php
