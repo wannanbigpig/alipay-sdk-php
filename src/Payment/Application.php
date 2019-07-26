@@ -31,6 +31,7 @@ use WannanBigPig\Alipay\Payment\Notify\Handle;
  * @method mixed query(string $tradeNo, string $outTradeNo = null, string $orgPid = null)
  * @method mixed cancel(string $tradeNo, string $outTradeNo = null)
  * @method mixed orderSettle(string $outRequestNo, string $tradeNo, array $royaltyParameters, string $operatorId = null)
+ * @method mixed orderInfoSync(string $tradeNo, string $outRequestNo, string $bizType, string $origRequestNo = null, string $orderBizInfo = null)
  */
 class Application extends ServiceContainer
 {

@@ -166,16 +166,17 @@ trait Helpers
     /**
      * parserSignSource.
      *
-     * @param array $response
+     * @param array       $response
+     * @param string|null $apiMethod
      *
      * @return array|mixed
      */
-    public function parserSignSource(array $response)
+    public function parserSignSource(array $response, string $apiMethod = null)
     {
-        $response_suffix = $this->app['config']->get('RESPONSE_SUFFIX', '_response');
-        $error_respones = $this->app['config']->get('RESPONSE_SUFFIX', 'error_response');
-
-        $rootNodeName = str_replace(".", "_", $this->app['config']['api_method']).$response_suffix;
+        $response_suffix = '_response';
+        $error_respones = 'error_response';
+        $apiMethod = $this->app['config']['api_method'] ?? $apiMethod;
+        $rootNodeName = str_replace(".", "_", $apiMethod).$response_suffix;
 
         if (isset($response[$rootNodeName])) {
             return $response[$rootNodeName];
@@ -234,23 +235,24 @@ trait Helpers
     /**
      * checkResponseSign.
      *
-     * @param $response
+     * @param             $content
+     * @param string|null $sign
      *
      * @return bool
      *
      * @throws \WannanBigPig\Alipay\Kernel\Exceptions\InvalidSignException
      * @throws \WannanBigPig\Supports\Exceptions\InvalidArgumentException
      */
-    public function checkResponseSign($response)
+    public function checkResponseSign($content, string $sign = null)
     {
-        $result = true;
-
-        if (isset($response['sign'])) {
+        if (!is_null($sign)) {
             $result = $this->verify(
-                \GuzzleHttp\json_encode($this->parserSignSource($response), JSON_UNESCAPED_UNICODE),
-                $response['sign'],
+                $content,
+                $sign,
                 $this->app['config']->get('sign_type', 'RSA2')
             );
+        } else {
+            throw new InvalidSignException('check sign Fail! The reason : sign data is Empty', 0, $content);
         }
 
         if (!$result) {

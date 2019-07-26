@@ -130,15 +130,15 @@ class ServiceContainer extends Container implements App
         $this->config->set('api_method', $endpoint);
 
         return array_merge([
-            'app_id' => $this->config['app_id'],
+            'app_id' => $this->config['sys_params.app_id'],
             'method' => $endpoint,
             'format' => 'JSON',
-            'charset' => $this->config->get('charset', 'utf-8'),
-            'sign_type' => $this->config->get('sign_type', 'RSA2'),
+            'charset' => $this->config->get('sys_params.charset', 'utf-8'),
+            'sign_type' => $this->config->get('sys_params.sign_type', 'RSA2'),
             'sign' => '',
             'timestamp' => date('Y-m-d H:i:s'),
             'version' => '1.0',
-            'app_auth_token' => $this->config->get('app_auth_token', ''),
+            'app_auth_token' => $this->config->get('sys_params.app_auth_token', ''),
         ], $this->config->get($endpoint.'config', []));
     }
 

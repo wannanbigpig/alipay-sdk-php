@@ -241,4 +241,39 @@ class Client extends BaseClient
             'biz_content' => $params,
         ]);
     }
+
+    /**
+     * alipay.trade.orderinfo.sync(支付宝订单信息同步接口).
+     *
+     * @param string      $tradeNo
+     * @param string      $outRequestNo
+     * @param string      $bizType
+     * @param string|null $origRequestNo
+     * @param string|null $orderBizInfo
+     *
+     * @return array|object|\Psr\Http\Message\ResponseInterface|\WannanBigPig\Supports\Collection|\WannanBigPig\Supports\Http\Response
+     *
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \WannanBigPig\Alipay\Kernel\Exceptions\InvalidSignException
+     * @throws \WannanBigPig\Supports\Exceptions\InvalidArgumentException
+     */
+    public function orderInfoSync(string $tradeNo, string $outRequestNo, string $bizType, string $origRequestNo = null, string $orderBizInfo = null)
+    {
+        $params = array_filter([
+            'trade_no' => $tradeNo,
+            'out_request_no' => $outRequestNo,
+            'orig_request_no' => $origRequestNo,
+            'biz_type' => $bizType,
+        ], function ($value) {
+            return !($this->checkEmpty($value));
+        });
+
+        if (!($this->checkEmpty($orderBizInfo))) {
+            $params['order_biz_info'] = json_encode(['status' => $orderBizInfo]);
+        }
+
+        return $this->request('alipay.trade.orderinfo.sync', [
+            'biz_content' => $params,
+        ]);
+    }
 }

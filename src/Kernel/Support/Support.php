@@ -12,9 +12,10 @@ namespace WannanBigPig\Alipay\Kernel\Support;
 
 use GuzzleHttp\MessageFormatter;
 use GuzzleHttp\Middleware;
-use WannanBigPig\Alipay\Kernel\Http\Response;
+use Psr\Http\Message\ResponseInterface;
 use WannanBigPig\Alipay\Kernel\ServiceContainer;
 use WannanBigPig\Alipay\Kernel\Traits\Helpers;
+use WannanBigPig\Supports\Http\Response;
 use WannanBigPig\Supports\Traits\HttpRequest;
 use WannanBigPig\Supports\Traits\ResponseCastable;
 
@@ -86,15 +87,40 @@ class Support
 
         $response = $this->performRequest($method, '?'.http_build_query($sysParams), $options);
 
-        $this->checkResponseSign($this->castResponseToType($response, new Response()));
+        $arrayBody = \GuzzleHttp\json_decode((string)$response->getBody(), true, 512, JSON_BIGINT_AS_STRING);
+        $context = \GuzzleHttp\json_encode($this->parserSignSource($arrayBody, $endpoint), JSON_UNESCAPED_UNICODE);
 
-        return $returnResponse
-            ? $response
-            : $this->castResponseToType(
-                $response,
-                new Response(),
-                $this->app->config->get('response_type')
+        // Verify Response Signature
+        $this->checkResponseSign($context, $arrayBody['sign'] ?? null);
+
+        return $returnResponse ? $response : $this->handleResponse($response, $context);
+    }
+
+    /**
+     * handleResponse.
+     *
+     * @param \Psr\Http\Message\ResponseInterface $response
+     * @param string|null                         $context
+     *
+     * @return array|object|\Psr\Http\Message\ResponseInterface|\WannanBigPig\Supports\Collection|\WannanBigPig\Supports\Http\Response
+     *
+     * @throws \WannanBigPig\Supports\Exceptions\InvalidArgumentException
+     */
+    public function handleResponse(ResponseInterface $response, string $context = null)
+    {
+        $is_build = true;
+        if ($this->app['config']->get('handle_response', true) && !is_null($context)) {
+            $response = new Response(
+                $response->getStatusCode(),
+                $response->getHeaders(),
+                $context,
+                $response->getProtocolVersion(),
+                $response->getReasonPhrase()
             );
+            $is_build = false;
+        }
+
+        return $this->castResponseToType($response, $this->app['config']->get('response_type', 'array'), $is_build);
     }
 
     /**
