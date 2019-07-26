@@ -93,7 +93,6 @@ class BaseClient extends Support
      */
     protected function buildRequestForm(array $paraTemp)
     {
-
         $sHtml = "<form id='alipaysubmit' name='alipaysubmit' action='".
             $this->app->getGateway()."?charset=".trim($paraTemp['charset']).
             "' method='POST'>";
