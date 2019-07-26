@@ -127,4 +127,14 @@ class ClientTest extends ApplicationTest
             'amount' => '70',
         ]));
     }
+    
+    /**
+     * testOrderSettle.
+     */
+    public function testOrderInfoSync()
+    {
+        $client = $this->mockApiClient(Client::class, ['orderInfoSync'], $this->appClient())->makePartial();
+        $client->expects()->orderInfoSync('2019072422001491681000169170', '4936660400225200', 'CREDIT_AUTH')->andReturn('foo');
+        $this->assertSame('foo', $client->orderInfoSync('2019072422001491681000169170', '4936660400225200', 'CREDIT_AUTH'));
+    }
 }

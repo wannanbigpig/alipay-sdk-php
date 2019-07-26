@@ -22,6 +22,7 @@ use WannanBigPig\Alipay\Payment\Notify\Handle;
  *
  * @property Pay\Client $pay
  * @property Refund\Client $refund
+ * @property Bill\Client $bill
  *
  * @method mixed pay(array $params)
  * @method mixed create(array $params)
@@ -43,6 +44,7 @@ class Application extends ServiceContainer
         'base' => Base\Client::class,
         'pay' => Pay\Client::class,
         'refund' => Refund\Client::class,
+        'bill' => Bill\Client::class,
     ];
 
     /**
