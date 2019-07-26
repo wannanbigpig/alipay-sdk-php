@@ -71,15 +71,15 @@ class BaseClient extends Support
         // Set the signature
         $params['sign'] = $this->generateSign($params, $sysParams['sign_type']);
 
-        if ("GET" == strtoupper($httpMethod)) {
-            //value做urlencode
+        if ("GET" === strtoupper($httpMethod)) {
+            // value urlencode
             $preString = $this->getSignContentUrlencode($params);
-            //拼接GET请求串
+            // Stitching GET request string
             $requestUrl = $this->app->getGateway()."?".$preString;
 
             return $requestUrl;
         } else {
-            //拼接表单字符串
+            // Stitching form string
             return $this->buildRequestForm($params);
         }
     }
@@ -105,7 +105,7 @@ class BaseClient extends Support
             }
         }
 
-        //submit按钮控件请不要含有name属性
+        // Submit button control please do not include the name attribute
         $sHtml = $sHtml."<input type='submit' value='ok' style='display:none;''></form>";
 
         $sHtml = $sHtml."<script>document.forms['alipaysubmit'].submit();</script>";

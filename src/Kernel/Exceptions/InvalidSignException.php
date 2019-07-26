@@ -20,5 +20,4 @@ use WannanBigPig\Supports\Exceptions\Exception;
  */
 class InvalidSignException extends Exception
 {
-
 }

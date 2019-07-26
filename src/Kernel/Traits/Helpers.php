@@ -51,8 +51,8 @@ trait Helpers
         $stringToBeSigned = "";
         $i = 0;
         foreach ($params as $k => $v) {
-            if (false === $this->checkEmpty($v) && "@" != substr($v, 0, 1)) {
-                if ($i == 0) {
+            if (false === $this->checkEmpty($v) && "@" !== substr($v, 0, 1)) {
+                if ($i === 0) {
                     $stringToBeSigned .= "$k"."="."$v";
                 } else {
                     $stringToBeSigned .= "&"."$k"."="."$v";
@@ -80,8 +80,8 @@ trait Helpers
         $stringToBeSigned = "";
         $i = 0;
         foreach ($params as $k => $v) {
-            if (false === $this->checkEmpty($v) && "@" != substr($v, 0, 1)) {
-                if ($i == 0) {
+            if (false === $this->checkEmpty($v) && "@" !== substr($v, 0, 1)) {
+                if ($i === 0) {
                     $stringToBeSigned .= "$k"."=".urlencode($v);
                 } else {
                     $stringToBeSigned .= "&"."$k"."=".urlencode($v);
@@ -122,7 +122,7 @@ trait Helpers
             throw new InvalidArgumentException('Invalid private_key configuration');
         }
 
-        if ("RSA2" == $signType) {
+        if ("RSA2" === $signType) {
             openssl_sign($data, $sign, $res, OPENSSL_ALGO_SHA256);
         } else {
             openssl_sign($data, $sign, $res);
@@ -207,9 +207,9 @@ trait Helpers
                 wordwrap($pubKey, 64, "\n", true).
                 "\n-----END PUBLIC KEY-----";
         } else {
-            //读取公钥文件
+            // Read public key file
             $pubKey = file_get_contents($alipayPublicKeyPath);
-            //转换为openssl格式密钥
+            // Convert to openssl format key
             $res = openssl_get_publickey($pubKey);
         }
 
@@ -217,15 +217,15 @@ trait Helpers
             throw new InvalidArgumentException('Invalid alipay_public_Key configuration');
         }
 
-        //调用openssl内置方法验签，返回bool值
-        if ("RSA2" == $signType) {
-            $result = (openssl_verify($data, base64_decode($sign), $res, OPENSSL_ALGO_SHA256) === 1);
+        // Call openssl built-in method checksum, return bool value
+        if ("RSA2" === $signType) {
+            $result = (openssl_verify($data, base64_decode($sign, true), $res, OPENSSL_ALGO_SHA256) === 1);
         } else {
-            $result = (openssl_verify($data, base64_decode($sign), $res) === 1);
+            $result = (openssl_verify($data, base64_decode($sign, true), $res) === 1);
         }
 
         if (!$this->checkEmpty($alipayPublicKeyPath)) {
-            //释放资源
+            // Release resources
             openssl_free_key($res);
         }
 
