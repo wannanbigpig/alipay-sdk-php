@@ -40,7 +40,7 @@ class Alipay
 
         if (class_exists($application)) {
             // Instantiation application
-            return new $application($config);
+            return new $application($config[0]);
         }
         throw new ApplicationException("Application [{$name}] does not exist");
     }
