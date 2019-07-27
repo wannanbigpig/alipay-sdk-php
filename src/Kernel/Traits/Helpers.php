@@ -127,7 +127,7 @@ trait Helpers
             openssl_sign($data, $sign, $res);
         }
 
-        if (!$this->checkEmpty($rsaPrivateKeyFilePath)) {
+        if (!$this->checkEmpty($rsaPrivateKeyFilePath) && is_resource($res)) {
             openssl_free_key($res);
         }
         $sign = base64_encode($sign);
@@ -223,7 +223,7 @@ trait Helpers
             $result = (openssl_verify($data, base64_decode($sign, true), $res) === 1);
         }
 
-        if (!$this->checkEmpty($alipayPublicKeyPath)) {
+        if (!$this->checkEmpty($alipayPublicKeyPath) && is_resource($res)) {
             // Release resources
             openssl_free_key($res);
         }
