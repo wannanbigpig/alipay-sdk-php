@@ -1,5 +1,5 @@
 {
-    "name": "wannanbigpig/alipay",
+    "name": "wannanbigpig/alipay-sdk-php",
     "description": "支付宝接口扩展包",
     "license": "MIT",
     "keywords": [
@@ -8,8 +8,8 @@
     ],
     "type": "library",
     "support": {
-        "issues": "https://github.com/wannanbigpig/alipay/issues",
-        "source": "https://github.com/wannanbigpig/alipay"
+        "issues": "https://github.com/wannanbigpig/alipay-sdk-php/issues",
+        "source": "https://github.com/wannanbigpig/alipay-sdk-php"
     },
     "authors": [
         {

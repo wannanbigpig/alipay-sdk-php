@@ -1,6 +1,6 @@
 <?php
 /*
- * This file is part of the wannanbigpig/alipay.
+ * This file is part of the wannanbigpig/alipay-sdk-php.
  *
  * (c) wannanbigpig <liuml0211@gmail.com>
  *
