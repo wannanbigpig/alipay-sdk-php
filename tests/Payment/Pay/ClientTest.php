@@ -10,6 +10,7 @@
 
 namespace EasyAlipay\Tests\Payment\Pay;
 
+use EasyAlipay\Payment\Pay\Client;
 use EasyAlipay\Tests\Payment\ApplicationTest;
 use WannanBigPig\Supports\Str;
 
@@ -37,8 +38,8 @@ class ClientTest extends ApplicationTest
     }
 
     /**
- * testWap.
- */
+     * testWap.
+     */
     public function testWap()
     {
         $app = $this->appClient();
@@ -64,5 +65,16 @@ class ClientTest extends ApplicationTest
         ]);
 
         $this->assertInternalType('string', $res);
+    }
+
+    /**
+     * testPay.
+     */
+    public function testFace()
+    {
+        $client = $this->mockApiClient(Client::class, ['face'], $this->appClient())->makePartial();
+        $params = '{"apdidToken":"设备指纹", "appName": "应用名称", "appVersion": "应用版本", "bioMetaInfo": "生物信息如2.3.0:3,-4"}';
+        $client->expects()->face($params)->andReturn('foo');
+        $this->assertSame('foo', $client->face($params));
     }
 }
