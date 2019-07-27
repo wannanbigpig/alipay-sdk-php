@@ -10,13 +10,13 @@
 
 namespace EasyAlipay\Kernel;
 
-use Pimple\Container;
 use EasyAlipay\Kernel\Contracts\App;
 use EasyAlipay\Kernel\Providers\AppServiceProvider;
 use EasyAlipay\Kernel\Providers\ConfigServiceProvider;
 use EasyAlipay\Kernel\Providers\HttpClientServiceProvider;
 use EasyAlipay\Kernel\Providers\LogServiceProvider;
 use EasyAlipay\Kernel\Providers\RequestServiceProvider;
+use Pimple\Container;
 use WannanBigPig\Supports\Exceptions\RuntimeException;
 
 /**
