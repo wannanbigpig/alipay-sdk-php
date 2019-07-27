@@ -26,21 +26,21 @@ class Alipay
     /**
      * make.
      *
-     * @param       $name
-     * @param array $config
+     * @param $name
+     * @param $config
      *
      * @return mixed
      *
      * @throws \EasyAlipay\Kernel\Exceptions\ApplicationException
      */
-    public static function make($name, array $config)
+    public static function make($name, $config)
     {
         $namespace = Str::studly($name);
         $application = __NAMESPACE__."\\{$namespace}\\Application";
 
         if (class_exists($application)) {
             // Instantiation application
-            return new $application($config[0]);
+            return new $application($config);
         }
         throw new ApplicationException("Application [{$name}] does not exist");
     }
@@ -57,6 +57,6 @@ class Alipay
      */
     public static function __callStatic($name, $arguments)
     {
-        return self::make($name, $arguments);
+        return self::make($name, ...$arguments);
     }
 }
