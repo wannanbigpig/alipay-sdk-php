@@ -93,4 +93,27 @@ class Client extends BaseClient
             'biz_content' => $params,
         ], $httpMethod);
     }
+
+    /**
+     * zoloz.authentication.customer.smilepay.initialize(人脸初始化唤起zim).
+     *
+     * @param string $zimmetainfo
+     *
+     * @return array|object|\Psr\Http\Message\ResponseInterface|\WannanBigPig\Supports\Collection|\WannanBigPig\Supports\Http\Response
+     *
+     * @throws \EasyAlipay\Kernel\Exceptions\InvalidSignException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \WannanBigPig\Supports\Exceptions\InvalidArgumentException
+     */
+    public function face(string $zimmetainfo)
+    {
+        $method = 'zoloz.authentication.customer.smilepay.initialize';
+        $params = [
+            'zimmetainfo' => $zimmetainfo,
+        ];
+
+        return $this->request($method, [
+            'biz_content' => $params,
+        ]);
+    }
 }
