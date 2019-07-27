@@ -11,10 +11,10 @@
 namespace EasyAlipay\Payment\Notify;
 
 use Closure;
-use Symfony\Component\HttpFoundation\Response;
 use EasyAlipay\Kernel\Exceptions\InvalidSignException;
 use EasyAlipay\Kernel\Traits\Helpers;
 use EasyAlipay\Payment\Application;
+use Symfony\Component\HttpFoundation\Response;
 use WannanBigPig\Supports\Collection;
 
 /**

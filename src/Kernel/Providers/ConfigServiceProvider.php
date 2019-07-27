@@ -10,9 +10,9 @@
 
 namespace EasyAlipay\Kernel\Providers;
 
+use EasyAlipay\Kernel\Contracts\App;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
-use EasyAlipay\Kernel\Contracts\App;
 use WannanBigPig\Supports\Config;
 
 /**
