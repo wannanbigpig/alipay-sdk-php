@@ -57,6 +57,6 @@ class Alipay
      */
     public static function __callStatic($name, $arguments)
     {
-        return self::make($name, ...$arguments);
+        return self::make($name, $arguments);
     }
 }
