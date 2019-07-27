@@ -26,14 +26,14 @@ class Alipay
     /**
      * make.
      *
-     * @param $name
-     * @param $config
+     * @param string $name
+     * @param array  $config
      *
      * @return mixed
      *
      * @throws \EasyAlipay\Kernel\Exceptions\ApplicationException
      */
-    public static function make($name, $config)
+    public static function make(string $name, array $config)
     {
         $namespace = Str::studly($name);
         $application = __NAMESPACE__."\\{$namespace}\\Application";
