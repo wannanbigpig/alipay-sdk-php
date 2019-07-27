@@ -109,13 +109,14 @@ trait Helpers
         $rsaPrivateKeyFilePath = $this->app['config']->get('private_key_path');
         if ($this->checkEmpty($rsaPrivateKeyFilePath)) {
             $priKey = $this->app['config']['private_key'];
-            $res = "-----BEGIN RSA PRIVATE KEY-----\n".
+            $priKey = "-----BEGIN RSA PRIVATE KEY-----\n".
                 wordwrap($priKey, 64, "\n", true).
                 "\n-----END RSA PRIVATE KEY-----";
         } else {
             $priKey = file_get_contents($rsaPrivateKeyFilePath);
-            $res = openssl_get_privatekey($priKey);
         }
+
+        $res = openssl_get_privatekey($priKey);
 
         if ($res === false) {
             throw new InvalidArgumentException('Invalid private_key configuration');
@@ -127,12 +128,10 @@ trait Helpers
             openssl_sign($data, $sign, $res);
         }
 
-        if (!$this->checkEmpty($rsaPrivateKeyFilePath) && is_resource($res)) {
-            openssl_free_key($res);
-        }
-        $sign = base64_encode($sign);
+        // Release resources
+        openssl_free_key($res);
 
-        return $sign;
+        return base64_encode($sign);
     }
 
     /**
@@ -202,15 +201,16 @@ trait Helpers
         $alipayPublicKeyPath = $this->app['config']->get('alipay_public_Key_path');
         if ($this->checkEmpty($alipayPublicKeyPath)) {
             $pubKey = $this->app['config']->get('alipay_public_Key');
-            $res = "-----BEGIN PUBLIC KEY-----\n".
+            $pubKey = "-----BEGIN PUBLIC KEY-----\n".
                 wordwrap($pubKey, 64, "\n", true).
                 "\n-----END PUBLIC KEY-----";
         } else {
             // Read public key file
             $pubKey = file_get_contents($alipayPublicKeyPath);
-            // Convert to openssl format key
-            $res = openssl_get_publickey($pubKey);
         }
+
+        // Convert to openssl format key
+        $res = openssl_get_publickey($pubKey);
 
         if ($res === false) {
             throw new InvalidArgumentException('Invalid alipay_public_Key configuration');
@@ -223,10 +223,8 @@ trait Helpers
             $result = (openssl_verify($data, base64_decode($sign, true), $res) === 1);
         }
 
-        if (!$this->checkEmpty($alipayPublicKeyPath) && is_resource($res)) {
-            // Release resources
-            openssl_free_key($res);
-        }
+        // Release resources
+        openssl_free_key($res);
 
         return $result;
     }
