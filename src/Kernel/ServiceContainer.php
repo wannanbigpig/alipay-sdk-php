@@ -22,6 +22,8 @@ use WannanBigPig\Supports\Exceptions\RuntimeException;
 /**
  * Class ServiceContainer
  *
+ * @property \WannanBigPig\Supports\Config $config
+ *
  * @author   liuml  <liumenglei0211@163.com>
  * @DateTime 2019-07-18  16:13
  */
@@ -68,8 +70,8 @@ class ServiceContainer extends Container implements App
     public function __construct(array $config)
     {
         parent::__construct(['app_client_providers' => $this->providers]);
-        $this->registerProviders($this->getProviders());
         $this->init($config);
+        $this->registerProviders($this->getProviders());
     }
 
     /**
