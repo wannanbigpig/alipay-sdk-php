@@ -8,9 +8,9 @@
  * with this source code in the file LICENSE.
  */
 
-namespace WannanBigPig\Alipay\Payment\Bill;
+namespace EasyAlipay\Payment\Bill;
 
-use WannanBigPig\Alipay\Payment\Kernel\BaseClient;
+use EasyAlipay\Payment\Kernel\BaseClient;
 
 /**
  * Class Client
@@ -29,7 +29,7 @@ class Client extends BaseClient
      * @return array|object|\Psr\Http\Message\ResponseInterface|\WannanBigPig\Supports\Collection|\WannanBigPig\Supports\Http\Response
      *
      * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \WannanBigPig\Alipay\Kernel\Exceptions\InvalidSignException
+     * @throws \EasyAlipay\Kernel\Exceptions\InvalidSignException
      * @throws \WannanBigPig\Supports\Exceptions\InvalidArgumentException
      */
     public function get(string $billType, string $billDate)

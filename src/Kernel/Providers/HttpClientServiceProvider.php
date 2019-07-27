@@ -8,7 +8,7 @@
  * with this source code in the file LICENSE.
  */
 
-namespace WannanBigPig\Alipay\Kernel\Providers;
+namespace EasyAlipay\Kernel\Providers;
 
 use GuzzleHttp\Client;
 use Pimple\Container;

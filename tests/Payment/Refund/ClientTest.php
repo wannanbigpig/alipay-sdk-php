@@ -8,10 +8,10 @@
  * with this source code in the file LICENSE.
  */
 
-namespace WannanBigPig\Alipay\Tests\Payment\Refund;
+namespace EasyAlipay\Tests\Payment\Refund;
 
-use WannanBigPig\Alipay\Payment\Refund\Client;
-use WannanBigPig\Alipay\Tests\Payment\ApplicationTest;
+use EasyAlipay\Payment\Refund\Client;
+use EasyAlipay\Tests\Payment\ApplicationTest;
 
 /**
  * Class ClientTest

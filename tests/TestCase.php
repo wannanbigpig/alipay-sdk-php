@@ -8,10 +8,10 @@
  * with this source code in the file LICENSE.
  */
 
-namespace WannanBigPig\Alipay\Tests;
+namespace EasyAlipay\Tests;
 
 use PHPUnit\Framework\TestCase as BaseTestCase;
-use WannanBigPig\Alipay\Kernel\ServiceContainer;
+use EasyAlipay\Kernel\ServiceContainer;
 
 /**
  * class TestCase.

@@ -8,9 +8,9 @@
  * with this source code in the file LICENSE.
  */
 
-namespace WannanBigPig\Alipay\Payment\Pay;
+namespace EasyAlipay\Payment\Pay;
 
-use WannanBigPig\Alipay\Payment\Kernel\BaseClient;
+use EasyAlipay\Payment\Kernel\BaseClient;
 
 /**
  * Class Client

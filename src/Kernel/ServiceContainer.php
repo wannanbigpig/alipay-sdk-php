@@ -8,19 +8,21 @@
  * with this source code in the file LICENSE.
  */
 
-namespace WannanBigPig\Alipay\Kernel;
+namespace EasyAlipay\Kernel;
 
+use EasyAlipay\Kernel\Contracts\App;
+use EasyAlipay\Kernel\Providers\AppServiceProvider;
+use EasyAlipay\Kernel\Providers\ConfigServiceProvider;
+use EasyAlipay\Kernel\Providers\HttpClientServiceProvider;
+use EasyAlipay\Kernel\Providers\LogServiceProvider;
+use EasyAlipay\Kernel\Providers\RequestServiceProvider;
 use Pimple\Container;
-use WannanBigPig\Alipay\Kernel\Contracts\App;
-use WannanBigPig\Alipay\Kernel\Providers\AppServiceProvider;
-use WannanBigPig\Alipay\Kernel\Providers\ConfigServiceProvider;
-use WannanBigPig\Alipay\Kernel\Providers\HttpClientServiceProvider;
-use WannanBigPig\Alipay\Kernel\Providers\LogServiceProvider;
-use WannanBigPig\Alipay\Kernel\Providers\RequestServiceProvider;
 use WannanBigPig\Supports\Exceptions\RuntimeException;
 
 /**
  * Class ServiceContainer
+ *
+ * @property \WannanBigPig\Supports\Config $config
  *
  * @author   liuml  <liumenglei0211@163.com>
  * @DateTime 2019-07-18  16:13
@@ -68,8 +70,8 @@ class ServiceContainer extends Container implements App
     public function __construct(array $config)
     {
         parent::__construct(['app_client_providers' => $this->providers]);
-        $this->registerProviders($this->getProviders());
         $this->init($config);
+        $this->registerProviders($this->getProviders());
     }
 
     /**

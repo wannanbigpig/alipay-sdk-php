@@ -8,9 +8,9 @@
  * with this source code in the file LICENSE.
  */
 
-namespace WannanBigPig\Alipay\Tests\Payment\Pay;
+namespace EasyAlipay\Tests\Payment\Pay;
 
-use WannanBigPig\Alipay\Tests\Payment\ApplicationTest;
+use EasyAlipay\Tests\Payment\ApplicationTest;
 use WannanBigPig\Supports\Str;
 
 /**

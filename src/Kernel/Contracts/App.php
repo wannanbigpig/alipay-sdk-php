@@ -8,7 +8,7 @@
  * with this source code in the file LICENSE.
  */
 
-namespace WannanBigPig\Alipay\Kernel\Contracts;
+namespace EasyAlipay\Kernel\Contracts;
 
 /**
  * Interface App
@@ -16,7 +16,7 @@ namespace WannanBigPig\Alipay\Kernel\Contracts;
  * @author   liuml  <liumenglei0211@163.com>
  * @DateTime 2019-07-15  11:33
  *
- * @package  WannanBigPig\Alipay\Kernel\Contracts
+ * @package  EasyAlipay\Kernel\Contracts
  */
 interface App
 {

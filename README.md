@@ -1,6 +1,6 @@
 # 简介
 
-## [WannanBibPig\Alipay](https://alipay.docs.wannanbigpig.com/)
+## [EasyAlipay](https://alipay.docs.wannanbigpig.com/)
 
 📦 对接支付宝最新接口，使用灵活方便，你只需要关注传入支付数据，其他都不用管，交给我就行
 

@@ -8,20 +8,18 @@
  * with this source code in the file LICENSE.
  */
 
-namespace WannanBigPig\Alipay;
+namespace EasyAlipay;
 
-use WannanBigPig\Alipay\Kernel\Exceptions\ApplicationException;
+use EasyAlipay\Kernel\Exceptions\ApplicationException;
 use WannanBigPig\Supports\Str;
 
 /**
  * Class Alipay
  *
- * @method static \WannanBigPig\Alipay\Payment\Application payment(array $config)
+ * @method static \EasyAlipay\Payment\Application payment(array $config)
  *
  * @author   liuml  <liumenglei0211@163.com>
- * @DateTime 2019-07-15  11:46
- *
- * @package  WannanBigPig\Alipay
+ * @DateTime 2019-07-26  18:18
  */
 class Alipay
 {
@@ -33,7 +31,7 @@ class Alipay
      *
      * @return mixed
      *
-     * @throws \WannanBigPig\Alipay\Kernel\Exceptions\ApplicationException
+     * @throws \EasyAlipay\Kernel\Exceptions\ApplicationException
      */
     public static function make($name, array $config)
     {
@@ -55,7 +53,7 @@ class Alipay
      *
      * @return mixed
      *
-     * @throws \WannanBigPig\Alipay\Kernel\Exceptions\ApplicationException
+     * @throws \EasyAlipay\Kernel\Exceptions\ApplicationException
      */
     public static function __callStatic($name, $arguments)
     {

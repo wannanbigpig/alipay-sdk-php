@@ -8,9 +8,9 @@
  * with this source code in the file LICENSE.
  */
 
-namespace WannanBigPig\Alipay\Payment\Base;
+namespace EasyAlipay\Payment\Base;
 
-use WannanBigPig\Alipay\Payment\Kernel\BaseClient;
+use EasyAlipay\Payment\Kernel\BaseClient;
 
 /**
  * Class Client
@@ -28,7 +28,7 @@ class Client extends BaseClient
      * @return array|object|\Psr\Http\Message\ResponseInterface|\WannanBigPig\Supports\Collection|\WannanBigPig\Supports\Http\Response
      *
      * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \WannanBigPig\Alipay\Kernel\Exceptions\InvalidSignException
+     * @throws \EasyAlipay\Kernel\Exceptions\InvalidSignException
      * @throws \WannanBigPig\Supports\Exceptions\InvalidArgumentException
      */
     public function pay(array $params)
@@ -52,7 +52,7 @@ class Client extends BaseClient
      * @return array|object|\Psr\Http\Message\ResponseInterface|\WannanBigPig\Supports\Collection|\WannanBigPig\Supports\Http\Response
      *
      * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \WannanBigPig\Alipay\Kernel\Exceptions\InvalidSignException
+     * @throws \EasyAlipay\Kernel\Exceptions\InvalidSignException
      * @throws \WannanBigPig\Supports\Exceptions\InvalidArgumentException
      */
     public function create(array $params)
@@ -75,7 +75,7 @@ class Client extends BaseClient
      * @return array|object|\Psr\Http\Message\ResponseInterface|\WannanBigPig\Supports\Collection|\WannanBigPig\Supports\Http\Response
      *
      * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \WannanBigPig\Alipay\Kernel\Exceptions\InvalidSignException
+     * @throws \EasyAlipay\Kernel\Exceptions\InvalidSignException
      * @throws \WannanBigPig\Supports\Exceptions\InvalidArgumentException
      */
     public function preCreate(array $params)
@@ -101,7 +101,7 @@ class Client extends BaseClient
      * @return array|object|\Psr\Http\Message\ResponseInterface|\WannanBigPig\Supports\Collection|\WannanBigPig\Supports\Http\Response
      *
      * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \WannanBigPig\Alipay\Kernel\Exceptions\InvalidSignException
+     * @throws \EasyAlipay\Kernel\Exceptions\InvalidSignException
      * @throws \WannanBigPig\Supports\Exceptions\InvalidArgumentException
      */
     public function close(string $tradeNo, string $outTradeNo = null, string $operatorId = null)
@@ -134,7 +134,7 @@ class Client extends BaseClient
      * @return array|object|\Psr\Http\Message\ResponseInterface|\WannanBigPig\Supports\Collection|\WannanBigPig\Supports\Http\Response
      *
      * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \WannanBigPig\Alipay\Kernel\Exceptions\InvalidSignException
+     * @throws \EasyAlipay\Kernel\Exceptions\InvalidSignException
      * @throws \WannanBigPig\Supports\Exceptions\InvalidArgumentException
      */
     public function refund(string $tradeNo, $amount, string $outTradeNo = null, array $params = [])
@@ -162,7 +162,7 @@ class Client extends BaseClient
      * @return array|object|\Psr\Http\Message\ResponseInterface|\WannanBigPig\Supports\Collection|\WannanBigPig\Supports\Http\Response
      *
      * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \WannanBigPig\Alipay\Kernel\Exceptions\InvalidSignException
+     * @throws \EasyAlipay\Kernel\Exceptions\InvalidSignException
      * @throws \WannanBigPig\Supports\Exceptions\InvalidArgumentException
      */
     public function query(string $tradeNo, string $outTradeNo = null, string $orgPid = null)
@@ -189,7 +189,7 @@ class Client extends BaseClient
      * @return array|object|\Psr\Http\Message\ResponseInterface|\WannanBigPig\Supports\Collection|\WannanBigPig\Supports\Http\Response
      *
      * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \WannanBigPig\Alipay\Kernel\Exceptions\InvalidSignException
+     * @throws \EasyAlipay\Kernel\Exceptions\InvalidSignException
      * @throws \WannanBigPig\Supports\Exceptions\InvalidArgumentException
      */
     public function cancel(string $tradeNo, string $outTradeNo = null)
@@ -217,7 +217,7 @@ class Client extends BaseClient
      * @return array|object|\Psr\Http\Message\ResponseInterface|\WannanBigPig\Supports\Collection|\WannanBigPig\Supports\Http\Response
      *
      * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \WannanBigPig\Alipay\Kernel\Exceptions\InvalidSignException
+     * @throws \EasyAlipay\Kernel\Exceptions\InvalidSignException
      * @throws \WannanBigPig\Supports\Exceptions\InvalidArgumentException
      */
     public function orderSettle(string $outRequestNo, string $tradeNo, array $royaltyParameters, string $operatorId = null)
@@ -254,7 +254,7 @@ class Client extends BaseClient
      * @return array|object|\Psr\Http\Message\ResponseInterface|\WannanBigPig\Supports\Collection|\WannanBigPig\Supports\Http\Response
      *
      * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \WannanBigPig\Alipay\Kernel\Exceptions\InvalidSignException
+     * @throws \EasyAlipay\Kernel\Exceptions\InvalidSignException
      * @throws \WannanBigPig\Supports\Exceptions\InvalidArgumentException
      */
     public function orderInfoSync(string $tradeNo, string $outRequestNo, string $bizType, string $origRequestNo = null, string $orderBizInfo = null)
