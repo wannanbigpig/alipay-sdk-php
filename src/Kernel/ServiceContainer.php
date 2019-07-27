@@ -8,15 +8,15 @@
  * with this source code in the file LICENSE.
  */
 
-namespace WannanBigPig\Alipay\Kernel;
+namespace EasyAlipay\Kernel;
 
 use Pimple\Container;
-use WannanBigPig\Alipay\Kernel\Contracts\App;
-use WannanBigPig\Alipay\Kernel\Providers\AppServiceProvider;
-use WannanBigPig\Alipay\Kernel\Providers\ConfigServiceProvider;
-use WannanBigPig\Alipay\Kernel\Providers\HttpClientServiceProvider;
-use WannanBigPig\Alipay\Kernel\Providers\LogServiceProvider;
-use WannanBigPig\Alipay\Kernel\Providers\RequestServiceProvider;
+use EasyAlipay\Kernel\Contracts\App;
+use EasyAlipay\Kernel\Providers\AppServiceProvider;
+use EasyAlipay\Kernel\Providers\ConfigServiceProvider;
+use EasyAlipay\Kernel\Providers\HttpClientServiceProvider;
+use EasyAlipay\Kernel\Providers\LogServiceProvider;
+use EasyAlipay\Kernel\Providers\RequestServiceProvider;
 use WannanBigPig\Supports\Exceptions\RuntimeException;
 
 /**

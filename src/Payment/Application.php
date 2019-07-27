@@ -8,11 +8,11 @@
  * with this source code in the file LICENSE.
  */
 
-namespace WannanBigPig\Alipay\Payment;
+namespace EasyAlipay\Payment;
 
 use Closure;
-use WannanBigPig\Alipay\Kernel\ServiceContainer;
-use WannanBigPig\Alipay\Payment\Notify\Handle;
+use EasyAlipay\Kernel\ServiceContainer;
+use EasyAlipay\Payment\Notify\Handle;
 
 /**
  * Class Application

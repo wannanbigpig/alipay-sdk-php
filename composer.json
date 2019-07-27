@@ -32,12 +32,12 @@
     },
     "autoload": {
         "psr-4": {
-            "WannanBigPig\\Alipay\\": "src"
+            "EasyAlipay\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "WannanBigPig\\Alipay\\Tests\\": "tests"
+            "EasyAlipay\\Tests\\": "tests"
         }
     }
 }

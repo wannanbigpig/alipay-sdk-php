@@ -8,11 +8,11 @@
  * with this source code in the file LICENSE.
  */
 
-namespace WannanBigPig\Alipay\Tests\Payment;
+namespace EasyAlipay\Tests\Payment;
 
-use WannanBigPig\Alipay\Alipay;
-use WannanBigPig\Alipay\Payment\Application;
-use WannanBigPig\Alipay\Tests\TestCase;
+use EasyAlipay\Alipay;
+use EasyAlipay\Payment\Application;
+use EasyAlipay\Tests\TestCase;
 
 /**
  * Class ApplicationTest
@@ -25,7 +25,7 @@ class ApplicationTest extends TestCase
     /**
      * appClient.
      *
-     * @return \WannanBigPig\Alipay\Payment\Application
+     * @return \EasyAlipay\Payment\Application
      */
     public function appClient()
     {

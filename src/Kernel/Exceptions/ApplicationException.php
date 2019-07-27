@@ -8,7 +8,7 @@
  * with this source code in the file LICENSE.
  */
 
-namespace WannanBigPig\Alipay\Kernel\Exceptions;
+namespace EasyAlipay\Kernel\Exceptions;
 
 use WannanBigPig\Supports\Exceptions\Exception;
 

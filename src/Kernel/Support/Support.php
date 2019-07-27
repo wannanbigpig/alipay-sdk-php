@@ -8,13 +8,13 @@
  * with this source code in the file LICENSE.
  */
 
-namespace WannanBigPig\Alipay\Kernel\Support;
+namespace EasyAlipay\Kernel\Support;
 
 use GuzzleHttp\MessageFormatter;
 use GuzzleHttp\Middleware;
 use Psr\Http\Message\ResponseInterface;
-use WannanBigPig\Alipay\Kernel\ServiceContainer;
-use WannanBigPig\Alipay\Kernel\Traits\Helpers;
+use EasyAlipay\Kernel\ServiceContainer;
+use EasyAlipay\Kernel\Traits\Helpers;
 use WannanBigPig\Supports\Http\Response;
 use WannanBigPig\Supports\Traits\HttpRequest;
 use WannanBigPig\Supports\Traits\ResponseCastable;
@@ -32,14 +32,14 @@ class Support
     }
 
     /**
-     * @var \WannanBigPig\Alipay\Kernel\ServiceContainer
+     * @var \EasyAlipay\Kernel\ServiceContainer
      */
     protected $app;
 
     /**
      * Support constructor.
      *
-     * @param \WannanBigPig\Alipay\Kernel\ServiceContainer $app
+     * @param \EasyAlipay\Kernel\ServiceContainer $app
      */
     public function __construct(ServiceContainer $app)
     {
@@ -60,7 +60,7 @@ class Support
      * @return array|object|\Psr\Http\Message\ResponseInterface|\WannanBigPig\Supports\Collection|\WannanBigPig\Supports\Http\Response
      *
      * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \WannanBigPig\Alipay\Kernel\Exceptions\InvalidSignException
+     * @throws \EasyAlipay\Kernel\Exceptions\InvalidSignException
      * @throws \WannanBigPig\Supports\Exceptions\InvalidArgumentException
      */
     public function request($endpoint, $params = [], $method = 'POST', array $options = [], $returnResponse = false)

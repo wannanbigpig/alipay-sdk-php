@@ -8,13 +8,13 @@
  * with this source code in the file LICENSE.
  */
 
-namespace WannanBigPig\Alipay\Payment\Notify;
+namespace EasyAlipay\Payment\Notify;
 
 use Closure;
 use Symfony\Component\HttpFoundation\Response;
-use WannanBigPig\Alipay\Kernel\Exceptions\InvalidSignException;
-use WannanBigPig\Alipay\Kernel\Traits\Helpers;
-use WannanBigPig\Alipay\Payment\Application;
+use EasyAlipay\Kernel\Exceptions\InvalidSignException;
+use EasyAlipay\Kernel\Traits\Helpers;
+use EasyAlipay\Payment\Application;
 use WannanBigPig\Supports\Collection;
 
 /**
@@ -48,14 +48,14 @@ class Handle
     protected $response;
 
     /**
-     * @var \WannanBigPig\Alipay\Payment\Application
+     * @var \EasyAlipay\Payment\Application
      */
     protected $app;
 
     /**
      * Handle constructor.
      *
-     * @param \WannanBigPig\Alipay\Payment\Application $app
+     * @param \EasyAlipay\Payment\Application $app
      */
     public function __construct(Application $app)
     {
@@ -102,7 +102,7 @@ class Handle
      *
      * @return \WannanBigPig\Supports\Collection
      *
-     * @throws \WannanBigPig\Alipay\Kernel\Exceptions\InvalidSignException
+     * @throws \EasyAlipay\Kernel\Exceptions\InvalidSignException
      * @throws \WannanBigPig\Supports\Exceptions\InvalidArgumentException
      */
     public function getMessage(): Collection

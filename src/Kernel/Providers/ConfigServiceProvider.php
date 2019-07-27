@@ -8,11 +8,11 @@
  * with this source code in the file LICENSE.
  */
 
-namespace WannanBigPig\Alipay\Kernel\Providers;
+namespace EasyAlipay\Kernel\Providers;
 
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
-use WannanBigPig\Alipay\Kernel\Contracts\App;
+use EasyAlipay\Kernel\Contracts\App;
 use WannanBigPig\Supports\Config;
 
 /**

@@ -8,10 +8,9 @@
  * with this source code in the file LICENSE.
  */
 
-namespace WannanBigPig\Alipay\Kernel\Traits;
+namespace EasyAlipay\Kernel\Traits;
 
-use Exception;
-use WannanBigPig\Alipay\Kernel\Exceptions\InvalidSignException;
+use EasyAlipay\Kernel\Exceptions\InvalidSignException;
 use WannanBigPig\Supports\Exceptions\InvalidArgumentException;
 
 /**
@@ -240,7 +239,7 @@ trait Helpers
      *
      * @return bool
      *
-     * @throws \WannanBigPig\Alipay\Kernel\Exceptions\InvalidSignException
+     * @throws \EasyAlipay\Kernel\Exceptions\InvalidSignException
      * @throws \WannanBigPig\Supports\Exceptions\InvalidArgumentException
      */
     public function checkResponseSign($content, string $sign = null)
