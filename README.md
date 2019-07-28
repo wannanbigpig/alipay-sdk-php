@@ -47,7 +47,7 @@ $config = [
     ],
 ];
 
-$app = Alipay::payment($this->config);
+$app = Alipay::payment($config);
 
 // 当面付 统一收单交易支付接口
 $response = $app->pay([
