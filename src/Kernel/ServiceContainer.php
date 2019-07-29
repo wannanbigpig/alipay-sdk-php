@@ -163,20 +163,6 @@ class ServiceContainer extends Container implements App
     }
 
     /**
-     * Set version.
-     *
-     * @param string $version
-     *
-     * @return $this
-     */
-    public function setVersion(string $version)
-    {
-        $this->config->set('version', $version);
-
-        return $this;
-    }
-
-    /**
      * Acquisition of development environment.
      *
      * @return mixed|string
@@ -211,7 +197,7 @@ class ServiceContainer extends Container implements App
      */
     public function setAppAuthToken($appAuthToken)
     {
-        $this->config->set('app_auth_token', $appAuthToken);
+        $this->config->set('sys_params.app_auth_token', $appAuthToken);
 
         return $this;
     }
