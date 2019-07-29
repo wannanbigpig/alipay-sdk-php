@@ -11,6 +11,7 @@
 namespace EasyAlipay\Kernel;
 
 use EasyAlipay\Kernel\Contracts\App;
+use EasyAlipay\Kernel\Exceptions\InvalidConfigException;
 use EasyAlipay\Kernel\Providers\AppServiceProvider;
 use EasyAlipay\Kernel\Providers\ConfigServiceProvider;
 use EasyAlipay\Kernel\Providers\HttpClientServiceProvider;
@@ -105,12 +106,14 @@ class ServiceContainer extends Container implements App
      * getConfig.
      *
      * @return array|mixed
+     *
+     * @throws \EasyAlipay\Kernel\Exceptions\InvalidConfigException
      */
     public function getConfig()
     {
         $base = [
             'http' => [
-                'timeout' => 30.0,
+                'timeout' => 6.0,
                 'base_uri' => $this->getGateway(),
                 'connect_timeout' => 6.0,
                 'log_template' => "\n>>>>>>>>request\n--------\n{request}\n--------\n>>>>>>>>response\n--------\n{response}\n--------\n>>>>>>>>error\n--------\n{error}\n--------\n",
@@ -160,20 +163,6 @@ class ServiceContainer extends Container implements App
     }
 
     /**
-     * Set version.
-     *
-     * @param string $version
-     *
-     * @return $this
-     */
-    public function setVersion(string $version)
-    {
-        $this->config->set('version', $version);
-
-        return $this;
-    }
-
-    /**
      * Acquisition of development environment.
      *
      * @return mixed|string
@@ -187,6 +176,8 @@ class ServiceContainer extends Container implements App
      * Get Alipay gateway address.
      *
      * @return mixed
+     *
+     * @throws \EasyAlipay\Kernel\Exceptions\InvalidConfigException
      */
     public function getGateway()
     {
@@ -194,7 +185,7 @@ class ServiceContainer extends Container implements App
             return $this->gateway[$this->getEnv()];
         }
 
-        return $this->gateway[self::NORMAL_ENV];
+        throw new InvalidConfigException('Invalid environment configuration');
     }
 
     /**
@@ -206,7 +197,7 @@ class ServiceContainer extends Container implements App
      */
     public function setAppAuthToken($appAuthToken)
     {
-        $this->config->set('app_auth_token', $appAuthToken);
+        $this->config->set('sys_params.app_auth_token', $appAuthToken);
 
         return $this;
     }

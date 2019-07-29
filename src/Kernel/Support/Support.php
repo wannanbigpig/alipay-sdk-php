@@ -109,7 +109,9 @@ class Support
     public function handleResponse(ResponseInterface $response, string $context = null)
     {
         $is_build = true;
-        if ($this->app['config']->get('handle_response', true) && !is_null($context)) {
+        $response_type = $this->app['config']->get('response_type', 'array');
+        $handle_response = $this->app['config']->get('handle_response', true);
+        if ($handle_response && !is_null($context) && $response_type !== 'raw') {
             $response = new Response(
                 $response->getStatusCode(),
                 $response->getHeaders(),
@@ -120,7 +122,7 @@ class Support
             $is_build = false;
         }
 
-        return $this->castResponseToType($response, $this->app['config']->get('response_type', 'array'), $is_build);
+        return $this->castResponseToType($response, $response_type, $is_build);
     }
 
     /**
