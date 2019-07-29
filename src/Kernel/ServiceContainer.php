@@ -106,8 +106,6 @@ class ServiceContainer extends Container implements App
      * getConfig.
      *
      * @return array|mixed
-     *
-     * @throws \EasyAlipay\Kernel\Exceptions\InvalidConfigException
      */
     public function getConfig()
     {
@@ -165,27 +163,25 @@ class ServiceContainer extends Container implements App
     /**
      * Acquisition of development environment.
      *
-     * @return mixed|string
+     * @return bool
      */
-    public function getEnv()
+    public function getEnv(): bool
     {
-        return isset($this->userConfig['env']) ? $this->userConfig['env'] : self::NORMAL_ENV;
+        return (bool)(isset($this->userConfig['sandbox']) ? $this->userConfig['sandbox'] : false);
     }
 
     /**
      * Get Alipay gateway address.
      *
      * @return mixed
-     *
-     * @throws \EasyAlipay\Kernel\Exceptions\InvalidConfigException
      */
     public function getGateway()
     {
-        if (isset($this->gateway[$this->getEnv()])) {
-            return $this->gateway[$this->getEnv()];
+        if ($this->getEnv()) {
+            return $this->gateway[self::DEV_ENV];
+        } else {
+            return $this->gateway[self::NORMAL_ENV];
         }
-
-        throw new InvalidConfigException('Invalid environment configuration');
     }
 
     /**

@@ -56,7 +56,6 @@ class BaseClient extends Support
      *
      * @return string
      *
-     * @throws \EasyAlipay\Kernel\Exceptions\InvalidConfigException
      * @throws \WannanBigPig\Supports\Exceptions\InvalidArgumentException
      */
     public function pageExecute(string $endpoint, array $params = [], string $httpMethod = "POST")
@@ -91,8 +90,6 @@ class BaseClient extends Support
      * @param array $paraTemp
      *
      * @return string
-     *
-     * @throws \EasyAlipay\Kernel\Exceptions\InvalidConfigException
      */
     protected function buildRequestForm(array $paraTemp)
     {
