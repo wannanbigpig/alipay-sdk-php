@@ -37,14 +37,6 @@ $config = [
     ],
     'private_key_path' => STORAGE_ROOT.'private_key.pem',
     'alipay_public_Key_path' => STORAGE_ROOT.'alipay_public_key.pem',
-    'handle_response' => true,
-    'response_type' => 'array',
-    'env' => 'dev',
-    'log' => [
-        'driver' => 'single',
-        'level' => 'notice',
-        'path' => '/tmp/wannanbigpig.alipay.log',
-    ],
 ];
 
 $app = Alipay::payment($config);
