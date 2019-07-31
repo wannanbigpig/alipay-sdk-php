@@ -23,7 +23,10 @@ use WannanBigPig\Supports\Exceptions\RuntimeException;
 /**
  * Class ServiceContainer
  *
- * @property \WannanBigPig\Supports\Config $config
+ * @property \WannanBigPig\Supports\Config             $config
+ * @property \Symfony\Component\HttpFoundation\Request $request
+ * @property \GuzzleHttp\Client                        $http_client
+ * @property \Monolog\Logger                           $logger
  *
  * @author   liuml  <liumenglei0211@163.com>
  * @DateTime 2019-07-18  16:13
@@ -68,7 +71,7 @@ class ServiceContainer extends Container implements App
      *
      * @param array $config
      */
-    public function __construct(array $config)
+    public function __construct(array $config = [])
     {
         parent::__construct(['app_client_providers' => $this->providers]);
         $this->init($config);
