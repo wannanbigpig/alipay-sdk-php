@@ -59,5 +59,10 @@ class ApplicationTest extends TestCase
         $app = Alipay::payment($config);
 
         $this->assertInstanceOf(Application::class, $app);
+        $this->assertInstanceOf(Application::class, $app->setNotifyUrl('alipay.docs.wannanbigpig.com'));
+        $this->assertInstanceOf(Application::class, $app->setReturnUrl('alipay.docs.wannanbigpig.com'));
+        $this->assertSame('fail', $app->handleNotify(function (){
+
+        })->getContent());
     }
 }
