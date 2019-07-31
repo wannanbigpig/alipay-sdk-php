@@ -29,7 +29,7 @@ class LogServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $pimple)
     {
-        $pimple['logger'] = $pimple['log'] = function ($app) {
+        $pimple['logger'] = function ($app) {
             $config = $this->logConfig($app);
 
             return new Log($config);

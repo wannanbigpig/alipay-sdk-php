@@ -90,7 +90,7 @@ class Handle
      */
     public function response(bool $result = true): string
     {
-        if ($result) {
+        if ($result === true) {
             return $this->success;
         }
 

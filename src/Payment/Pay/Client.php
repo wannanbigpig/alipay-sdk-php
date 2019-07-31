@@ -32,7 +32,11 @@ class Client extends BaseClient
     public function app(array $params)
     {
         $method = 'alipay.trade.app.pay';
-        $params['timeout_express'] = $params['timeout_express'] ?? '1c';
+        $params = array_merge([
+            'timeout_express' => '1c',
+            'product_code' => 'QUICK_MSECURITY_PAY',
+        ], $params);
+
         $this->app->setEndpointConfig($method, [
             'return_url' => $this->app['config']->get('return_url'),
             'notify_url' => $this->app['config']->get('notify_url'),
@@ -56,7 +60,11 @@ class Client extends BaseClient
     public function wap(array $params, string $httpMethod = 'POST')
     {
         $method = 'alipay.trade.wap.pay';
-        $params['timeout_express'] = $params['timeout_express'] ?? '1c';
+        $params = array_merge([
+            'timeout_express' => '1c',
+            'product_code' => 'QUICK_WAP_WAY',
+        ], $params);
+
         $this->app->setEndpointConfig($method, [
             'return_url' => $this->app['config']->get('return_url'),
             'notify_url' => $this->app['config']->get('notify_url'),
@@ -81,7 +89,7 @@ class Client extends BaseClient
     {
         $method = 'alipay.trade.page.pay';
         $params = array_merge([
-            'timeout_express' => $params['timeout_express'] ?? '1c',
+            'timeout_express' => '1c',
             'product_code' => 'FAST_INSTANT_TRADE_PAY',
         ], $params);
         $this->app->setEndpointConfig($method, [
