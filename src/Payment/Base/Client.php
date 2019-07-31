@@ -34,7 +34,10 @@ class Client extends BaseClient
     public function pay(array $params)
     {
         $method = 'alipay.trade.pay';
-        $params['scene'] = $params['scene'] ?? 'bar_code';
+        $params = array_merge([
+            'scene' => 'bar_code',
+            'product_code' => 'FACE_TO_FACE_PAYMENT',
+        ], $params);
         $this->app->setEndpointConfig($method, [
             'notify_url' => $this->app['config']->get('notify_url'),
         ]);
