@@ -71,14 +71,11 @@ class ApplicationTest extends TestCase
         $this->assertSame('fail', $app->handleNotify(function () {
 
         })->getContent());
-        $this->expectException(RuntimeException::class);
-        $app->foo([]);
-    }
+        // $this->expectException(RuntimeException::class);
+        // $app->foo([]);
 
-    public function testCall()
-    {
-        $this->expectException(InvalidSignException::class);
-        $app = $this->appClient();
-        $app->query('888');
+        // test calling nonexistent method
+        $this->expectException(\PHPUnit\Framework\Error\Warning::class);
+        $app->foo('bar');
     }
 }

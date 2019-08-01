@@ -55,16 +55,10 @@ class Application extends ServiceContainer
      * @param $arguments
      *
      * @return mixed
-     *
-     * @throws \WannanBigPig\Supports\Exceptions\RuntimeException
      */
     public function __call($name, $arguments)
     {
-        $callable = [$this['base'], $name];
-        if (is_callable($callable)) {
-            return call_user_func_array($callable, $arguments);
-        }
-        throw new RuntimeException(sprintf("Call undefined methods:'%s'", $name));
+        return call_user_func_array([$this['base'], $name], $arguments);
     }
 
     /**
