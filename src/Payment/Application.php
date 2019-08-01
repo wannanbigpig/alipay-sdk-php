@@ -13,6 +13,7 @@ namespace EasyAlipay\Payment;
 use Closure;
 use EasyAlipay\Kernel\ServiceContainer;
 use EasyAlipay\Payment\Notify\Handle;
+use WannanBigPig\Supports\Exceptions\RuntimeException;
 
 /**
  * Class Application
@@ -48,8 +49,10 @@ class Application extends ServiceContainer
     ];
 
     /**
-     * @param string $name
-     * @param array  $arguments
+     * __call.
+     *
+     * @param $name
+     * @param $arguments
      *
      * @return mixed
      */

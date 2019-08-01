@@ -15,8 +15,9 @@ use EasyAlipay\Payment\Application;
 use EasyAlipay\Tests\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use WannanBigPig\Supports\Collection;
 
-class Handle extends TestCase
+class HandleTest extends TestCase
 {
     private function makeApp($config = [])
     {
@@ -49,7 +50,7 @@ class Handle extends TestCase
         $this->assertSame('success', $response->getContent());
     }
 
-    public function testInvalidSign()
+    public function testFail()
     {
         $app = $this->makeApp([
             'alipay_public_Key_path' => STORAGE_ROOT.'public_key.pem',

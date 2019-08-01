@@ -15,6 +15,7 @@ use EasyAlipay\Tests\TestCase;
 use GuzzleHttp\Client;
 use Symfony\Component\HttpFoundation\Request;
 use WannanBigPig\Supports\Config;
+use WannanBigPig\Supports\Exceptions\RuntimeException;
 use WannanBigPig\Supports\Logs\Log;
 
 class ServiceContainerTest extends TestCase
@@ -46,5 +47,14 @@ class ServiceContainerTest extends TestCase
         $this->assertInternalType('array', $service->getConfig());
         $this->assertInternalType('array', $service->apiCommonConfig('pay'));
         $this->assertSame('https://openapi.alipay.com/gateway.do', $service->getGateway());
+        $service = new ServiceContainer(['app_id' => 'app-id1', 'sandbox' => true]);
+        $this->assertSame('https://openapi.alipaydev.com/gateway.do', $service->getGateway());
+    }
+
+    public function testRuntimeException()
+    {
+        $this->expectException(RuntimeException::class);
+        $service = new ServiceContainer();
+        $service->foo;
     }
 }

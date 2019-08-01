@@ -274,7 +274,6 @@ class Client extends BaseClient
         if (!($this->checkEmpty($orderBizInfo))) {
             $params['order_biz_info'] = json_encode(['status' => $orderBizInfo]);
         }
-
         return $this->request('alipay.trade.orderinfo.sync', [
             'biz_content' => $params,
         ]);

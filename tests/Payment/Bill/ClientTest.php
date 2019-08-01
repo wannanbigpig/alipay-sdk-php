@@ -26,8 +26,13 @@ class ClientTest extends ApplicationTest
      */
     public function testQuery()
     {
-        $client = $this->mockApiClient(Client::class, ['get'], $this->appClient());
-        $client->expects()->get('trade', '2019-06')->andReturn('foo');
+        $client = $this->mockApiClient(Client::class, [], $this->appClient());
+        $client->expects()->request('alipay.data.dataservice.bill.downloadurl.query', [
+            'biz_content' => [
+                'bill_type' => 'trade',
+                'bill_date' => '2019-06',
+            ],
+        ])->andReturn('foo');
         $this->assertSame('foo', $client->get('trade','2019-06'));
     }
 }

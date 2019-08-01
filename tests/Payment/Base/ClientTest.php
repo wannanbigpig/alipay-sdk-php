@@ -27,15 +27,19 @@ class ClientTest extends ApplicationTest
      */
     public function testPay()
     {
-        $client = $this->mockApiClient(Client::class, ['pay'], $this->appClient())->makePartial();
+        $client = $this->mockApiClient(Client::class, [], $this->appClient())->makePartial();
         $params = [
-            'out_trade_no' => Str::getRandomInt(),
             'scene' => 'bar_code',
+            'product_code' => 'FACE_TO_FACE_PAYMENT',
+            'out_trade_no' => Str::getRandomInt(),
             'auth_code' => '283856205796385922',
             'subject' => 'ceshiapi',
             'total_amount' => '100',
         ];
-        $client->expects()->pay($params)->andReturn('foo');
+
+        $client->expects()->request('alipay.trade.pay', [
+            'biz_content' => $params,
+        ])->andReturn('foo');
         $this->assertSame('foo', $client->pay($params));
     }
 
@@ -44,7 +48,7 @@ class ClientTest extends ApplicationTest
      */
     public function testCreate()
     {
-        $client = $this->mockApiClient(Client::class, ['create'], $this->appClient())->makePartial();
+        $client = $this->mockApiClient(Client::class, [], $this->appClient())->makePartial();
         $params = [
             'out_trade_no' => Str::getRandomInt(),
             'total_amount' => 100,
@@ -52,7 +56,9 @@ class ClientTest extends ApplicationTest
             'subject' => 'mac X pro 2080',
             'body' => 'mac X pro 2080',
         ];
-        $client->expects()->create($params)->andReturn('foo');
+        $client->expects()->request('alipay.trade.create', [
+            'biz_content' => $params,
+        ])->andReturn('foo');
         $this->assertSame('foo', $client->create($params));
     }
 
@@ -61,14 +67,16 @@ class ClientTest extends ApplicationTest
      */
     public function testPreCreate()
     {
-        $client = $this->mockApiClient(Client::class, ['preCreate'], $this->appClient())->makePartial();
+        $client = $this->mockApiClient(Client::class, [], $this->appClient())->makePartial();
         $params = [
             'out_trade_no' => Str::getRandomInt(),
             'total_amount' => 100,
             'subject' => 'mac X pro 2080',
             'body' => 'mac X pro 2080',
         ];
-        $client->expects()->preCreate($params)->andReturn('foo');
+        $client->expects()->request('alipay.trade.precreate', [
+            'biz_content' => $params,
+        ])->andReturn('foo');
         $this->assertSame('foo', $client->preCreate($params));
     }
 
@@ -77,8 +85,12 @@ class ClientTest extends ApplicationTest
      */
     public function testClose()
     {
-        $client = $this->mockApiClient(Client::class, ['close'], $this->appClient())->makePartial();
-        $client->expects()->close('2019072422001491681000170710')->andReturn('foo');
+        $client = $this->mockApiClient(Client::class, [], $this->appClient())->makePartial();
+        $client->expects()->request('alipay.trade.close', [
+            'biz_content' => [
+                'trade_no' => '2019072422001491681000170710',
+            ],
+        ])->andReturn('foo');
         $this->assertSame('foo', $client->close('2019072422001491681000170710'));
     }
 
@@ -88,7 +100,12 @@ class ClientTest extends ApplicationTest
     public function testRefund()
     {
         $client = $this->mockApiClient(Client::class, ['refund'], $this->appClient())->makePartial();
-        $client->expects()->refund('2019072422001491681000170710', '100')->andReturn('foo');
+        $client->expects()->request('alipay.trade.refund', [
+            'biz_content' => [
+                'trade_no' => '2019072422001491681000170710',
+                'refund_amount' => '100',
+            ],
+        ])->andReturn('foo');
         $this->assertSame('foo', $client->refund('2019072422001491681000170710', '100'));
     }
 
@@ -97,8 +114,12 @@ class ClientTest extends ApplicationTest
      */
     public function testQuery()
     {
-        $client = $this->mockApiClient(Client::class, ['query'], $this->appClient())->makePartial();
-        $client->expects()->query('2019072422001491681000170710')->andReturn('foo');
+        $client = $this->mockApiClient(Client::class, [], $this->appClient())->makePartial();
+        $client->expects()->request('alipay.trade.query', [
+            'biz_content' => [
+                'trade_no' => '2019072422001491681000170710',
+            ],
+        ])->andReturn('foo');
         $this->assertSame('foo', $client->query('2019072422001491681000170710'));
     }
 
@@ -107,8 +128,12 @@ class ClientTest extends ApplicationTest
      */
     public function testCancel()
     {
-        $client = $this->mockApiClient(Client::class, ['cancel'], $this->appClient())->makePartial();
-        $client->expects()->cancel('2019072422001491681000170710')->andReturn('foo');
+        $client = $this->mockApiClient(Client::class, [], $this->appClient())->makePartial();
+        $client->expects()->request('alipay.trade.cancel', [
+            'biz_content' => [
+                'trade_no' => '2019072422001491681000170710',
+            ],
+        ])->andReturn('foo');
         $this->assertSame('foo', $client->cancel('2019072422001491681000170710'));
     }
 
@@ -117,24 +142,50 @@ class ClientTest extends ApplicationTest
      */
     public function testOrderSettle()
     {
-        $client = $this->mockApiClient(Client::class, ['orderSettle'], $this->appClient())->makePartial();
-        $client->expects()->orderSettle('1234567890', '2019072422001491681000170710', [
+        $client = $this->mockApiClient(Client::class, [], $this->appClient())->makePartial();
+        $params = [
             'trans_in' => '2088102177891684',
             'amount' => '70',
+        ];
+        $client->expects()->request('alipay.trade.order.settle', [
+            'biz_content' => [
+                'out_request_no' => '1234567890',
+                'trade_no' => '2019072422001491681000170710',
+                'royalty_parameters' => [$params],
+            ],
         ])->andReturn('foo');
-        $this->assertSame('foo', $client->orderSettle('1234567890', '2019072422001491681000170710', [
-            'trans_in' => '2088102177891684',
-            'amount' => '70',
-        ]));
+        $this->assertSame('foo', $client->orderSettle('1234567890', '2019072422001491681000170710', $params));
+        $params = [
+            [
+                'trans_in' => '2088102177891684',
+                'amount' => '70',
+            ],
+        ];
+        $this->assertSame('foo', $client->orderSettle('1234567890', '2019072422001491681000170710', $params));
     }
-    
+
     /**
      * testOrderSettle.
      */
     public function testOrderInfoSync()
     {
-        $client = $this->mockApiClient(Client::class, ['orderInfoSync'], $this->appClient())->makePartial();
-        $client->expects()->orderInfoSync('2019072422001491681000169170', '4936660400225200', 'CREDIT_AUTH')->andReturn('foo');
+        $client = $this->mockApiClient(Client::class, [], $this->appClient())->makePartial();
+        $client->expects()->request('alipay.trade.orderinfo.sync', [
+            'biz_content' => [
+                'trade_no' => '2019072422001491681000169170',
+                'out_request_no' => '4936660400225200',
+                'biz_type' => 'CREDIT_AUTH',
+            ],
+        ])->andReturn('foo');
         $this->assertSame('foo', $client->orderInfoSync('2019072422001491681000169170', '4936660400225200', 'CREDIT_AUTH'));
+        $client->expects()->request('alipay.trade.orderinfo.sync', [
+            'biz_content' => [
+                'trade_no' => '2019072422001491681000169170',
+                'out_request_no' => '4936660400225200',
+                'biz_type' => 'CREDIT_AUTH',
+                'order_biz_info' => '{"status":"COMPLETE"}'
+            ],
+        ])->andReturn('foo');
+        $this->assertSame('foo', $client->orderInfoSync('2019072422001491681000169170', '4936660400225200', 'CREDIT_AUTH', null, "COMPLETE"));
     }
 }
