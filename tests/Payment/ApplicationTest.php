@@ -11,8 +11,10 @@
 namespace EasyAlipay\Tests\Payment;
 
 use EasyAlipay\Alipay;
+use EasyAlipay\Kernel\Exceptions\InvalidSignException;
 use EasyAlipay\Payment\Application;
 use EasyAlipay\Tests\TestCase;
+use WannanBigPig\Supports\Exceptions\RuntimeException;
 
 /**
  * Class ApplicationTest
@@ -30,13 +32,18 @@ class ApplicationTest extends TestCase
     public function appClient()
     {
         $config = [
-            'app_id' => '8888888888888888',
+            'sys_params' => [
+                'app_id' => '8888888888888888',
+                'charset' => 'UTF-8', // 默认 UTF-8
+                'sign_type' => 'RSA2', // 默认 RSA2
+                'notify_url' => 'http://docs.wannanbigpig.com/',
+                'return_url' => 'http://docs.wannanbigpig.com/',
+            ],
             'private_key_path' => STORAGE_ROOT.'private_key.pem',
             // 'private_key' => file_get_contents(STORAGE_ROOT.'private_key.txt'), // 直接配置此处则私钥文件路径则不用填写
             'alipay_public_Key_path' => STORAGE_ROOT.'alipay_public_key.pem',
             // 'alipay_public_Key' => file_get_contents(STORAGE_ROOT.'alipay_public_Key.txt'), // 直接配置此处则私钥文件路径则不用填写
             'charset' => 'UTF-8',
-            'return_url' => 'http://www.wannanbigpig.com/',
             'env' => 'dev',
         ];
 
@@ -61,8 +68,17 @@ class ApplicationTest extends TestCase
         $this->assertInstanceOf(Application::class, $app);
         $this->assertInstanceOf(Application::class, $app->setNotifyUrl('alipay.docs.wannanbigpig.com'));
         $this->assertInstanceOf(Application::class, $app->setReturnUrl('alipay.docs.wannanbigpig.com'));
-        $this->assertSame('fail', $app->handleNotify(function (){
+        $this->assertSame('fail', $app->handleNotify(function () {
 
         })->getContent());
+        $this->expectException(RuntimeException::class);
+        $app->foo([]);
+    }
+
+    public function testCall()
+    {
+        $this->expectException(InvalidSignException::class);
+        $app = $this->appClient();
+        $app->query('888');
     }
 }

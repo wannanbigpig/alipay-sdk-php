@@ -26,8 +26,12 @@ class ClientTest extends ApplicationTest
      */
     public function testQuery()
     {
-        $client = $this->mockApiClient(Client::class, ['query'], $this->appClient());
-        $client->expects()->query('1234567890')->andReturn('foo');
+        $client = $this->mockApiClient(Client::class, [], $this->appClient())->makePartial();
+        $client->expects()->request('alipay.trade.fastpay.refund.query', [
+            'biz_content' => [
+                'trade_no' => '1234567890',
+            ],
+        ])->andReturn('foo');
         $this->assertSame('foo', $client->query('1234567890'));
     }
 

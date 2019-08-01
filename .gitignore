@@ -4,3 +4,4 @@ composer.lock
 .idea
 /logs
 /tests/DevTest.php
+/tests/codeCoverage

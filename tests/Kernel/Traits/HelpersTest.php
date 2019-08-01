@@ -10,9 +10,11 @@
 
 namespace EasyAlipay\Tests\Kernel\Traits;
 
+use EasyAlipay\Kernel\Exceptions\InvalidSignException;
 use EasyAlipay\Kernel\ServiceContainer;
 use EasyAlipay\Kernel\Support\Support;
 use EasyAlipay\Tests\TestCase;
+use WannanBigPig\Supports\Exceptions\InvalidArgumentException;
 
 class HelpersTest extends TestCase
 {
@@ -36,6 +38,13 @@ class HelpersTest extends TestCase
         $this->assertSame(true, $client->checkResponseSign('foo=bar', $sign));
         $this->assertSame(false, $client->verify('foo=bar', $sign, 'RSA'));
         $this->assertSame('result', $client->parserSignSource($data));
+        $this->assertSame('result', $client->parserSignSource(['pay_response' => 'result'], 'pay'));
+        $this->assertSame('error', $client->parserSignSource(['error_response' => 'error']));
+
+        $this->expectException(InvalidArgumentException::class);
+        $app->config->offsetUnset('alipay_public_Key_path');
+        $client = $this->mockApiClient(Support::class, ['parserSignSource', 'verify', 'checkResponseSign'], $app)->makePartial();
+        $client->verify('foo=bar', $sign, 'RSA');
     }
 
     /**
@@ -82,4 +91,35 @@ class HelpersTest extends TestCase
         $this->assertSame($signRsa2, $client->sign($data));
         $this->assertSame($signRsa, $client->sign($data, 'RSA'));
     }
+
+    public function testInvalidArgumentException()
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $app = new ServiceContainer();
+        $client = $this->mockApiClient(Support::class, [], $app)->makePartial();
+        $data = 'foo=bar';
+        $client->sign($data);
+    }
+
+    public function testCheckEmpty()
+    {
+        $app = new ServiceContainer();
+        $client = $this->mockApiClient(Support::class, [], $app)->makePartial();
+        $this->assertSame(true, $client->checkEmpty([]));
+    }
+
+    public function testInvalidSign()
+    {
+        $this->expectException(\EasyAlipay\Kernel\Exceptions\InvalidSignException::class);
+        $app = new ServiceContainer([
+            'alipay_public_Key' => file_get_contents(STORAGE_ROOT.'alipay_public_Key.txt'),
+        ]);
+        $client = $this->mockApiClient(Support::class, [], $app)->makePartial();
+        try {
+            $client->checkResponseSign('xxxx', 'dss');
+        } catch (InvalidSignException $e) {
+            $client->checkResponseSign('xxxx');
+        }
+    }
+
 }

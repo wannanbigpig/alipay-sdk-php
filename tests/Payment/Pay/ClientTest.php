@@ -72,9 +72,13 @@ class ClientTest extends ApplicationTest
      */
     public function testFace()
     {
-        $client = $this->mockApiClient(Client::class, ['face'], $this->appClient())->makePartial();
+        $client = $this->mockApiClient(Client::class, [], $this->appClient())->makePartial();
         $params = '{"apdidToken":"设备指纹", "appName": "应用名称", "appVersion": "应用版本", "bioMetaInfo": "生物信息如2.3.0:3,-4"}';
-        $client->expects()->face($params)->andReturn('foo');
+        $client->expects()->request('zoloz.authentication.customer.smilepay.initialize', [
+            'biz_content' => [
+                'zimmetainfo' => $params,
+            ],
+        ])->andReturn('foo');
         $this->assertSame('foo', $client->face($params));
     }
 }

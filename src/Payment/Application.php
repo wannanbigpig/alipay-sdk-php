@@ -13,6 +13,7 @@ namespace EasyAlipay\Payment;
 use Closure;
 use EasyAlipay\Kernel\ServiceContainer;
 use EasyAlipay\Payment\Notify\Handle;
+use WannanBigPig\Supports\Exceptions\RuntimeException;
 
 /**
  * Class Application
@@ -48,14 +49,22 @@ class Application extends ServiceContainer
     ];
 
     /**
-     * @param string $name
-     * @param array  $arguments
+     * __call.
+     *
+     * @param $name
+     * @param $arguments
      *
      * @return mixed
+     *
+     * @throws \WannanBigPig\Supports\Exceptions\RuntimeException
      */
     public function __call($name, $arguments)
     {
-        return call_user_func_array([$this['base'], $name], $arguments);
+        $callable = [$this['base'], $name];
+        if (is_callable($callable)) {
+            return call_user_func_array($callable, $arguments);
+        }
+        throw new RuntimeException(sprintf("Call undefined methods:'%s'", $name));
     }
 
     /**
