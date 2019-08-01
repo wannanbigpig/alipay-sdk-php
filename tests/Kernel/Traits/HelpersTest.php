@@ -112,7 +112,7 @@ class HelpersTest extends TestCase
     {
         $this->expectException(\EasyAlipay\Kernel\Exceptions\InvalidSignException::class);
         $app = new ServiceContainer([
-            'alipay_public_Key' => file_get_contents(STORAGE_ROOT.'alipay_public_Key.txt'),
+            'alipay_public_Key_path' => STORAGE_ROOT.'public_key.pem',
         ]);
         $client = $this->mockApiClient(Support::class, [], $app)->makePartial();
         try {
