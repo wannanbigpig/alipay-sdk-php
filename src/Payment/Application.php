@@ -13,7 +13,6 @@ namespace EasyAlipay\Payment;
 use Closure;
 use EasyAlipay\Kernel\ServiceContainer;
 use EasyAlipay\Payment\Notify\Handle;
-use WannanBigPig\Supports\Exceptions\RuntimeException;
 
 /**
  * Class Application

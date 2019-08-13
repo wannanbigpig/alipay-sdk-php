@@ -12,8 +12,8 @@ namespace EasyAlipay\Payment\Notify;
 
 use Closure;
 use EasyAlipay\Kernel\Exceptions\InvalidSignException;
+use EasyAlipay\Kernel\ServiceContainer;
 use EasyAlipay\Kernel\Traits\Helpers;
-use EasyAlipay\Payment\Application;
 use Symfony\Component\HttpFoundation\Response;
 use WannanBigPig\Supports\Collection;
 
@@ -55,9 +55,9 @@ class Handle
     /**
      * Handle constructor.
      *
-     * @param \EasyAlipay\Payment\Application $app
+     * @param \EasyAlipay\Kernel\ServiceContainer $app
      */
-    public function __construct(Application $app)
+    public function __construct(ServiceContainer $app)
     {
         $this->app = $app;
     }

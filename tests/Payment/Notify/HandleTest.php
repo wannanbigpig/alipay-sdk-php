@@ -10,12 +10,10 @@
 
 namespace EasyAlipay\Tests\Payment\Notify;
 
-use EasyAlipay\Kernel\Exceptions\InvalidSignException;
 use EasyAlipay\Payment\Application;
 use EasyAlipay\Tests\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use WannanBigPig\Supports\Collection;
 
 class HandleTest extends TestCase
 {
