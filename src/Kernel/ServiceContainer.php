@@ -10,8 +10,9 @@
 
 namespace EasyAlipay\Kernel;
 
+use Closure;
 use EasyAlipay\Kernel\Contracts\App;
-use EasyAlipay\Kernel\Exceptions\InvalidConfigException;
+use EasyAlipay\Kernel\Notify\Handle;
 use EasyAlipay\Kernel\Providers\AppServiceProvider;
 use EasyAlipay\Kernel\Providers\ConfigServiceProvider;
 use EasyAlipay\Kernel\Providers\HttpClientServiceProvider;
@@ -215,6 +216,18 @@ class ServiceContainer extends Container implements App
             RequestServiceProvider::class,
             AppServiceProvider::class,
         ]);
+    }
+
+    /**
+     * handleNotify.
+     *
+     * @param \Closure $closure
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function handleNotify(Closure $closure)
+    {
+        return (new Handle($this))->run($closure);
     }
 
     /**
