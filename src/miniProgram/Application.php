@@ -42,6 +42,8 @@ class Application extends ServiceContainer
         'members' => Base\Client::class,
         'qrCode' => Base\Client::class,
         'version' => Base\Client::class,
+        'auth' => \EasyAlipay\BaseService\Auth\Client::class,
+        'user' => \EasyAlipay\BaseService\User\Client::class,
     ];
 
     /**
