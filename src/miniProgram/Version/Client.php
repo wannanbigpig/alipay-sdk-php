@@ -76,7 +76,7 @@ class Client extends Support
      */
     public function upload(string $templateId, string $appVersion, string $templateVersion = null, string $ext = null)
     {
-        $method = 'alipay.open.agent.create';
+        $method = 'alipay.open.mini.version.upload';
         $params = array_filter([
             'template_version' => $templateVersion,
             'ext' => $ext,
