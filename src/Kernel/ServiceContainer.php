@@ -12,12 +12,12 @@ namespace EasyAlipay\Kernel;
 
 use Closure;
 use EasyAlipay\Kernel\Contracts\App;
+use EasyAlipay\Kernel\Notify\Handle;
 use EasyAlipay\Kernel\Providers\AppServiceProvider;
 use EasyAlipay\Kernel\Providers\ConfigServiceProvider;
 use EasyAlipay\Kernel\Providers\HttpClientServiceProvider;
 use EasyAlipay\Kernel\Providers\LogServiceProvider;
 use EasyAlipay\Kernel\Providers\RequestServiceProvider;
-use EasyAlipay\Kernel\Notify\Handle;
 use Pimple\Container;
 use WannanBigPig\Supports\Exceptions\RuntimeException;
 
