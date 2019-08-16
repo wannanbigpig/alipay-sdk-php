@@ -140,7 +140,7 @@ class Client extends Support
     /**
      * alipay.open.agent.mini.create(代商家创建小程序应用).
      *
-     * @param string $params
+     * @param array $params
      *
      * @return array|object|\Psr\Http\Message\ResponseInterface|\WannanBigPig\Supports\Collection|\WannanBigPig\Supports\Http\Response
      *
@@ -148,9 +148,9 @@ class Client extends Support
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \WannanBigPig\Supports\Exceptions\InvalidArgumentException
      */
-    public function miniCreate(string $params)
+    public function miniCreate(array $params)
     {
-        $method = 'alipay.open.agent.create';
+        $method = 'alipay.open.agent.mini.create';
 
         return $this->request($method, $params);
     }
@@ -158,7 +158,7 @@ class Client extends Support
     /**
      * alipay.open.agent.mobilepay.sign(代签约APP支付产品).
      *
-     * @param string $params
+     * @param array $params
      *
      * @return array|object|\Psr\Http\Message\ResponseInterface|\WannanBigPig\Supports\Collection|\WannanBigPig\Supports\Http\Response
      *
@@ -166,7 +166,7 @@ class Client extends Support
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \WannanBigPig\Supports\Exceptions\InvalidArgumentException
      */
-    public function appPayment(string $params)
+    public function appPayment(array $params)
     {
         $method = 'alipay.open.agent.mobilepay.sign';
 
@@ -176,7 +176,7 @@ class Client extends Support
     /**
      * alipay.open.agent.facetoface.sign(代签约当面付产品).
      *
-     * @param string $params
+     * @param array $params
      *
      * @return array|object|\Psr\Http\Message\ResponseInterface|\WannanBigPig\Supports\Collection|\WannanBigPig\Supports\Http\Response
      *
@@ -184,7 +184,7 @@ class Client extends Support
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \WannanBigPig\Supports\Exceptions\InvalidArgumentException
      */
-    public function faceToFace(string $params)
+    public function faceToFace(array $params)
     {
         $method = 'alipay.open.agent.facetoface.sign';
 
@@ -194,7 +194,7 @@ class Client extends Support
     /**
      * alipay.open.agent.zhimabrief.sign(代签约芝麻信用（普惠版）产品).
      *
-     * @param string $params
+     * @param array $params
      *
      * @return array|object|\Psr\Http\Message\ResponseInterface|\WannanBigPig\Supports\Collection|\WannanBigPig\Supports\Http\Response
      *
@@ -202,7 +202,7 @@ class Client extends Support
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \WannanBigPig\Supports\Exceptions\InvalidArgumentException
      */
-    public function sesameCredit(string $params)
+    public function sesameCredit(array $params)
     {
         $method = 'alipay.open.agent.zhimabrief.sign';
 
@@ -212,7 +212,7 @@ class Client extends Support
     /**
      * alipay.open.agent.offlinepayment.sign(代签约当面付快捷版产品) .
      *
-     * @param string $params
+     * @param array $params
      *
      * @return array|object|\Psr\Http\Message\ResponseInterface|\WannanBigPig\Supports\Collection|\WannanBigPig\Supports\Http\Response
      *
@@ -220,7 +220,7 @@ class Client extends Support
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \WannanBigPig\Supports\Exceptions\InvalidArgumentException
      */
-    public function offlinePayment(string $params)
+    public function offlinePayment(array $params)
     {
         $method = 'alipay.open.agent.offlinepayment.sign';
 
