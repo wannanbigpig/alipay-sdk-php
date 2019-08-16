@@ -8,7 +8,7 @@
  * with this source code in the file LICENSE.
  */
 
-namespace EasyAlipay\miniProgram\Base;
+namespace EasyAlipay\MiniProgram\Base;
 
 use EasyAlipay\Kernel\Support\Support;
 
@@ -36,10 +36,7 @@ class Client extends Support
     /**
      * alipay.open.mini.baseinfo.modify(小程序修改基础信息).
      *
-     * @param string $templateId
-     * @param int    $pageNum
-     * @param int    $pageSize
-     * @param string $templateVersion
+     * @param array $params
      *
      * @return array|object|\Psr\Http\Message\ResponseInterface|\WannanBigPig\Supports\Collection|\WannanBigPig\Supports\Http\Response
      *
@@ -47,21 +44,11 @@ class Client extends Support
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \WannanBigPig\Supports\Exceptions\InvalidArgumentException
      */
-    public function updateBaseInfo(string $templateId, int $pageNum = 1, int $pageSize = 10, string $templateVersion)
+    public function updateBaseInfo(array $params)
     {
         $method = 'alipay.open.mini.baseinfo.modify';
-        $params = array_filter([
-            'template_id' => $templateId,
-            'page_num' => $pageNum,
-            'page_size' => $pageSize,
-            'template_version' => $templateVersion,
-        ], function ($value) {
-            return !($this->checkEmpty($value));
-        });
 
-        return $this->request($method, [
-            'biz_content' => $params,
-        ]);
+        return $this->request($method, $params);
     }
 
     /**

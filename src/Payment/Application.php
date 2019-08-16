@@ -10,9 +10,7 @@
 
 namespace EasyAlipay\Payment;
 
-use Closure;
 use EasyAlipay\Kernel\ServiceContainer;
-use EasyAlipay\Payment\Notify\Handle;
 
 /**
  * Class Application
@@ -86,17 +84,5 @@ class Application extends ServiceContainer
         $this->config->set('return_url', $returnUrl);
 
         return $this;
-    }
-
-    /**
-     * handleNotify.
-     *
-     * @param \Closure $closure
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    public function handleNotify(Closure $closure)
-    {
-        return (new Handle($this))->run($closure);
     }
 }

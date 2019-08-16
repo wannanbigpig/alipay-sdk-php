@@ -10,9 +10,7 @@
 
 namespace EasyAlipay\Tripartite;
 
-use Closure;
 use EasyAlipay\Kernel\ServiceContainer;
-use EasyAlipay\Payment\Notify\Handle;
 
 /**
  * Class Application
@@ -31,6 +29,7 @@ class Application extends ServiceContainer
      */
     protected $providers = [
         'agent' => Agent\Client::class,
+        'serviceMarket' => ServiceMarket\Client::class,
     ];
 
     /**
@@ -44,17 +43,5 @@ class Application extends ServiceContainer
     public function __call($name, $arguments)
     {
         return call_user_func_array([$this['base'], $name], $arguments);
-    }
-
-    /**
-     * handleNotify.
-     *
-     * @param \Closure $closure
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    public function handleNotify(Closure $closure)
-    {
-        return (new Handle($this))->run($closure);
     }
 }

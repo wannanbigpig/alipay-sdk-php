@@ -23,13 +23,14 @@ class Client extends BaseClient
     /**
      * alipay.trade.app.pay(app支付接口2.0).
      *
-     * @param array $params
+     * @param array       $params
+     * @param string|null $returnUrl
      *
      * @return string
      *
      * @throws \WannanBigPig\Supports\Exceptions\InvalidArgumentException
      */
-    public function app(array $params)
+    public function app(array $params, string $returnUrl = null)
     {
         $method = 'alipay.trade.app.pay';
         $params = array_merge([
@@ -38,7 +39,7 @@ class Client extends BaseClient
         ], $params);
 
         $this->app->setEndpointConfig($method, [
-            'return_url' => $this->app['config']->get('return_url'),
+            'return_url' => $returnUrl ?: $this->app['config']->get('return_url'),
             'notify_url' => $this->app['config']->get('notify_url'),
         ]);
 
@@ -50,14 +51,15 @@ class Client extends BaseClient
     /**
      * alipay.trade.wap.pay(手机网站支付接口2.0).
      *
-     * @param array  $params
-     * @param string $httpMethod
+     * @param array       $params
+     * @param string      $httpMethod
+     * @param string|null $returnUrl
      *
      * @return string
      *
      * @throws \WannanBigPig\Supports\Exceptions\InvalidArgumentException
      */
-    public function wap(array $params, string $httpMethod = 'POST')
+    public function wap(array $params, string $httpMethod = 'POST', string $returnUrl = null)
     {
         $method = 'alipay.trade.wap.pay';
         $params = array_merge([
@@ -66,7 +68,7 @@ class Client extends BaseClient
         ], $params);
 
         $this->app->setEndpointConfig($method, [
-            'return_url' => $this->app['config']->get('return_url'),
+            'return_url' => $returnUrl ?: $this->app['config']->get('return_url'),
             'notify_url' => $this->app['config']->get('notify_url'),
         ]);
 
@@ -78,14 +80,15 @@ class Client extends BaseClient
     /**
      * alipay.trade.page.pay(统一收单下单并支付页面接口).
      *
-     * @param array  $params
-     * @param string $httpMethod
+     * @param array       $params
+     * @param string      $httpMethod
+     * @param string|null $returnUrl
      *
      * @return string
      *
      * @throws \WannanBigPig\Supports\Exceptions\InvalidArgumentException
      */
-    public function pc(array $params, string $httpMethod = 'POST')
+    public function pc(array $params, string $httpMethod = 'POST', string $returnUrl = null)
     {
         $method = 'alipay.trade.page.pay';
         $params = array_merge([
@@ -93,7 +96,7 @@ class Client extends BaseClient
             'product_code' => 'FAST_INSTANT_TRADE_PAY',
         ], $params);
         $this->app->setEndpointConfig($method, [
-            'return_url' => $this->app['config']->get('return_url'),
+            'return_url' => $returnUrl ?: $this->app['config']->get('return_url'),
             'notify_url' => $this->app['config']->get('notify_url'),
         ]);
 

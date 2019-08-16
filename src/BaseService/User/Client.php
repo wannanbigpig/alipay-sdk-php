@@ -8,42 +8,16 @@
  * with this source code in the file LICENSE.
  */
 
-namespace EasyAlipay\MiniProgram\Members;
+namespace EasyAlipay\BaseService\User;
 
 use EasyAlipay\Kernel\Support\Support;
 
 class Client extends Support
 {
     /**
-     * alipay.open.app.members.create(应用添加成员).
+     * alipay.user.certify.open.initialize(身份认证初始化服务).
      *
-     * @param string $logonId
-     * @param string $role
-     *
-     * @return array|object|\Psr\Http\Message\ResponseInterface|\WannanBigPig\Supports\Collection|\WannanBigPig\Supports\Http\Response
-     *
-     * @throws \EasyAlipay\Kernel\Exceptions\InvalidSignException
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \WannanBigPig\Supports\Exceptions\InvalidArgumentException
-     */
-    public function create(string $logonId, string $role = 'EXPERIENCER')
-    {
-        $method = 'alipay.open.app.members.create';
-        $params = [
-            'logon_id' => $logonId,
-            'role' => $role,
-        ];
-
-        return $this->request($method, [
-            'biz_content' => $params,
-        ]);
-    }
-
-
-    /**
-     * alipay.open.app.members.query(应用查询成员列表).
-     *
-     * @param string $role
+     * @param array $params
      *
      * @return array|object|\Psr\Http\Message\ResponseInterface|\WannanBigPig\Supports\Collection|\WannanBigPig\Supports\Http\Response
      *
@@ -51,12 +25,9 @@ class Client extends Support
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \WannanBigPig\Supports\Exceptions\InvalidArgumentException
      */
-    public function query(string $role = 'EXPERIENCER')
+    public function certifyInitialize(array $params)
     {
-        $method = 'alipay.open.app.members.query';
-        $params = [
-            'role' => $role,
-        ];
+        $method = 'alipay.user.certify.open.initialize';
 
         return $this->request($method, [
             'biz_content' => $params,
@@ -64,10 +35,9 @@ class Client extends Support
     }
 
     /**
-     * alipay.open.app.members.delete(应用删除成员).
+     * alipay.user.certify.open.certify(身份认证开始认证).
      *
-     * @param string $userId
-     * @param string $role
+     * @param array $params
      *
      * @return array|object|\Psr\Http\Message\ResponseInterface|\WannanBigPig\Supports\Collection|\WannanBigPig\Supports\Http\Response
      *
@@ -75,16 +45,34 @@ class Client extends Support
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \WannanBigPig\Supports\Exceptions\InvalidArgumentException
      */
-    public function delete(string $userId, string $role = 'EXPERIENCER')
+    public function certifyStart(array $params)
     {
-        $method = 'alipay.open.app.members.delete';
-        $params = [
-            'user_id' => $userId,
-            'role' => $role,
-        ];
+        $method = 'alipay.user.certify.open.certify';
 
         return $this->request($method, [
             'biz_content' => $params,
+        ]);
+    }
+
+    /**
+     * alipay.user.certify.open.query(身份认证记录查询).
+     *
+     * @param string $certifyId
+     *
+     * @return array|object|\Psr\Http\Message\ResponseInterface|\WannanBigPig\Supports\Collection|\WannanBigPig\Supports\Http\Response
+     *
+     * @throws \EasyAlipay\Kernel\Exceptions\InvalidSignException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \WannanBigPig\Supports\Exceptions\InvalidArgumentException
+     */
+    public function getCertifyStatus(string $certifyId)
+    {
+        $method = 'alipay.user.certify.open.query';
+
+        return $this->request($method, [
+            'biz_content' => [
+                'certify_id' => $certifyId,
+            ],
         ]);
     }
 }

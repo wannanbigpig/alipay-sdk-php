@@ -8,7 +8,7 @@
  * with this source code in the file LICENSE.
  */
 
-namespace EasyAlipay\Payment\Notify;
+namespace EasyAlipay\Kernel\Notify;
 
 use Closure;
 use EasyAlipay\Kernel\Exceptions\InvalidSignException;

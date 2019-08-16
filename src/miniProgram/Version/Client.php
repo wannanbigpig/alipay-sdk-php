@@ -8,7 +8,7 @@
  * with this source code in the file LICENSE.
  */
 
-namespace EasyAlipay\miniProgram\Version;
+namespace EasyAlipay\MiniProgram\Version;
 
 use EasyAlipay\Kernel\Support\Support;
 

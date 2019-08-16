@@ -8,7 +8,7 @@
  * with this source code in the file LICENSE.
  */
 
-namespace EasyAlipay\miniProgram\QrCode;
+namespace EasyAlipay\MiniProgram\QrCode;
 
 use EasyAlipay\Kernel\Support\Support;
 
