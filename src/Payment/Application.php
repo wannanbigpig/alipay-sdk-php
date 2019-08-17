@@ -26,10 +26,10 @@ use EasyAlipay\Kernel\ServiceContainer;
  * @method mixed pay(array $params)
  * @method mixed create(array $params)
  * @method mixed preCreate(array $params)
- * @method mixed close(string $tradeNo, string $outTradeNo = null, string $operatorId = null)
+ * @method mixed close(string $outTradeNo, string $tradeNo = null, string $operatorId = null)
  * @method mixed refund(string $tradeNo, $amount, string $outTradeNo = null, array $params = [])
- * @method mixed query(string $tradeNo, string $outTradeNo = null, string $orgPid = null)
- * @method mixed cancel(string $tradeNo, string $outTradeNo = null)
+ * @method mixed query(string $outTradeNo, string $tradeNo = null, string $orgPid = null)
+ * @method mixed cancel(string $outTradeNo, string $tradeNo = null)
  * @method mixed orderSettle(string $outRequestNo, string $tradeNo, array $royaltyParameters, string $operatorId = null)
  * @method mixed orderInfoSync(string $tradeNo, string $outRequestNo, string $bizType, string $origRequestNo = null, string $orderBizInfo = null)
  */

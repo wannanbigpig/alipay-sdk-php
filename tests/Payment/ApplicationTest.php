@@ -11,10 +11,8 @@
 namespace EasyAlipay\Tests\Payment;
 
 use EasyAlipay\Alipay;
-use EasyAlipay\Kernel\Exceptions\InvalidSignException;
 use EasyAlipay\Payment\Application;
 use EasyAlipay\Tests\TestCase;
-use WannanBigPig\Supports\Exceptions\RuntimeException;
 
 /**
  * Class ApplicationTest
