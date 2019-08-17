@@ -88,7 +88,7 @@ class ClientTest extends ApplicationTest
         $client = $this->mockApiClient(Client::class, [], $this->appClient())->makePartial();
         $client->expects()->request('alipay.trade.close', [
             'biz_content' => [
-                'trade_no' => '2019072422001491681000170710',
+                'out_trade_no' => '2019072422001491681000170710',
             ],
         ])->andReturn('foo');
         $this->assertSame('foo', $client->close('2019072422001491681000170710'));
@@ -117,7 +117,7 @@ class ClientTest extends ApplicationTest
         $client = $this->mockApiClient(Client::class, [], $this->appClient())->makePartial();
         $client->expects()->request('alipay.trade.query', [
             'biz_content' => [
-                'trade_no' => '2019072422001491681000170710',
+                'out_trade_no' => '2019072422001491681000170710',
             ],
         ])->andReturn('foo');
         $this->assertSame('foo', $client->query('2019072422001491681000170710'));
@@ -131,7 +131,7 @@ class ClientTest extends ApplicationTest
         $client = $this->mockApiClient(Client::class, [], $this->appClient())->makePartial();
         $client->expects()->request('alipay.trade.cancel', [
             'biz_content' => [
-                'trade_no' => '2019072422001491681000170710',
+                'out_trade_no' => '2019072422001491681000170710',
             ],
         ])->andReturn('foo');
         $this->assertSame('foo', $client->cancel('2019072422001491681000170710'));
