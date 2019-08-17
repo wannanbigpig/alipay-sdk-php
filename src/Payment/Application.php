@@ -18,9 +18,10 @@ use EasyAlipay\Kernel\ServiceContainer;
  * @author   liuml  <liumenglei0211@163.com>
  * @DateTime 2019-07-18  16:13
  *
- * @property Pay\Client    $pay
- * @property Refund\Client $refund
- * @property Bill\Client   $bill
+ * @property Pay\Client          $pay
+ * @property Refund\Client       $refund
+ * @property Bill\Client         $bill
+ * @property FundAccredit\Client $fundAccredit
  *
  * @method mixed pay(array $params)
  * @method mixed create(array $params)
@@ -43,6 +44,7 @@ class Application extends ServiceContainer
         'pay' => Pay\Client::class,
         'refund' => Refund\Client::class,
         'bill' => Bill\Client::class,
+        'fundAccredit' => FundAccredit\Client::class,
     ];
 
     /**
