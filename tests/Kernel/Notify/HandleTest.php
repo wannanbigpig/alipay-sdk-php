@@ -8,7 +8,7 @@
  * with this source code in the file LICENSE.
  */
 
-namespace EasyAlipay\Tests\Payment\Notify;
+namespace EasyAlipay\Tests\Kernel\Notify;
 
 use EasyAlipay\Kernel\Notify\Handle;
 use EasyAlipay\Payment\Application;
