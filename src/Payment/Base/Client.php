@@ -97,17 +97,17 @@ class Client extends BaseClient
     /**
      * alipay.trade.close(统一收单交易关闭接口).
      *
-     * @param string      $tradeNo
-     * @param string|null $outTradeNo
+     * @param string      $outTradeNo
+     * @param string|null $tradeNo
      * @param string|null $operatorId
      *
      * @return array|object|\Psr\Http\Message\ResponseInterface|\WannanBigPig\Supports\Collection|\WannanBigPig\Supports\Http\Response
      *
-     * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \EasyAlipay\Kernel\Exceptions\InvalidSignException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \WannanBigPig\Supports\Exceptions\InvalidArgumentException
      */
-    public function close(string $tradeNo, string $outTradeNo = null, string $operatorId = null)
+    public function close(string $outTradeNo, string $tradeNo = null, string $operatorId = null)
     {
         $method = 'alipay.trade.close';
         $params = array_filter([
@@ -158,17 +158,17 @@ class Client extends BaseClient
     /**
      * alipay.trade.query(统一收单线下交易查询).
      *
-     * @param string      $tradeNo
-     * @param string|null $outTradeNo
+     * @param string      $outTradeNo
+     * @param string|null $tradeNo
      * @param string|null $orgPid
      *
      * @return array|object|\Psr\Http\Message\ResponseInterface|\WannanBigPig\Supports\Collection|\WannanBigPig\Supports\Http\Response
      *
-     * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \EasyAlipay\Kernel\Exceptions\InvalidSignException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \WannanBigPig\Supports\Exceptions\InvalidArgumentException
      */
-    public function query(string $tradeNo, string $outTradeNo = null, string $orgPid = null)
+    public function query(string $outTradeNo, string $tradeNo = null, string $orgPid = null)
     {
         $params = array_filter([
             'trade_no' => $tradeNo,
@@ -186,16 +186,16 @@ class Client extends BaseClient
     /**
      * alipay.trade.cancel(统一收单交易撤销接口).
      *
-     * @param string      $tradeNo
-     * @param string|null $outTradeNo
+     * @param string      $outTradeNo
+     * @param string|null $tradeNo
      *
      * @return array|object|\Psr\Http\Message\ResponseInterface|\WannanBigPig\Supports\Collection|\WannanBigPig\Supports\Http\Response
      *
-     * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \EasyAlipay\Kernel\Exceptions\InvalidSignException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \WannanBigPig\Supports\Exceptions\InvalidArgumentException
      */
-    public function cancel(string $tradeNo, string $outTradeNo = null)
+    public function cancel(string $outTradeNo, string $tradeNo = null)
     {
         $params = array_filter([
             'trade_no' => $tradeNo,
@@ -274,6 +274,7 @@ class Client extends BaseClient
         if (!($this->checkEmpty($orderBizInfo))) {
             $params['order_biz_info'] = json_encode(['status' => $orderBizInfo]);
         }
+
         return $this->request('alipay.trade.orderinfo.sync', [
             'biz_content' => $params,
         ]);
