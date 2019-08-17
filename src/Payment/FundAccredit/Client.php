@@ -306,5 +306,4 @@ class Client extends BaseClient
             'biz_content' => $params,
         ]);
     }
-
 }
