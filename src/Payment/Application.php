@@ -59,32 +59,4 @@ class Application extends ServiceContainer
     {
         return call_user_func_array([$this['base'], $name], $arguments);
     }
-
-    /**
-     * setNotifyUrl.
-     *
-     * @param string $notifyUrl
-     *
-     * @return $this
-     */
-    public function setNotifyUrl(string $notifyUrl)
-    {
-        $this->config->set('notify_url', $notifyUrl);
-
-        return $this;
-    }
-
-    /**
-     * setReturnUrl.
-     *
-     * @param string $returnUrl
-     *
-     * @return $this
-     */
-    public function setReturnUrl(string $returnUrl)
-    {
-        $this->config->set('return_url', $returnUrl);
-
-        return $this;
-    }
 }

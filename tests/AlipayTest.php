@@ -12,11 +12,16 @@ namespace EasyAlipay\Tests;
 
 use EasyAlipay\Alipay;
 use EasyAlipay\Kernel\Exceptions\ApplicationException;
+use EasyAlipay\Payment\Application;
 
 class AlipayTest extends TestCase
 {
     public function testAlipay()
     {
+        $alipay = Alipay::initialize(['app_id' => '88888888888888888']);
+        $app = $alipay->payment();
+        $this->assertInstanceOf(Application::class, $app);
+
         $this->expectException(ApplicationException::class);
         $config = [
             'app_id' => '111',
