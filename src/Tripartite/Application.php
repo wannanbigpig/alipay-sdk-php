@@ -31,5 +31,4 @@ class Application extends ServiceContainer
         'agent' => Agent\Client::class,
         'serviceMarket' => ServiceMarket\Client::class,
     ];
-
 }
