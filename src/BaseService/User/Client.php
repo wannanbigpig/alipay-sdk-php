@@ -37,7 +37,7 @@ class Client extends Support
     /**
      * alipay.user.certify.open.certify(身份认证开始认证).
      *
-     * @param array $params
+     * @param string $certifyId
      *
      * @return array|object|\Psr\Http\Message\ResponseInterface|\WannanBigPig\Supports\Collection|\WannanBigPig\Supports\Http\Response
      *
@@ -45,12 +45,14 @@ class Client extends Support
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \WannanBigPig\Supports\Exceptions\InvalidArgumentException
      */
-    public function certifyStart(array $params)
+    public function certifyStart(string $certifyId)
     {
         $method = 'alipay.user.certify.open.certify';
 
         return $this->request($method, [
-            'biz_content' => $params,
+            'biz_content' => [
+                'certify_id' => $certifyId,
+            ],
         ]);
     }
 

@@ -18,7 +18,7 @@ use EasyAlipay\Kernel\ServiceContainer;
  * @author   liuml  <liumenglei0211@163.com>
  * @DateTime 2019-07-18  16:13
  *
- * @property \EasyAlipay\Tripartite\Agent\Client $agent
+ * @property \EasyAlipay\Tripartite\Agent\Client         $agent
  * @property \EasyAlipay\Tripartite\ServiceMarket\Client $serviceMarket
  */
 class Application extends ServiceContainer
@@ -31,17 +31,4 @@ class Application extends ServiceContainer
         'agent' => Agent\Client::class,
         'serviceMarket' => ServiceMarket\Client::class,
     ];
-
-    /**
-     * __call.
-     *
-     * @param $name
-     * @param $arguments
-     *
-     * @return mixed
-     */
-    public function __call($name, $arguments)
-    {
-        return call_user_func_array([$this['base'], $name], $arguments);
-    }
 }

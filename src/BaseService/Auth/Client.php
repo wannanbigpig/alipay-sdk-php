@@ -30,17 +30,15 @@ class Client extends Support
     {
         $method = 'alipay.system.oauth.token';
 
-        $param = [];
+        $params = [
+            'grant_type' => $grantType,
+        ];
 
         if ($grantType !== 'authorization_code') {
-            $param['refresh_token'] = $code;
+            $params['refresh_token'] = $code;
         } else {
-            $param['code'] = $code;
+            $params['code'] = $code;
         }
-
-        $params = array_merge([
-            'grant_type' => $grantType,
-        ], $param);
 
         return $this->request($method, $params);
     }

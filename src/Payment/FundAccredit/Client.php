@@ -85,7 +85,7 @@ class Client extends BaseClient
      *
      * @param string $authNo
      * @param string $outRequestNo
-     * @param string $amount
+     * @param float  $amount
      * @param string $remark
      * @param string $extraParam
      *
@@ -95,7 +95,7 @@ class Client extends BaseClient
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \WannanBigPig\Supports\Exceptions\InvalidArgumentException
      */
-    public function unfreeze(string $authNo, string $outRequestNo, string $amount, string $remark, string $extraParam = null)
+    public function unfreeze(string $authNo, string $outRequestNo, float $amount, string $remark, string $extraParam = null)
     {
         $method = 'alipay.fund.auth.order.unfreeze';
         $params = array_filter([
@@ -186,8 +186,8 @@ class Client extends BaseClient
     /**
      * alipay.fund.trans.order.query(查询转账订单接口).
      *
-     * @param string      $orderId
-     * @param string|null $outBizNo
+     * @param string      $outBizNo
+     * @param string|null $orderId
      *
      * @return array|object|\Psr\Http\Message\ResponseInterface|\WannanBigPig\Supports\Collection|\WannanBigPig\Supports\Http\Response
      *
@@ -195,7 +195,7 @@ class Client extends BaseClient
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \WannanBigPig\Supports\Exceptions\InvalidArgumentException
      */
-    public function getTransferOrder(string $orderId, string $outBizNo = null)
+    public function getTransferOrder(string $outBizNo, string $orderId = null)
     {
         $method = 'alipay.fund.trans.order.query';
 
@@ -236,7 +236,7 @@ class Client extends BaseClient
      *
      * @param string      $orderId
      * @param string      $outRequestNo
-     * @param string      $refundAmount
+     * @param float       $refundAmount
      * @param string|null $remark
      *
      * @return array|object|\Psr\Http\Message\ResponseInterface|\WannanBigPig\Supports\Collection|\WannanBigPig\Supports\Http\Response
@@ -245,7 +245,7 @@ class Client extends BaseClient
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \WannanBigPig\Supports\Exceptions\InvalidArgumentException
      */
-    public function TransferBack(string $orderId, string $outRequestNo, string $refundAmount, string $remark = null)
+    public function transferBack(string $orderId, string $outRequestNo, float $refundAmount, string $remark = null)
     {
         $method = 'alipay.fund.trans.refund';
 
