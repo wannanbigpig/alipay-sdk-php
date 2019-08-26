@@ -355,7 +355,7 @@ class Client extends Support
      */
     public function submitAudit(array $params)
     {
-        $method = 'alipay.open.mini.version.rollback';
+        $method = 'alipay.open.mini.version.audit.apply';
         
         return $this->request($method, [
             'biz_content' => $params,

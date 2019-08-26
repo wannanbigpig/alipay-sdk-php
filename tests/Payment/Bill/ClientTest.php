@@ -21,10 +21,7 @@ use EasyAlipay\Tests\Payment\ApplicationTest;
  */
 class ClientTest extends ApplicationTest
 {
-    /**
-     * testApp.
-     */
-    public function testQuery()
+    public function testGet()
     {
         $client = $this->mockApiClient(Client::class, [], $this->appClient());
         $client->expects()->request('alipay.data.dataservice.bill.downloadurl.query', [

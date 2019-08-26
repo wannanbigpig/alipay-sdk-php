@@ -19,7 +19,7 @@ class ClientTest extends TestCase
     /**
      * appClient.
      *
-     * @return \EasyAlipay\MiniProgram\Application
+     * @return \EasyAlipay\MiniProgram\ApplicationTest
      */
     public function appClient()
     {
