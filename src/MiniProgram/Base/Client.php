@@ -52,9 +52,12 @@ class Client extends Support
     }
 
     /**
-     * alipay.open.mini.template.usage.query(查询使用模板的小程序列表).
+     *  alipay.open.mini.template.usage.query(查询使用模板的小程序列表).
      *
-     * @param array $params
+     * @param string      $templateId
+     * @param int         $pageNum
+     * @param int         $pageSize
+     * @param string|null $templateVersion
      *
      * @return array|object|\Psr\Http\Message\ResponseInterface|\WannanBigPig\Supports\Collection|\WannanBigPig\Supports\Http\Response
      *
@@ -62,11 +65,23 @@ class Client extends Support
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \WannanBigPig\Supports\Exceptions\InvalidArgumentException
      */
-    public function getUsageTemplateList(array $params)
+    public function getUsageTemplateList(string $templateId, int $pageNum = 1, int $pageSize = 10, string $templateVersion = null)
     {
         $method = 'alipay.open.mini.template.usage.query';
 
-        return $this->request($method, $params);
+        $params = [
+            'template_id' => $templateId,
+            'page_num' => $pageNum,
+            'page_size' => $pageSize,
+        ];
+
+        if ($templateVersion !== null) {
+            $params['template_version'] = $templateVersion;
+        }
+
+        return $this->request($method, [
+            'biz_content' => $params,
+        ]);
     }
 
     /**
@@ -128,7 +143,7 @@ class Client extends Support
      */
     public function contentRiskDetect(string $content)
     {
-        $method = 'alipay.open.mini.safedomain.delete';
+        $method = 'alipay.security.risk.content.detect';
         $params = [
             'content' => $content,
         ];
@@ -160,16 +175,25 @@ class Client extends Support
     /**
      * zoloz.identification.customer.certifyzhub.query(刷脸查询认证结果接口).
      *
+     * @param string $bizId
+     * @param string $zimId
+     * @param int    $faceType
+     *
      * @return array|object|\Psr\Http\Message\ResponseInterface|\WannanBigPig\Supports\Collection|\WannanBigPig\Supports\Http\Response
      *
      * @throws \EasyAlipay\Kernel\Exceptions\InvalidSignException
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \WannanBigPig\Supports\Exceptions\InvalidArgumentException
      */
-    public function faceAuthenticationResultsQuery()
+    public function faceAuthenticationResultsQuery(string $bizId, string $zimId, int $faceType = 0)
     {
         $method = 'zoloz.identification.customer.certifyzhub.query';
-        $params = [];
+        $params = [
+            'biz_id' => $bizId,
+            'zim_id' => $zimId,
+            'face_type' => $faceType,
+            'bizType' => 2,
+        ];
 
         return $this->request($method, [
             'biz_content' => $params,
