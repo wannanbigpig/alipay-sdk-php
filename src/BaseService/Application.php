@@ -8,7 +8,7 @@
  * with this source code in the file LICENSE.
  */
 
-namespace EasyAlipay\MiniProgram;
+namespace EasyAlipay\BaseService;
 
 use EasyAlipay\Kernel\ServiceContainer;
 
@@ -18,18 +18,6 @@ use EasyAlipay\Kernel\ServiceContainer;
  * @author   liuml  <liumenglei0211@163.com>
  * @DateTime 2019-07-18  16:13
  *
- * @property \EasyAlipay\MiniProgram\Members\Client $members
- * @property \EasyAlipay\MiniProgram\QrCode\Client  $qrCode
- * @property \EasyAlipay\MiniProgram\Version\Client $version
- *
- * @method mixed getBaseInfo()
- * @method mixed updateBaseInfo(array $params)
- * @method mixed getUsageTemplateList(array $params)
- * @method mixed createSafeDomain(string $safeDomain)
- * @method mixed deleteSafeDomain(string $safeDomain)
- * @method mixed contentRiskDetect(string $content)
- * @method mixed getCategoryList()
- * @method mixed faceAuthenticationResultsQuery()
  * @method mixed getAccessToken(string $code, string $grantType = 'authorization_code')
  * @method mixed getAuthorizationUrl(string $redirectUri, string $scope = 'auth_base', string $state = null)
  * @method mixed getUserInfo(string $authToken)
@@ -45,12 +33,8 @@ class Application extends ServiceContainer
      * @var array
      */
     protected $providers = [
-        'base' => Base\Client::class,
-        'members' => Base\Client::class,
-        'qrCode' => Base\Client::class,
-        'version' => Base\Client::class,
-        'auth' => \EasyAlipay\BaseService\Auth\Client::class,
-        'user' => \EasyAlipay\BaseService\User\Client::class,
+        'auth' => Auth\Client::class,
+        'user' => User\Client::class,
     ];
 
     /**
