@@ -19,6 +19,7 @@ use WannanBigPig\Supports\Str;
  * @method static \EasyAlipay\Payment\Application payment(array $config = [])
  * @method static \EasyAlipay\Tripartite\Application tripartite(array $config = [])
  * @method static \EasyAlipay\MiniProgram\Application miniProgram(array $config = [])
+ * @method static \EasyAlipay\BaseService\Application baseService(array $config = [])
  *
  * @author   liuml  <liumenglei0211@163.com>
  * @DateTime 2019-07-26  18:18
