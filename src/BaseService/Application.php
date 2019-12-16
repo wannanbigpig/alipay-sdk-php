@@ -18,13 +18,10 @@ use EasyAlipay\Kernel\ServiceContainer;
  * @author   liuml  <liumenglei0211@163.com>
  * @DateTime 2019-07-18  16:13
  *
- * @method mixed getAccessToken(string $code, string $grantType = 'authorization_code')
- * @method mixed getAuthorizationUrl(string $redirectUri, string $scope = 'auth_base', string $state = null)
- * @method mixed getUserInfo(string $authToken)
- * @method mixed loginAuthorization(string $state, string $scopes = 'auth_base', string $returnUrl = null)
- * @method mixed certifyInitialize(array $params)
- * @method mixed certifyStart(string $certifyId)
- * @method mixed getCertifyStatus(string $certifyId)
+ * @property Auth\Client $auth
+ * @property User\Client $user
+ *
+ * @method mixed queryAppAuthToken(string $appAuthToken)
  */
 class Application extends ServiceContainer
 {
