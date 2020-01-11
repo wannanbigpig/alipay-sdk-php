@@ -18,7 +18,7 @@
 * openssl 拓展
 
 ### 开发工具
-<a href="https://www.jetbrains.com/?from=alipay-sdk-php"><img src="https://github.com/wannanbigpig/alipay-sdk-php/blob/master/phpstorm.png" alt="PhpStorm"  width="80" height="80"/></a>
+<a href="https://www.jetbrains.com/?from=alipay-sdk-php" target="_blank"><img src="https://github.com/wannanbigpig/alipay-sdk-php/blob/master/phpstorm.png" alt="PhpStorm"  width="80" height="80"/></a>
 
 ### 安装
 
