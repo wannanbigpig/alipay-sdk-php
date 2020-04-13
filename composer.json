@@ -18,10 +18,10 @@
         }
     ],
     "require": {
-        "php": ">=7.0",
-        "wannanbigpig/supports": "^2.0",
+        "php": ">=7.2",
+        "wannanbigpig/supports": "^2.1",
         "pimple/pimple": "^3.0",
-        "symfony/http-foundation": "^3.0|^4.0",
+        "symfony/http-foundation": "^3.0 || ^4.0",
         "ext-json": "*",
         "ext-openssl": "*"
     },
