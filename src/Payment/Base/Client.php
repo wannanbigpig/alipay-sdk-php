@@ -39,7 +39,7 @@ class Client extends BaseClient
             'product_code' => 'FACE_TO_FACE_PAYMENT',
         ], $params);
         $this->app->setEndpointConfig($method, [
-            'notify_url' => $this->app['config']->get('notify_url'),
+            'notify_url' => $this->app['config']->get('sys_params.notify_url'),
         ]);
 
         return $this->request($method, [
@@ -62,7 +62,7 @@ class Client extends BaseClient
     {
         $method = 'alipay.trade.create';
         $this->app->setEndpointConfig($method, [
-            'notify_url' => $this->app['config']->get('notify_url'),
+            'notify_url' => $this->app['config']->get('sys_params.notify_url'),
         ]);
 
         return $this->request($method, [
@@ -85,7 +85,7 @@ class Client extends BaseClient
     {
         $method = 'alipay.trade.precreate';
         $this->app->setEndpointConfig($method, [
-            'notify_url' => $this->app['config']->get('notify_url'),
+            'notify_url' => $this->app['config']->get('sys_params.notify_url'),
         ]);
 
         return $this->request($method, [
@@ -118,7 +118,7 @@ class Client extends BaseClient
             return !($this->checkEmpty($value));
         });
         $this->app->setEndpointConfig($method, [
-            'notify_url' => $this->app['config']->get('notify_url'),
+            'notify_url' => $this->app['config']->get('sys_params.notify_url'),
         ]);
 
         return $this->request($method, [

@@ -49,7 +49,7 @@ class Client extends BaseClient
     {
         $method = 'alipay.fund.auth.operation.cancel';
         $this->app->setEndpointConfig($method, [
-            'notify_url' => $this->app['config']->get('notify_url'),
+            'notify_url' => $this->app['config']->get('sys_params.notify_url'),
         ]);
 
         return $this->request($method, [
@@ -72,7 +72,7 @@ class Client extends BaseClient
     {
         $method = 'alipay.fund.auth.order.freeze';
         $this->app->setEndpointConfig($method, [
-            'notify_url' => $this->app['config']->get('notify_url'),
+            'notify_url' => $this->app['config']->get('sys_params.notify_url'),
         ]);
 
         return $this->request($method, [
@@ -109,7 +109,7 @@ class Client extends BaseClient
         });
 
         $this->app->setEndpointConfig($method, [
-            'notify_url' => $this->app['config']->get('notify_url'),
+            'notify_url' => $this->app['config']->get('sys_params.notify_url'),
         ]);
 
         return $this->request($method, [
@@ -132,7 +132,7 @@ class Client extends BaseClient
     {
         $method = 'alipay.fund.auth.order.app.freeze';
         $this->app->setEndpointConfig($method, [
-            'notify_url' => $this->app['config']->get('notify_url'),
+            'notify_url' => $this->app['config']->get('sys_params.notify_url'),
         ]);
 
         return $this->request($method, [
@@ -155,7 +155,7 @@ class Client extends BaseClient
     {
         $method = 'alipay.fund.auth.order.voucher.create';
         $this->app->setEndpointConfig($method, [
-            'notify_url' => $this->app['config']->get('notify_url'),
+            'notify_url' => $this->app['config']->get('sys_params.notify_url'),
         ]);
 
         return $this->request($method, [
@@ -279,7 +279,7 @@ class Client extends BaseClient
         $method = 'alipay.fund.trans.app.pay';
 
         $this->app->setEndpointConfig($method, [
-            'return_url' => $this->app['config']->get('return_url'),
+            'return_url' => $this->app['config']->get('sys_params.return_url'),
         ]);
 
         return $this->request($method, [

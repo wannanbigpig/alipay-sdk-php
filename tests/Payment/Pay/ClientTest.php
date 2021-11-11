@@ -33,7 +33,6 @@ class ClientTest extends ApplicationTest
             'subject' => '大乐透',
             'out_trade_no' => Str::getRandomInt(),
         ]);
-
         $this->assertInternalType('string', $res);
     }
 

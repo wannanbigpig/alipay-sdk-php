@@ -211,7 +211,7 @@ class ServiceContainer extends Container implements App
      */
     public function setNotifyUrl(string $notifyUrl)
     {
-        $this->config->set('notify_url', $notifyUrl);
+        $this->config->set('sys_params.notify_url', $notifyUrl);
 
         return $this;
     }
@@ -225,7 +225,7 @@ class ServiceContainer extends Container implements App
      */
     public function setReturnUrl(string $returnUrl)
     {
-        $this->config->set('return_url', $returnUrl);
+        $this->config->set('sys_params.return_url', $returnUrl);
 
         return $this;
     }

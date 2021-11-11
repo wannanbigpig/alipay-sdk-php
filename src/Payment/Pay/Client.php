@@ -39,8 +39,8 @@ class Client extends BaseClient
         ], $params);
 
         $this->app->setEndpointConfig($method, [
-            'return_url' => $returnUrl ?: $this->app['config']->get('return_url'),
-            'notify_url' => $this->app['config']->get('notify_url'),
+            'return_url' => $returnUrl ?: $this->app['config']->get('sys_params.return_url'),
+            'notify_url' => $this->app['config']->get('sys_params.notify_url'),
         ]);
 
         return $this->sdkExecute($method, [
@@ -68,8 +68,8 @@ class Client extends BaseClient
         ], $params);
 
         $this->app->setEndpointConfig($method, [
-            'return_url' => $returnUrl ?: $this->app['config']->get('return_url'),
-            'notify_url' => $this->app['config']->get('notify_url'),
+            'return_url' => $returnUrl ?: $this->app['config']->get('sys_params.return_url'),
+            'notify_url' => $this->app['config']->get('sys_params.notify_url'),
         ]);
 
         return $this->pageExecute($method, [
@@ -96,8 +96,8 @@ class Client extends BaseClient
             'product_code' => 'FAST_INSTANT_TRADE_PAY',
         ], $params);
         $this->app->setEndpointConfig($method, [
-            'return_url' => $returnUrl ?: $this->app['config']->get('return_url'),
-            'notify_url' => $this->app['config']->get('notify_url'),
+            'return_url' => $returnUrl ?: $this->app['config']->get('sys_params.return_url'),
+            'notify_url' => $this->app['config']->get('sys_params.notify_url'),
         ]);
 
         return $this->pageExecute($method, [

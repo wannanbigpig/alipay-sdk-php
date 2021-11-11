@@ -109,7 +109,7 @@ class Client extends Support
             'state' => $state,
         ];
         $this->app->setEndpointConfig($method, [
-            'return_url' => $returnUrl ?: $this->app['config']->get('return_url'),
+            'return_url' => $returnUrl ?: $this->app['config']->get('sys_params.return_url'),
         ]);
 
         return $this->request($method, [
