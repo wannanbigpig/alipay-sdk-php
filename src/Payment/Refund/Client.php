@@ -76,7 +76,7 @@ class Client extends BaseClient
             return !($this->checkEmpty($value));
         }), $params);
         $this->app->setEndpointConfig($method, [
-            'return_url' => $this->app['config']->get('return_url'),
+            'return_url' => $this->app['config']->get('sys_params.return_url'),
         ]);
 
         return $this->pageExecute($method, [
